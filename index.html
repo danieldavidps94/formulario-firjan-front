@@ -1,167 +1,190 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Formulário - Levantamento de Necessidades Firjan</title>
+  <title>Levantamento de Necessidades - Firjan SENAI</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 40px; }
-    .container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
-    h1, h2 { text-align: center; color: #2c3e50; }
-    h2 { font-size: 20px; margin-top: 40px; }
-    label { font-weight: bold; display: block; margin-top: 20px; }
-    input, textarea {
-      width: 100%; padding: 10px; margin-top: 5px;
-      border: 1px solid #ccc; border-radius: 8px;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
     }
-    textarea { resize: vertical; }
+    h2 {
+      background-color: #007EA7;
+      color: white;
+      padding: 10px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    .form-page {
+      display: none;
+    }
+    .form-page.active {
+      display: block;
+    }
     button {
-      margin-top: 30px; padding: 15px 20px;
-      background: #0073e6; color: white; font-size: 16px;
-      border: none; border-radius: 8px; cursor: pointer;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007EA7;
+      color: white;
+      border: none;
+      cursor: pointer;
     }
-    button:hover { background: #005bb5; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Levantamento de Necessidades</h1>
-    <form id="formulario">
 
-      <h2>Responsável pela Demanda</h2>
-      <label>Nome completo</label>
-      <input type="text" name="responsavel_nome" required />
-      <label>Instituição</label>
-      <input type="text" name="responsavel_instituicao" />
-      <label>Área</label>
-      <input type="text" name="responsavel_area" />
-      <label>Cargo</label>
-      <input type="text" name="responsavel_cargo" />
-      <label>E-mail</label>
-      <input type="email" name="responsavel_email" />
-      <label>Telefone</label>
-      <input type="text" name="responsavel_telefone" />
-      <label>Funções no projeto</label>
-      <input type="text" name="responsavel_funcoes" />
+<h1>Levantamento de Necessidades - Firjan SENAI</h1>
 
-      <h2>Ponto Focal (se diferente)</h2>
-      <label>Nome completo</label>
-      <input type="text" name="ponto_nome" />
-      <label>Instituição</label>
-      <input type="text" name="ponto_instituicao" />
-      <label>Área</label>
-      <input type="text" name="ponto_area" />
-      <label>Cargo</label>
-      <input type="text" name="ponto_cargo" />
-      <label>E-mail</label>
-      <input type="email" name="ponto_email" />
-      <label>Telefone</label>
-      <input type="text" name="ponto_telefone" />
-      <label>Funções no projeto</label>
-      <input type="text" name="ponto_funcoes" />
+<form id="formulario">
+  <!-- Formulário 1 -->
+  <div class="form-page active" id="pagina1">
+    <h2>CONTATOS</h2>
 
-      <h2>Cenário e Demanda</h2>
-      <label>Área requisitante</label>
-      <input type="text" name="area_requisitante" />
-      <label>Resumo da demanda</label>
-      <textarea name="resumo_demanda"></textarea>
-      <label>O que gerou a demanda?</label>
-      <textarea name="origem_demanda"></textarea>
-      <label>Relacionado a objetivo estratégico?</label>
-      <textarea name="objetivo_estrategico"></textarea>
-      <label>Contexto atual</label>
-      <textarea name="contexto_atual"></textarea>
-      <label>Contexto desejado</label>
-      <textarea name="contexto_desejado"></textarea>
-      <label>Relacionado a outro projeto?</label>
-      <textarea name="relacao_outro_projeto"></textarea>
-      <label>Pré-requisito para outro projeto?</label>
-      <textarea name="pre_requisito_projeto"></textarea>
+    <label>Nome do responsável pela demanda</label>
+    <input type="text" name="responsavel_demanda">
 
-      <h2>Detalhes da Solução</h2>
-      <label>Abrangência do projeto</label>
-      <input type="text" name="abrangencia_projeto" />
-      <label>Modalidade de ensino</label>
-      <input type="text" name="modalidade_ensino" />
-      <label>Tipo de solução</label>
-      <input type="text" name="tipo_solucao" />
-      <label>Hospedagem em LMS? Qual?</label>
-      <input type="text" name="lms" />
-      <label>Estratégia educacional</label>
-      <textarea name="estrategia_educacional"></textarea>
-      <label>Ações já realizadas</label>
-      <textarea name="acoes_realizadas"></textarea>
-      <label>Prazo previsto</label>
-      <textarea name="prazo"></textarea>
-      <label>Carga horária</label>
-      <textarea name="carga_horaria"></textarea>
+    <label>Empresa</label>
+    <input type="text" name="empresa">
 
-      <h2>Público-alvo</h2>
-      <label>Quantidade de participantes</label>
-      <input type="number" name="quantidade_participantes" />
-      <label>Faixa etária</label>
-      <input type="text" name="faixa_etaria" />
-      <label>Nível de instrução</label>
-      <input type="text" name="nivel_instrucao" />
-      <label>Área(s) de atuação</label>
-      <input type="text" name="areas_atuacao" />
-      <label>Função(ões)</label>
-      <input type="text" name="funcoes_exercidas" />
-      <label>Relação com a temática</label>
-      <textarea name="relacao_tematica"></textarea>
-      <label>Nível de conhecimento</label>
-      <input type="text" name="nivel_conhecimento" />
-      <label>Pré-requisitos?</label>
-      <textarea name="pre_requisitos"></textarea>
+    <label>Cargo</label>
+    <input type="text" name="cargo">
 
-      <h2>Resultados esperados</h2>
-      <label>Resultados para o público</label>
-      <textarea name="resultados_esperados"></textarea>
-      <label>Teoria vs Prática no dia a dia</label>
-      <textarea name="teoria_pratica"></textarea>
-      <label>Objetivos de aprendizagem</label>
-      <textarea name="objetivos_aprendizagem"></textarea>
+    <label>E-mail</label>
+    <input type="email" name="email_responsavel">
 
-      <h2>Conteúdo</h2>
-      <label>Assuntos a serem abordados</label>
-      <textarea name="assuntos_abordados"></textarea>
-      <label>Conteúdos existentes (nome e formato)</label>
-      <textarea name="conteudos_existentes"></textarea>
-      <label>Quantidade de páginas/laudas</label>
-      <input type="text" name="quantidade_paginas" />
-      <label>Natureza do conteúdo</label>
-      <textarea name="natureza_conteudo"></textarea>
-      <label>Especialistas?</label>
-      <textarea name="especialistas"></textarea>
-      <label>Frequência de atualização</label>
-      <textarea name="frequencia_atualizacao"></textarea>
+    <label>Telefone</label>
+    <input type="text" name="telefone_responsavel">
 
-      <button type="submit">Enviar formulário</button>
-      <div class="msg" id="mensagemStatus"></div>
-    </form>
+    <label>Nome do ponto focal</label>
+    <input type="text" name="ponto_focal">
+
+    <label>E-mail do ponto focal</label>
+    <input type="email" name="email_ponto_focal">
+
+    <label>Telefone do ponto focal</label>
+    <input type="text" name="telefone_ponto_focal">
+
+    <h2>CENÁRIO</h2>
+
+    <label>Qual o cenário da solução?</label>
+    <textarea name="cenario_geral"></textarea>
+
+    <label>Quais tipos de solução serão utilizados?</label>
+    <textarea name="tipos_solucao"></textarea>
+
+    <label>Plataforma para entrega da solução</label>
+    <textarea name="plataforma_entrega"></textarea>
+
+    <h2>PÚBLICO-ALVO</h2>
+
+    <label>Quem é o público-alvo?</label>
+    <textarea name="publico_alvo"></textarea>
+
+    <label>Idade média</label>
+    <input type="text" name="idade_media">
+
+    <label>Nível de escolaridade</label>
+    <input type="text" name="escolaridade">
+
+    <button type="button" onclick="mostrarPagina(2)">Próximo</button>
   </div>
 
-  <script>
-    document.getElementById("formulario").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const form = e.target;
-      const dados = Object.fromEntries(new FormData(form).entries());
+  <!-- Formulário 2 -->
+  <div class="form-page" id="pagina2">
+    <h2>INFORMAÇÕES GERAIS</h2>
 
-      const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados)
-      });
+    <label>Existe manual da marca para compartilhar?</label>
+    <input type="text" name="manual_marca">
 
-      const msg = document.getElementById("mensagemStatus");
-      msg.style.marginTop = "20px";
+    <label>Existe manual de identidade visual para compartilhar?</label>
+    <input type="text" name="identidade_visual">
 
-      if (response.ok) {
-        msg.innerText = "Formulário enviado com sucesso!";
-        form.reset();
-      } else {
-        msg.innerText = "Erro ao enviar formulário.";
-      }
+    <label>Existe manual de identidade verbal para compartilhar?</label>
+    <input type="text" name="identidade_verbal">
+
+    <label>Existe manual de identidade sonora para compartilhar?</label>
+    <input type="text" name="identidade_sonora">
+
+    <label>Existe alguma identidade visual extra a ser seguida?</label>
+    <input type="text" name="identidade_visual_extra">
+
+    <label>Existem restrições quanto a cor, imagem, logomarca etc.?</label>
+    <input type="text" name="restricoes_visuais">
+
+    <label>É necessário contemplar personagens? (gênero, idade, etnia, tipo e cor do cabelo, cor dos olhos)</label>
+    <textarea name="personagens_detalhes"></textarea>
+
+    <label>Informar quantos personagens</label>
+    <input type="text" name="qtd_personagens">
+
+    <label>Informar estilo dos personagens</label>
+    <input type="text" name="estilo_personagens">
+
+    <label>Detalhar vestimenta caso sejam previstos personagens</label>
+    <textarea name="vestimenta_personagens"></textarea>
+
+    <label>Detalhar cenário caso sejam previstos personagens</label>
+    <textarea name="cenario_personagens"></textarea>
+
+    <label>O cliente possui banco de imagens?</label>
+    <input type="text" name="banco_imagens_cliente">
+
+    <label>É necessário contratar banco de imagens?</label>
+    <input type="text" name="contratar_banco_imagens">
+
+    <label>É necessário legenda para pessoas com deficiência auditiva?</label>
+    <input type="text" name="legenda_acessibilidade">
+
+    <label>Especificação da legenda</label>
+    <input type="text" name="legenda_detalhe">
+
+    <label>É necessário áudio para pessoas com deficiência visual?</label>
+    <input type="text" name="audio_acessibilidade">
+
+    <label>Especificação do áudio</label>
+    <input type="text" name="audio_detalhe">
+
+    <label>As soluções precisam ser responsivas?</label>
+    <input type="text" name="design_responsivo">
+
+    <label>É necessária a visualização offline?</label>
+    <input type="text" name="visualizacao_offline">
+
+    <button type="submit">Enviar</button>
+  </div>
+</form>
+
+<script>
+  document.getElementById("formulario").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const dados = Object.fromEntries(new FormData(form).entries());
+
+    const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados)
     });
-  </script>
+
+    const msg = document.getElementById("mensagemStatus");
+    msg.style.marginTop = "20px";
+
+    if (response.ok) {
+      msg.innerText = "Formulário enviado com sucesso!";
+      form.reset();
+    } else {
+      msg.innerText = "Erro ao enviar formulário.";
+    }
+  });
+</script>
 </body>
 </html>
