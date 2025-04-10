@@ -1,148 +1,258 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Formulário Firjan</title>
+  <meta charset="UTF-8">
+  <title>Levantamento de Necessidades - Firjan SENAI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f4f4f4;
+    :root {
+      --azul-firjan: #0073e6;
+      --cinza-bg: #f5f5f5;
+      --cinza-claro: #ddd;
+      --cinza-label: #333;
     }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--cinza-bg);
+      margin: 0;
+      padding: 2rem;
+    }
+
+    .form-container {
+      max-width: 860px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem 2.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      color: var(--azul-firjan);
+      border-bottom: 2px solid var(--azul-firjan);
+      padding-bottom: 6px;
+      margin-top: 2.5rem;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 6px;
+      font-weight: bold;
+      color: var(--cinza-label);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: 1px solid var(--cinza-claro);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    button {
+      background-color: var(--azul-firjan);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 30px;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
     .form-page {
       display: none;
     }
+
     .form-page.active {
       display: block;
     }
-    textarea, input, select {
-      width: 100%;
-      padding: 8px;
-      margin: 5px 0 15px;
-      box-sizing: border-box;
-    }
-    label {
-      font-weight: bold;
-    }
-    button {
-      background-color: #0073e6;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    button:hover {
-      background-color: #005bb5;
+
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
     }
   </style>
 </head>
 <body>
+  <div class="form-container">
+    <form id="formularioFirjan">
 
-<form id="formularioFirjan">
-  <!-- Página 1 -->
-  <div class="form-page active" id="pagina1">
-    <h2>Formulário 1: Contatos, Cenário, Público-Alvo e Conteúdo</h2>
+      <!-- Formulário 1 -->
+      <div class="form-page active" id="pagina1">
+        <h2>Contatos</h2>
 
-    <label>Responsável pela demanda</label>
-    <input type="text" name="responsavel_demanda" required>
+        <label>Responsável pela demanda</label>
+        <input type="text" name="responsavel_demanda" required>
 
-    <label>Telefone do responsável</label>
-    <input type="text" name="telefone_responsavel" required pattern="\d*" title="Apenas números">
+        <label>Instituição</label>
+        <input type="text" name="instituicao_demanda" required>
 
-    <label>Ponto focal</label>
-    <input type="text" name="ponto_focal" required>
+        <label>Cargo</label>
+        <input type="text" name="cargo_demanda">
 
-    <label>Telefone do ponto focal</label>
-    <input type="text" name="telefone_ponto_focal" required pattern="\d*" title="Apenas números">
+        <label>E-mail</label>
+        <input type="email" name="email_demanda" required>
 
-    <label>Cenário</label>
-    <textarea name="cenario"></textarea>
+        <label>Telefone</label>
+        <input type="text" name="telefone_demanda" pattern="\\d+" title="Apenas números" required>
 
-    <label>Público-alvo</label>
-    <textarea name="publico_alvo"></textarea>
+        <label>Ponto focal</label>
+        <input type="text" name="ponto_focal">
 
-    <label>Conteúdo</label>
-    <textarea name="conteudo"></textarea>
+        <label>E-mail do ponto focal</label>
+        <input type="email" name="email_ponto_focal">
 
-    <button type="button" id="btnProximo">Próximo</button>
+        <label>Telefone do ponto focal</label>
+        <input type="text" name="telefone_ponto_focal" pattern="\\d+" title="Apenas números">
+
+        <h2>Cenário</h2>
+        <label>Descreva o cenário atual</label>
+        <textarea name="cenario_atual"></textarea>
+
+        <label>Tipos de solução desejada</label>
+        <textarea name="tipos_solucao"></textarea>
+
+        <label>Plataforma desejada para entrega</label>
+        <textarea name="plataforma_entrega"></textarea>
+
+        <h2>Público-alvo</h2>
+        <label>Descrição do público-alvo</label>
+        <textarea name="descricao_publico"></textarea>
+
+        <label>Faixa etária</label>
+        <input type="text" name="faixa_etaria">
+
+        <label>Nível de escolaridade</label>
+        <input type="text" name="escolaridade">
+
+        <h2>Conteúdo</h2>
+        <label>Quais conteúdos devem ser abordados?</label>
+        <textarea name="conteudos"></textarea>
+
+        <label>Materiais já existentes</label>
+        <textarea name="materiais_existentes"></textarea>
+
+        <label>Materiais que serão fornecidos</label>
+        <textarea name="materiais_fornecidos"></textarea>
+
+        <div class="button-row">
+          <span></span>
+          <button type="button" id="btnProximo">Próximo</button>
+        </div>
+      </div>
+
+      <!-- Formulário 2 -->
+      <div class="form-page" id="pagina2">
+        <h2>Informações Gerais</h2>
+
+        <label>Manual da marca</label>
+        <input type="text" name="manual_marca">
+
+        <label>Identidade visual</label>
+        <input type="text" name="identidade_visual">
+
+        <label>Identidade verbal</label>
+        <input type="text" name="identidade_verbal">
+
+        <label>Identidade sonora</label>
+        <input type="text" name="identidade_sonora">
+
+        <label>Identidade visual extra</label>
+        <textarea name="identidade_visual_extra"></textarea>
+
+        <label>Restrições visuais (cor, imagem, logomarca)</label>
+        <textarea name="restricoes_visuais"></textarea>
+
+        <label>Informações sobre personagens (gênero, idade, etnia, etc.)</label>
+        <textarea name="info_personagens"></textarea>
+
+        <label>Quantidade de personagens</label>
+        <input type="text" name="qtd_personagens">
+
+        <label>Estilo dos personagens</label>
+        <input type="text" name="estilo_personagens">
+
+        <label>Vestimenta</label>
+        <input type="text" name="vestimenta">
+
+        <label>Cenário previsto</label>
+        <textarea name="cenario_previsto"></textarea>
+
+        <label>Cliente possui banco de imagens?</label>
+        <input type="text" name="banco_imagens">
+
+        <label>Necessário contratar banco de imagens?</label>
+        <input type="text" name="contratar_banco_imagens">
+
+        <label>Legenda para acessibilidade auditiva</label>
+        <textarea name="legenda_acessibilidade"></textarea>
+
+        <label>Áudio para acessibilidade visual</label>
+        <textarea name="audio_acessibilidade"></textarea>
+
+        <label>Solução precisa ser responsiva?</label>
+        <input type="text" name="design_responsivo">
+
+        <label>Precisa de visualização offline?</label>
+        <input type="text" name="visualizacao_offline">
+
+        <div class="button-row">
+          <button type="button" onclick="mostrarPagina(1)">Voltar</button>
+          <button type="submit">Enviar</button>
+        </div>
+      </div>
+
+    </form>
   </div>
 
-  <!-- Página 2 -->
-  <div class="form-page" id="pagina2">
-    <h2>Formulário 2: Informações Gerais</h2>
-
-    <label>Existe manual da marca para compartilhar?</label>
-    <textarea name="manual_marca"></textarea>
-
-    <label>Existe manual de identidade visual para compartilhar?</label>
-    <textarea name="manual_identidade_visual"></textarea>
-
-    <label>Existe manual de identidade verbal para compartilhar?</label>
-    <textarea name="manual_identidade_verbal"></textarea>
-
-    <label>Existe manual de identidade sonora para compartilhar?</label>
-    <textarea name="manual_identidade_sonora"></textarea>
-
-    <label>Existem restrições quanto a cor, imagem, logomarca etc.?</label>
-    <textarea name="restricoes_identidade"></textarea>
-
-    <label>Informações sobre personagens (gênero, idade, etnia, cabelo, olhos)</label>
-    <textarea name="personagens_info"></textarea>
-
-    <label>Banco de imagens</label>
-    <textarea name="banco_imagens"></textarea>
-
-    <label>Legenda e acessibilidade visual/auditiva</label>
-    <textarea name="acessibilidade"></textarea>
-
-    <label>Design responsivo</label>
-    <textarea name="design_responsivo"></textarea>
-
-    <label>Visualização offline</label>
-    <textarea name="visualizacao_offline"></textarea>
-
-    <button type="button" onclick="mostrarPagina(1)">Voltar</button>
-    <button type="submit">Enviar</button>
-  </div>
-</form>
-
-<script>
-  function mostrarPagina(numero) {
-    document.querySelectorAll('.form-page').forEach(page => page.classList.remove('active'));
-    document.getElementById('pagina' + numero).classList.add('active');
-  }
-
-  document.getElementById("btnProximo").addEventListener("click", function () {
-    mostrarPagina(2);
-  });
-
-  document.getElementById("formularioFirjan").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-    const data = {};
-    formData.forEach((value, key) => data[key] = value);
-
-    try {
-      const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-
-      if (response.ok) {
-        alert("Formulário enviado com sucesso!");
-      } else {
-        alert("Erro ao enviar formulário.");
-      }
-    } catch (error) {
-      alert("Erro de conexão.");
+  <script>
+    function mostrarPagina(numero) {
+      document.querySelectorAll('.form-page').forEach(page => page.classList.remove('active'));
+      document.getElementById('pagina' + numero).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  });
-</script>
 
+    document.getElementById("btnProximo").addEventListener("click", () => {
+      mostrarPagina(2);
+    });
+
+    document.getElementById("formularioFirjan").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+
+      try {
+        const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          alert("Formulário enviado com sucesso!");
+          this.reset();
+          mostrarPagina(1);
+        } else {
+          alert("Erro ao enviar formulário.");
+        }
+      } catch (error) {
+        alert("Erro de conexão com o servidor.");
+      }
+    });
+  </script>
 </body>
 </html>
