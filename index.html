@@ -1,28 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Levantamento de Necessidades - Firjan SENAI</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulário Firjan</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 2rem;
-    }
-    h2 {
-      background-color: #007EA7;
-      color: white;
-      padding: 10px;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      margin: 20px;
+      background: #f4f4f4;
     }
     .form-page {
       display: none;
@@ -30,161 +17,107 @@
     .form-page.active {
       display: block;
     }
+    textarea, input, select {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px;
+      box-sizing: border-box;
+    }
+    label {
+      font-weight: bold;
+    }
     button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #007EA7;
+      background-color: #0073e6;
       color: white;
+      padding: 10px 20px;
       border: none;
+      border-radius: 5px;
       cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #005bb5;
     }
   </style>
 </head>
 <body>
 
-<h1>Levantamento de Necessidades - Firjan SENAI</h1>
-
-<form id="formulario">
-  <!-- Formulário 1 -->
+<form id="formularioFirjan">
+  <!-- Página 1 -->
   <div class="form-page active" id="pagina1">
-    <h2>CONTATOS</h2>
+    <h2>Formulário 1: Levantamento de Necessidades | Contexto</h2>
+    <label>Responsável pela demanda</label>
+    <textarea name="responsavel_demanda"></textarea>
+    
+    <label>Ponto focal</label>
+    <textarea name="ponto_focal"></textarea>
 
-    <label>Nome do responsável pela demanda</label>
-    <input type="text" name="responsavel_demanda">
+    <label>Cenário</label>
+    <textarea name="cenario"></textarea>
 
-    <label>Empresa</label>
-    <input type="text" name="empresa">
-
-    <label>Cargo</label>
-    <input type="text" name="cargo">
-
-    <label>E-mail</label>
-    <input type="email" name="email_responsavel">
-
-    <label>Telefone</label>
-    <input type="text" name="telefone_responsavel">
-
-    <label>Nome do ponto focal</label>
-    <input type="text" name="ponto_focal">
-
-    <label>E-mail do ponto focal</label>
-    <input type="email" name="email_ponto_focal">
-
-    <label>Telefone do ponto focal</label>
-    <input type="text" name="telefone_ponto_focal">
-
-    <h2>CENÁRIO</h2>
-
-    <label>Qual o cenário da solução?</label>
-    <textarea name="cenario_geral"></textarea>
-
-    <label>Quais tipos de solução serão utilizados?</label>
-    <textarea name="tipos_solucao"></textarea>
-
-    <label>Plataforma para entrega da solução</label>
-    <textarea name="plataforma_entrega"></textarea>
-
-    <h2>PÚBLICO-ALVO</h2>
-
-    <label>Quem é o público-alvo?</label>
+    <label>Público-alvo</label>
     <textarea name="publico_alvo"></textarea>
 
-    <label>Idade média</label>
-    <input type="text" name="idade_media">
+    <label>Conteúdo</label>
+    <textarea name="conteudo"></textarea>
 
-    <label>Nível de escolaridade</label>
-    <input type="text" name="escolaridade">
-
-    <button type="button" onclick="mostrarPagina(2)">Próximo</button>
+    <button type="button" id="btnProximo">Próximo</button>
   </div>
 
-  <!-- Formulário 2 -->
+  <!-- Página 2 -->
   <div class="form-page" id="pagina2">
-    <h2>INFORMAÇÕES GERAIS</h2>
+    <h2>Formulário 2: Informações Gerais</h2>
 
     <label>Existe manual da marca para compartilhar?</label>
-    <input type="text" name="manual_marca">
+    <textarea name="manual_marca"></textarea>
 
     <label>Existe manual de identidade visual para compartilhar?</label>
-    <input type="text" name="identidade_visual">
+    <textarea name="manual_identidade_visual"></textarea>
 
     <label>Existe manual de identidade verbal para compartilhar?</label>
-    <input type="text" name="identidade_verbal">
+    <textarea name="manual_identidade_verbal"></textarea>
 
     <label>Existe manual de identidade sonora para compartilhar?</label>
-    <input type="text" name="identidade_sonora">
-
-    <label>Existe alguma identidade visual extra a ser seguida?</label>
-    <input type="text" name="identidade_visual_extra">
+    <textarea name="manual_identidade_sonora"></textarea>
 
     <label>Existem restrições quanto a cor, imagem, logomarca etc.?</label>
-    <input type="text" name="restricoes_visuais">
+    <textarea name="restricoes_identidade"></textarea>
 
-    <label>É necessário contemplar personagens? (gênero, idade, etnia, tipo e cor do cabelo, cor dos olhos)</label>
-    <textarea name="personagens_detalhes"></textarea>
+    <label>É necessário contemplar personagem(ens)? Informar características:</label>
+    <textarea name="personagens_info"></textarea>
 
-    <label>Informar quantos personagens</label>
-    <input type="text" name="qtd_personagens">
+    <label>Banco de imagens</label>
+    <textarea name="banco_imagens"></textarea>
 
-    <label>Informar estilo dos personagens</label>
-    <input type="text" name="estilo_personagens">
+    <label>Legenda e acessibilidade visual/auditiva</label>
+    <textarea name="acessibilidade"></textarea>
 
-    <label>Detalhar vestimenta caso sejam previstos personagens</label>
-    <textarea name="vestimenta_personagens"></textarea>
+    <label>Design responsivo</label>
+    <textarea name="design_responsivo"></textarea>
 
-    <label>Detalhar cenário caso sejam previstos personagens</label>
-    <textarea name="cenario_personagens"></textarea>
+    <label>Visualização offline</label>
+    <textarea name="visualizacao_offline"></textarea>
 
-    <label>O cliente possui banco de imagens?</label>
-    <input type="text" name="banco_imagens_cliente">
-
-    <label>É necessário contratar banco de imagens?</label>
-    <input type="text" name="contratar_banco_imagens">
-
-    <label>É necessário legenda para pessoas com deficiência auditiva?</label>
-    <input type="text" name="legenda_acessibilidade">
-
-    <label>Especificação da legenda</label>
-    <input type="text" name="legenda_detalhe">
-
-    <label>É necessário áudio para pessoas com deficiência visual?</label>
-    <input type="text" name="audio_acessibilidade">
-
-    <label>Especificação do áudio</label>
-    <input type="text" name="audio_detalhe">
-
-    <label>As soluções precisam ser responsivas?</label>
-    <input type="text" name="design_responsivo">
-
-    <label>É necessária a visualização offline?</label>
-    <input type="text" name="visualizacao_offline">
-
+    <button type="button" onclick="mostrarPagina(1)">Voltar</button>
     <button type="submit">Enviar</button>
   </div>
 </form>
 
 <script>
-  document.getElementById("formulario").addEventListener("submit", async function(e) {
+  function mostrarPagina(numero) {
+    document.querySelectorAll('.form-page').forEach(page => page.classList.remove('active'));
+    document.getElementById('pagina' + numero).classList.add('active');
+  }
+
+  document.getElementById("btnProximo").addEventListener("click", function () {
+    mostrarPagina(2);
+  });
+
+  document.getElementById("formularioFirjan").addEventListener("submit", function (e) {
     e.preventDefault();
-    const form = e.target;
-    const dados = Object.fromEntries(new FormData(form).entries());
-
-    const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dados)
-    });
-
-    const msg = document.getElementById("mensagemStatus");
-    msg.style.marginTop = "20px";
-
-    if (response.ok) {
-      msg.innerText = "Formulário enviado com sucesso!";
-      form.reset();
-    } else {
-      msg.innerText = "Erro ao enviar formulário.";
-    }
+    alert("Formulário enviado com sucesso! (a integração com GitHub seria feita aqui)");
   });
 </script>
+
 </body>
 </html>
