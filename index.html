@@ -172,7 +172,7 @@
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
-      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste</p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste2</p>
     </div>
   </div>
 
@@ -406,70 +406,87 @@
   </div>
 
   <script>
-    document.getElementById("btnEnviar").addEventListener("click", async function () {
-      const form = document.getElementById("formularioFirjan");
+    const formulario = document.getElementById("formularioFirjan");
+    const pagina1 = document.getElementById("pagina1");
+    const pagina2 = document.getElementById("pagina2");
+    const btnProximo = document.getElementById("btnProximo");
+    const btnEnviar = document.getElementById("btnEnviar");
   
-      // 🔁 Remove mensagens de erro anteriores
-      form.querySelectorAll(".erro-campo").forEach(el => el.remove());
+    // Mostrar a página ativa
+    function mostrarPagina(numero) {
+      document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
+      const paginaAtiva = document.getElementById('pagina' + numero);
+      paginaAtiva.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   
-      // 🧼 Desativa temporariamente "required" para evitar erro de campos ocultos
-      const campos = form.querySelectorAll("input[required], textarea[required], select[required]");
-      campos.forEach(campo => {
-        campo.dataset.tempRequired = "true";
-        campo.required = false;
-      });
+    // Adiciona mensagem de erro abaixo do campo
+    function mostrarErro(campo, mensagem) {
+      removerErro(campo);
+      const erro = document.createElement('div');
+      erro.className = 'erro-campo';
+      erro.style.color = 'red';
+      erro.style.marginTop = '4px';
+      erro.textContent = mensagem;
+      campo.insertAdjacentElement('afterend', erro);
+    }
   
-      let formValido = true;
-      let primeiroCampoInvalido = null;
+    // Remove mensagem de erro
+    function removerErro(campo) {
+      const proximo = campo.nextElementSibling;
+      if (proximo && proximo.classList.contains('erro-campo')) {
+        proximo.remove();
+      }
+    }
   
-      // 🕵️‍♂️ Validação personalizada
+    // Validação de campos obrigatórios da página atual
+    function validarCampos(pagina) {
+      const campos = pagina.querySelectorAll("input[required], textarea[required], select[required]");
+      let valido = true;
+  
       for (const campo of campos) {
+        removerErro(campo);
         if (!campo.value.trim()) {
-          const pagina = campo.closest(".form-page");
-  
-          // Mostra a página do campo se for a primeira inválida
-          if (!primeiroCampoInvalido) {
-            primeiroCampoInvalido = campo;
-            document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
-            pagina.classList.add('active');
+          mostrarErro(campo, `⚠️ Obrigatório preenchimento do campo: ${campo.name}`);
+          if (valido) {
+            campo.focus();
           }
-  
-          // Adiciona mensagem de erro visual abaixo do campo
-          if (!campo.nextElementSibling || !campo.nextElementSibling.classList.contains("erro-campo")) {
-            const erro = document.createElement("div");
-            erro.className = "erro-campo";
-            erro.style.color = "red";
-            erro.style.fontSize = "13px";
-            erro.style.marginTop = "4px";
-            erro.textContent = "Este campo é obrigatório.";
-            campo.insertAdjacentElement("afterend", erro);
-          }
-  
-          formValido = false;
+          valido = false;
         }
       }
   
-      // Restaura o atributo "required"
-      campos.forEach(campo => {
-        if (campo.dataset.tempRequired) {
-          campo.required = true;
-          delete campo.dataset.tempRequired;
-        }
-      });
+      return valido;
+    }
   
-      // ❌ Se houver erro, foca no primeiro campo
-      if (!formValido) {
-        if (primeiroCampoInvalido) {
-          primeiroCampoInvalido.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          primeiroCampoInvalido.focus();
-        }
+    btnProximo.addEventListener("click", () => {
+      if (validarCampos(pagina1)) {
+        mostrarPagina(2);
+      }
+    });
+  
+    btnEnviar.addEventListener("click", async () => {
+      const paginaAtual = pagina2;
+      const paginaAnterior = pagina1;
+  
+      const validoAtual = validarCampos(paginaAtual);
+      const validoAnterior = validarCampos(paginaAnterior);
+  
+      if (!validoAtual || !validoAnterior) {
+        if (!validoAnterior) mostrarPagina(1);
         return;
       }
   
-      // ✅ Tudo certo? Envia!
-      const formData = new FormData(form);
+      // Coleta os dados e envia
+      const formData = new FormData(formulario);
       const data = {};
-      formData.forEach((value, key) => data[key] = value);
+      formData.forEach((value, key) => {
+        if (data[key]) {
+          if (!Array.isArray(data[key])) data[key] = [data[key]];
+          data[key].push(value);
+        } else {
+          data[key] = value;
+        }
+      });
   
       try {
         const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
@@ -480,9 +497,8 @@
   
         if (response.ok) {
           alert("Formulário enviado com sucesso!");
-          form.reset();
+          formulario.reset();
           mostrarPagina(1);
-          window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
           alert("Erro ao enviar formulário.");
         }
@@ -490,19 +506,14 @@
         alert("Erro de conexão com o servidor.");
       }
     });
-  </script>
-
-<script>
-  document.querySelectorAll("input[required], textarea[required]").forEach(campo => {
-    campo.addEventListener("input", () => {
-      const erro = campo.nextElementSibling;
-      if (erro && erro.classList.contains("erro-campo")) {
-        erro.remove();
+  
+    // Remove erros ao digitar
+    document.addEventListener("input", (e) => {
+      if (e.target.matches("input, textarea, select")) {
+        removerErro(e.target);
       }
     });
-  });
-</script>
-  
+  </script>
 
 </body>
 </html>
