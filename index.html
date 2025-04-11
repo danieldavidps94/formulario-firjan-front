@@ -172,7 +172,7 @@
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
-      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste</p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste2</p>
     </div>
   </div>
 
@@ -444,44 +444,45 @@
     }
   
     function validarCamposPagina(paginaId) {
-      const pagina = document.getElementById(paginaId);
-      const campos = pagina.querySelectorAll("input[required], textarea[required], select[required]");
-      let valido = true;
-      if (paginaId === "pagina1") {
-      const grupoCheckbox = document.querySelectorAll("#grupoCheckbox input[type='checkbox']");
-      const algumMarcado = Array.from(grupoCheckbox).some(cb => cb.checked);
+  const pagina = document.getElementById(paginaId);
+  const campos = pagina.querySelectorAll("input[required], textarea[required], select[required]");
+  let valido = true;
+  let primeiroCampoInvalido = null;
 
-      // Remove erro anterior
-      const wrapper = document.getElementById("grupoCheckbox");
-      wrapper.querySelectorAll(".mensagem-erro").forEach(el => el.remove());
+  limparErros();
 
-      if (!algumMarcado) {
-     const erro = document.createElement("div");
-     erro.className = "mensagem-erro";
-     erro.textContent = "⚠️ Selecione pelo menos uma solução";
-     wrapper.appendChild(erro);
-     if (!primeiroCampoInvalido) primeiroCampoInvalido = grupoCheckbox[0];
-     valido = false;
-     }
-     }   
-      let primeiroCampoInvalido = null;
-  
-      campos.forEach(campo => {
-        limparErroCampo(campo);
-        if (!campo.value.trim()) {
-          exibirErro(campo, "⚠️ Campo obrigatório");
-          if (!primeiroCampoInvalido) primeiroCampoInvalido = campo;
-          valido = false;
-        }
-      });
-  
-      if (!valido && primeiroCampoInvalido) {
-        mostrarPagina(paginaId === "pagina1" ? 1 : 2);
-        primeiroCampoInvalido.focus();
-      }
-  
-      return valido;
+  campos.forEach(campo => {
+    limparErroCampo(campo);
+    if (!campo.value.trim()) {
+      exibirErro(campo, "⚠️ Campo obrigatório");
+      if (!primeiroCampoInvalido) primeiroCampoInvalido = campo;
+      valido = false;
     }
+  });
+
+  // VALIDAÇÃO DOS CHECKBOXES (somente na página que contém)
+  if (paginaId === "pagina1") {
+    const checkboxes = pagina.querySelectorAll('input[name="tipo_solucao[]"]');
+    const algumMarcado = Array.from(checkboxes).some(cb => cb.checked);
+
+    if (!algumMarcado) {
+      const container = checkboxes[checkboxes.length - 1].closest('.checkbox-wrapper');
+      const erro = document.createElement("div");
+      erro.className = "mensagem-erro";
+      erro.textContent = "⚠️ Marque pelo menos uma opção.";
+      container.appendChild(erro);
+      if (!primeiroCampoInvalido) primeiroCampoInvalido = checkboxes[0];
+      valido = false;
+    }
+  }
+
+  if (!valido && primeiroCampoInvalido) {
+    mostrarPagina(paginaId === "pagina1" ? 1 : 2);
+    primeiroCampoInvalido.focus();
+  }
+
+  return valido;
+}
   
     async function enviarFormulario() {
   const form = document.getElementById("formularioFirjan");
