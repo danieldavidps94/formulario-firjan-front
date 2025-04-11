@@ -410,38 +410,9 @@
   </div>
 
   <script>
-    function mostrarPagina(numero) {
-      document.querySelectorAll('.form-page').forEach(page => page.classList.remove('active'));
-      document.getElementById('pagina' + numero).classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  
-    document.getElementById("btnProximo").addEventListener("click", () => {
-      mostrarPagina(2);
-    });
-  
-    function aplicarMascaraTelefone(input) {
-      input.addEventListener("input", function () {
-        let valor = input.value.replace(/\D/g, "");
-        if (valor.length > 11) valor = valor.slice(0, 11);
-        if (valor.length >= 2 && valor.length <= 6) {
-          valor = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
-        } else if (valor.length > 6) {
-          valor = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`;
-        }
-        input.value = valor;
-      });
-    }
-  
-    document.addEventListener("DOMContentLoaded", function () {
-      const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
-      telefones.forEach(aplicarMascaraTelefone);
-    });
-  
     document.getElementById("btnEnviar").addEventListener("click", async function () {
       const form = document.getElementById("formularioFirjan");
   
-      // Remove temporarily required from hidden fields
       const campos = form.querySelectorAll("input[required], textarea[required], select[required]");
       campos.forEach((campo) => {
         if (campo.offsetParent === null) {
@@ -453,29 +424,27 @@
       let formValido = true;
       for (const campo of campos) {
         if (campo.offsetParent !== null && !campo.value.trim()) {
-          // ⚠️ Busca o label correspondente
           let label = campo.name;
+  
           const labelElement = document.querySelector(`label[for="${campo.id}"]`) ||
                                campo.closest('.form-group')?.querySelector('label') ||
                                campo.previousElementSibling;
+  
           if (labelElement) {
             label = labelElement.innerText.replace(":", "").trim();
           }
   
-          // ✅ Ativa a aba onde está o campo
+          // Identifica a página do campo e mostra ela
           const pagina = campo.closest(".form-page");
           if (!pagina.classList.contains("active")) {
             document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
             pagina.classList.add("active");
           }
   
-          // 🟡 Scroll até o campo e foca
-          setTimeout(() => {
-            campo.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            campo.focus();
-          }, 200);
+          window.scrollTo({ top: campo.offsetTop - 60, behavior: 'smooth' });
   
           alert(`⚠️ Obrigatório preenchimento do campo: ${label}`);
+          campo.focus();
           formValido = false;
           break;
         }
@@ -501,14 +470,14 @@
         });
   
         if (response.ok) {
-          alert("✅ Formulário enviado com sucesso!");
+          alert("Formulário enviado com sucesso!");
           form.reset();
           mostrarPagina(1);
         } else {
-          alert("❌ Erro ao enviar formulário.");
+          alert("Erro ao enviar formulário.");
         }
       } catch (error) {
-        alert("🚫 Erro de conexão com o servidor.");
+        alert("Erro de conexão com o servidor.");
       } finally {
         form.querySelectorAll("[data-required='true']").forEach((campo) => {
           campo.required = true;
@@ -516,7 +485,8 @@
         });
       }
     });
-  </script>  
+  </script>
+  
 
 </body>
 </html>
