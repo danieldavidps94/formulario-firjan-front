@@ -277,6 +277,7 @@
         
           <div>
             <label for="modalidade_ensino" class="block text-sm font-medium">Indicar modalidade de ensino.</label>
+            <input type="text" id="modalidade_ensino" name="modalidade_ensino" required class="input" />
           </div>
         
           <div class="checkbox-wrapper">
@@ -490,6 +491,17 @@
       }
     });
   </script>
+
+<script>
+  document.querySelectorAll("input[required], textarea[required]").forEach(campo => {
+    campo.addEventListener("input", () => {
+      const erro = campo.nextElementSibling;
+      if (erro && erro.classList.contains("erro-campo")) {
+        erro.remove();
+      }
+    });
+  });
+</script>
   
 
 </body>
