@@ -130,7 +130,7 @@
   color: red;
   font-size: 13px;
   margin-top: 4px;
-}
+  }
 
   .checkbox-grid {
     display: grid;
@@ -154,7 +154,7 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 12px 20px;
   margin-top: 10px;
-}
+  }
 
 .checkbox-wrapper label {
   font-size: 14px;
@@ -163,7 +163,7 @@
   align-items: start;
   gap: 8px;
   line-height: 1.3;
-}
+  }
   </style>
   
 </head>
@@ -172,7 +172,7 @@
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
-      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste4</p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste</p>
     </div>
   </div>
 
@@ -467,34 +467,29 @@
     }
   
     async function enviarFormulario() {
-      const pagina1Valida = validarCamposPagina("pagina1");
-      const pagina2Valida = validarCamposPagina("pagina2");
-      if (!pagina1Valida || !pagina2Valida) return;
-  
-      const form = document.getElementById("formularioFirjan");
-      const formData = new FormData(form);
-      const data = {};
-      formData.forEach((value, key) => data[key] = value);
-  
-      try {
-        const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-  
-        if (response.ok) {
-          alert("Formulário enviado com sucesso!");
-          form.reset();
-          mostrarPagina(1);
-        } else {
-          alert("Erro ao enviar formulário.");
-        }
-      } catch (error) {
-        alert("Erro de conexão com o servidor.");
-      }
+  const form = document.getElementById("formularioFirjan");
+  const formData = new FormData(form);
+  const data = {};
+  formData.forEach((value, key) => data[key] = value);
+
+  try {
+    const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      alert("Formulário enviado com sucesso!");
+      form.reset();
+      mostrarPagina(1);
+    } else {
+      alert("Erro ao enviar formulário.");
     }
-  
+  } catch (error) {
+    alert("Erro de conexão com o servidor.");
+  }
+  } 
     document.addEventListener("DOMContentLoaded", function () {
       const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
       telefones.forEach(aplicarMascaraTelefone);
@@ -506,9 +501,14 @@
       });
   
       document.getElementById("btnEnviar").addEventListener("click", () => {
-        limparErros();
-        enviarFormulario();
-      });
+  limparErros();
+  const valido1 = validarCamposPagina("pagina1");
+  const valido2 = validarCamposPagina("pagina2");
+
+  if (valido1 && valido2) {
+    enviarFormulario();
+  }
+  });
     });
   </script>
   
