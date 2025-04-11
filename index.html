@@ -12,6 +12,37 @@
       --cinza-label: #333;
     }
 
+    .firjan-cabecalho {
+   background-image: url(img/background.png);
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   display: flex;
+   align-items: center;
+   justify-content: flex-start;
+   padding: 20px 30px;
+   width: 100%;
+   max-width: 940px;
+   margin: 0 auto 30px auto;
+   border-radius: 8px;
+   box-sizing: border-box;
+  }
+
+ .firjan-logo {
+  max-width: 120px;
+  margin-right: 20px;
+ }
+
+ .firjan-texto {
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+ }
+
+ .firjan-texto p {
+  margin: 4px 0;
+ }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--cinza-bg);
@@ -83,24 +114,80 @@
       justify-content: space-between;
       gap: 10px;
     }
+
+   .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px 24px;
+  }
+
+  .checkbox-grid label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: 8px;
+  }
+
+  .checkbox-grid input[type="checkbox"] {
+    margin: 0;
+  }
+
+  .checkbox-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px 20px;
+  margin-top: 10px;
+}
+
+.checkbox-wrapper label {
+  font-size: 14px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 8px;
+  line-height: 1.3;
+}
   </style>
+  
 </head>
 <body>
+  <div class="firjan-cabecalho">
+    <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
+    <div class="firjan-texto">
+      <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã</p>
+    </div>
+  </div>
+
   <div class="form-container">
     <form id="formularioFirjan">
 
       <!-- Formulário 1 -->
       <div class="form-page active" id="pagina1">
-        <h2>Contatos</h2>
+                <h2>Responsável pela Demanda</h2>
 
-        <label>Responsável pela demanda</label>
+        <label>Nome Completo</label>
         <input type="text" name="responsavel_demanda" required>
 
         <label>Instituição</label>
         <input type="text" name="instituicao_demanda" required>
 
+        <label>Área</label>
+        <input type="text" name="area_demanda" required>
+
         <label>Cargo</label>
-        <input type="text" name="cargo_demanda">
+        <input type="text" name="cargo_demanda" required>
 
         <label>E-mail</label>
         <input type="email" name="email_demanda" required>
@@ -108,44 +195,139 @@
         <label>Telefone</label>
         <input type="text" name="telefone_demanda" pattern="\\d+" title="Apenas números" required>
 
-        <label>Ponto focal</label>
-        <input type="text" name="ponto_focal">
+        <label>Funções no projeto (exemplo: validar, acompanhar etc.)</label>
+        <input type="text" name="cargo_demanda" required>
 
-        <label>E-mail do ponto focal</label>
-        <input type="email" name="email_ponto_focal">
+        <h2>Ponto Focal</h2>
 
-        <label>Telefone do ponto focal</label>
-        <input type="text" name="telefone_ponto_focal" pattern="\\d+" title="Apenas números">
+        <label>Nome Completo</label>
+        <input type="text" name="nome_ponto_focal">
 
-        <h2>Cenário</h2>
-        <label>Descreva o cenário atual</label>
-        <textarea name="cenario_atual"></textarea>
+        <label>Instituição</label>
+        <input type="text" name="instituicao_ponto_focal" required>
 
-        <label>Tipos de solução desejada</label>
-        <textarea name="tipos_solucao"></textarea>
+        <label>Área</label>
+        <input type="text" name="area_ponto_focal" required>
 
-        <label>Plataforma desejada para entrega</label>
-        <textarea name="plataforma_entrega"></textarea>
+        <label>Cargo</label>
+        <input type="text" name="cargo_ponto_focal" required>
 
-        <h2>Público-alvo</h2>
-        <label>Descrição do público-alvo</label>
-        <textarea name="descricao_publico"></textarea>
+        <label>E-mail</label>
+        <input type="email" name="email_ponto_focal" required>
 
-        <label>Faixa etária</label>
-        <input type="text" name="faixa_etaria">
+        <label>Telefone</label>
+        <input type="text" name="telefone_ponto_focal" pattern="\\d+" title="Apenas números" required>
 
-        <label>Nível de escolaridade</label>
-        <input type="text" name="escolaridade">
+        <label>Funções no projeto (exemplo: validar, acompanhar etc.)</label>
+        <input type="text" name="cargo_ponto_focal" required>
 
-        <h2>Conteúdo</h2>
-        <label>Quais conteúdos devem ser abordados?</label>
-        <textarea name="conteudos"></textarea>
-
-        <label>Materiais já existentes</label>
-        <textarea name="materiais_existentes"></textarea>
-
-        <label>Materiais que serão fornecidos</label>
-        <textarea name="materiais_fornecidos"></textarea>
+        <div class="form-section mt-6 space-y-4">
+          <h2 class="text-lg font-semibold">Informações Adicionais da Demanda</h2>
+        
+          <div>
+            <label for="area_requisitante" class="block text-sm font-medium">Indicar área requisitante.</label>
+            <input type="text" id="area_requisitante" name="area_requisitante" required class="input" />
+          </div>
+        
+          <div>
+            <label for="resumo_demanda" class="block text-sm font-medium">Resumir demanda.</label>
+            <textarea id="resumo_demanda" name="resumo_demanda" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label for="gerador_demanda" class="block text-sm font-medium">Informar o que gerou a demanda.</label>
+            <textarea id="gerador_demanda" name="gerador_demanda" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label class="block text-sm font-medium">A demanda está relacionada a algum objetivo estratégico da instituição? Se sim, especificar.</label>
+            <textarea name="objetivo_estrategico" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label for="contexto_atual" class="block text-sm font-medium">Descrever contexto atual da demanda.</label>
+            <textarea id="contexto_atual" name="contexto_atual" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label for="contexto_desejado" class="block text-sm font-medium">Descrever contexto desejado após realização do projeto.</label>
+            <textarea id="contexto_desejado" name="contexto_desejado" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label class="block text-sm font-medium">A demanda está relacionada a outro projeto? Se sim, especificar.</label>
+            <textarea name="relacao_outro_projeto" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label class="block text-sm font-medium">A demanda é pré-requisito para outro projeto? Se sim, especificar.</label>
+            <textarea name="pre_requisito_projeto" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label for="abrangencia_projeto" class="block text-sm font-medium">Indicar abrangência do projeto (toda a instituição, determinadas áreas etc.).</label>
+            <textarea id="abrangencia_projeto" name="abrangencia_projeto" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label for="modalidade_ensino" class="block text-sm font-medium">Indicar modalidade de ensino.</label>
+            <input type="text" id="modalidade_ensino" name="modalidade_ensino" required class="input" />
+          </div>
+        
+          <div class="checkbox-wrapper">
+            <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação horizontal)"> Curso (navegação horizontal)</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação vertical)"> Curso (navegação vertical)</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Banco de Questões"> Banco de Questões</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Atividades de fixação"> Atividades de fixação</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Avaliação de aprendizagem"> Avaliação de aprendizagem</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Trilha de aprendizagem"> Trilha de aprendizagem</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Plano de estudo"> Plano de estudo</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Apresentação"> Apresentação</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Almanaque/Quadrinho"> Almanaque/Quadrinho</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Mapa de conhecimento"> Mapa de conhecimento</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Guia/Manual"> Guia/Manual</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Tutorial"> Tutorial</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Apostila"> Apostila</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Livro Digital"> Livro Digital</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Videoaula"> Videoaula</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Vídeo Instrucional"> Vídeo Instrucional</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Animação 2D"> Animação 2D</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Animação 3D"> Animação 3D</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Infográfico"> Infográfico</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Jogo"> Jogo</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Quiz"> Quiz</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Podcast"> Podcast</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Simulação de Sistemas"> Simulação de Sistemas</label>
+            <label><input type="checkbox" name="tipo_solucao[]" value="Todos"> Todos</label>
+          </div>
+          
+          
+        
+          <div>
+            <label for="lms_necessario" class="block text-sm font-medium">Todas as soluções indicadas deverão ser hospedadas em LMS? Qual?</label>
+            <input type="text" id="lms_necessario" name="lms_necessario" required class="input" />
+          </div>
+        
+          <div>
+            <label for="estrategia_educacional" class="block text-sm font-medium">Indicar estratégia educacional.</label>
+            <textarea id="estrategia_educacional" name="estrategia_educacional" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label for="acao_previa" class="block text-sm font-medium">Já foi realizada alguma ação relativa à demanda? Se sim, especificar tipo, modalidade de ensino e carga horária.</label>
+            <textarea id="acao_previa" name="acao_previa" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label for="prazo_desenvolvimento" class="block text-sm font-medium">Há expectativa em relação ao prazo para desenvolvimento? Se sim, especificar.</label>
+            <textarea id="prazo_desenvolvimento" name="prazo_desenvolvimento" rows="2" required class="textarea"></textarea>
+          </div>
+        
+          <div>
+            <label for="carga_horaria_prevista" class="block text-sm font-medium">Há carga horária prevista? Se sim, especificar.</label>
+            <textarea id="carga_horaria_prevista" name="carga_horaria_prevista" rows="2" required class="textarea"></textarea>
+          </div>
+        </div>
 
         <div class="button-row">
           <span></span>
