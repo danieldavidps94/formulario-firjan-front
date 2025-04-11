@@ -126,7 +126,7 @@
     display: block;
   }
 
-  .erro-campo {
+  .mensagem-erro {
   color: red;
   font-size: 13px;
   margin-top: 4px;
@@ -172,7 +172,7 @@
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
-      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste2</p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste3</p>
     </div>
   </div>
 
@@ -207,7 +207,7 @@
         <h2>Ponto Focal</h2>
 
         <label>Nome Completo</label>
-        <input type="text" name="nome_ponto_focal">
+        <input type="text" name="nome_ponto_focal" required>
 
         <label>Instituição</label>
         <input type="text" name="instituicao_ponto_focal" required>
@@ -276,8 +276,7 @@
           </div>
         
           <div>
-            <label for="modalidade_ensino" class="block text-sm font-medium">Indicar modalidade de ensino.</label>
-            <input type="text" id="modalidade_ensino" name="modalidade_ensino" required class="input" />
+            <label for="modalidade_ensino" class="block text-sm font-medium">Indicar modalidade de ensino:</label>
           </div>
         
           <div class="checkbox-wrapper">
@@ -406,87 +405,88 @@
   </div>
 
   <script>
-    const formulario = document.getElementById("formularioFirjan");
-    const pagina1 = document.getElementById("pagina1");
-    const pagina2 = document.getElementById("pagina2");
-    const btnProximo = document.getElementById("btnProximo");
-    const btnEnviar = document.getElementById("btnEnviar");
-  
-    // Mostrar a página ativa
     function mostrarPagina(numero) {
-      document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
-      const paginaAtiva = document.getElementById('pagina' + numero);
-      paginaAtiva.classList.add('active');
+      document.querySelectorAll('.form-page').forEach(page => page.classList.remove('active'));
+      document.getElementById('pagina' + numero).classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   
-    // Adiciona mensagem de erro abaixo do campo
-    function mostrarErro(campo, mensagem) {
-      removerErro(campo);
-      const erro = document.createElement('div');
-      erro.className = 'erro-campo';
-      erro.style.color = 'red';
-      erro.style.marginTop = '4px';
-      erro.textContent = mensagem;
-      campo.insertAdjacentElement('afterend', erro);
+    // Máscara de telefone
+    function aplicarMascaraTelefone(input) {
+      input.addEventListener("input", function () {
+        let valor = input.value.replace(/\D/g, "");
+        if (valor.length > 11) valor = valor.slice(0, 11);
+        if (valor.length >= 2 && valor.length <= 6) {
+          valor = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
+        } else if (valor.length > 6) {
+          valor = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`;
+        }
+        input.value = valor;
+      });
     }
   
-    // Remove mensagem de erro
-    function removerErro(campo) {
+    function limparErros() {
+      document.querySelectorAll(".mensagem-erro").forEach(el => el.remove());
+    }
+  
+    function exibirErro(campo, mensagem) {
+      limparErroCampo(campo);
+      const erro = document.createElement("div");
+      erro.className = "mensagem-erro";
+      erro.style.color = "red";
+      erro.style.fontSize = "13px";
+      erro.textContent = mensagem;
+      campo.insertAdjacentElement("afterend", erro);
+    }
+  
+    function limparErroCampo(campo) {
       const proximo = campo.nextElementSibling;
-      if (proximo && proximo.classList.contains('erro-campo')) {
+      if (proximo && proximo.classList.contains("mensagem-erro")) {
         proximo.remove();
       }
     }
   
-    // Validação de campos obrigatórios da página atual
-    function validarCampos(pagina) {
-      const campos = pagina.querySelectorAll("input[required], textarea[required], select[required]");
-      let valido = true;
+    async function validarFormulario() {
+      const form = document.getElementById("formularioFirjan");
+      const campos = form.querySelectorAll("input[required], textarea[required], select[required]");
+      let primeiroCampoInvalido = null;
+  
+      limparErros();
   
       for (const campo of campos) {
-        removerErro(campo);
         if (!campo.value.trim()) {
-          mostrarErro(campo, `⚠️ Obrigatório preenchimento do campo: ${campo.name}`);
-          if (valido) {
-            campo.focus();
+          const labelEl = campo.previousElementSibling;
+          const nomeCampo = labelEl ? labelEl.textContent : campo.name;
+  
+          exibirErro(campo, `⚠️ Campo obrigatório: ${nomeCampo}`);
+          if (!primeiroCampoInvalido) {
+            primeiroCampoInvalido = campo;
           }
-          valido = false;
+        } else {
+          limparErroCampo(campo);
         }
       }
   
-      return valido;
+      if (primeiroCampoInvalido) {
+        const pagina = primeiroCampoInvalido.closest(".form-page");
+        if (!pagina.classList.contains("active")) {
+          mostrarPagina(pagina.id === "pagina1" ? 1 : 2);
+        }
+        primeiroCampoInvalido.focus();
+        return false;
+      }
+  
+      return true;
     }
   
-    btnProximo.addEventListener("click", () => {
-      if (validarCampos(pagina1)) {
-        mostrarPagina(2);
-      }
-    });
+    async function enviarFormulario() {
+      const valido = await validarFormulario();
+      if (!valido) return;
   
-    btnEnviar.addEventListener("click", async () => {
-      const paginaAtual = pagina2;
-      const paginaAnterior = pagina1;
-  
-      const validoAtual = validarCampos(paginaAtual);
-      const validoAnterior = validarCampos(paginaAnterior);
-  
-      if (!validoAtual || !validoAnterior) {
-        if (!validoAnterior) mostrarPagina(1);
-        return;
-      }
-  
-      // Coleta os dados e envia
-      const formData = new FormData(formulario);
+      const form = document.getElementById("formularioFirjan");
+      const formData = new FormData(form);
       const data = {};
-      formData.forEach((value, key) => {
-        if (data[key]) {
-          if (!Array.isArray(data[key])) data[key] = [data[key]];
-          data[key].push(value);
-        } else {
-          data[key] = value;
-        }
-      });
+      formData.forEach((value, key) => data[key] = value);
   
       try {
         const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
@@ -497,7 +497,7 @@
   
         if (response.ok) {
           alert("Formulário enviado com sucesso!");
-          formulario.reset();
+          form.reset();
           mostrarPagina(1);
         } else {
           alert("Erro ao enviar formulário.");
@@ -505,15 +505,23 @@
       } catch (error) {
         alert("Erro de conexão com o servidor.");
       }
-    });
+    }
   
-    // Remove erros ao digitar
-    document.addEventListener("input", (e) => {
-      if (e.target.matches("input, textarea, select")) {
-        removerErro(e.target);
-      }
+    document.addEventListener("DOMContentLoaded", function () {
+      // Máscara telefone
+      const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
+      telefones.forEach(aplicarMascaraTelefone);
+  
+      // Botões
+      document.getElementById("btnProximo").addEventListener("click", async () => {
+        const valido = await validarFormulario();
+        if (valido) mostrarPagina(2);
+      });
+  
+      document.getElementById("btnEnviar").addEventListener("click", enviarFormulario);
     });
   </script>
+  
 
 </body>
 </html>
