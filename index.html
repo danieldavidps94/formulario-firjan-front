@@ -439,86 +439,84 @@
     });
   
     document.getElementById("btnEnviar").addEventListener("click", async function () {
-  const form = document.getElementById("formularioFirjan");
-
-  // Limpa erros anteriores
-  form.querySelectorAll(".mensagem-erro").forEach(el => el.remove());
-  form.querySelectorAll(".campo-erro").forEach(el => el.classList.remove("campo-erro"));
-
-  const campos = form.querySelectorAll("input[required], textarea[required], select[required]");
-  campos.forEach((campo) => {
-    if (campo.offsetParent === null) {
-      campo.dataset.required = "true";
-      campo.required = false;
-    }
-  });
-
-  let formValido = true;
-
-  for (const campo of campos) {
-    if (campo.offsetParent !== null && !campo.value.trim()) {
-      let label = campo.name;
-
-      const labelElement = document.querySelector(`label[for="${campo.id}"]`) ||
-                           campo.closest('.form-group')?.querySelector('label') ||
-                           campo.previousElementSibling;
-
-      if (labelElement) {
-        label = labelElement.innerText.replace(":", "").trim();
+      const form = document.getElementById("formularioFirjan");
+  
+      // Remove temporarily required from hidden fields
+      const campos = form.querySelectorAll("input[required], textarea[required], select[required]");
+      campos.forEach((campo) => {
+        if (campo.offsetParent === null) {
+          campo.dataset.required = "true";
+          campo.required = false;
+        }
+      });
+  
+      let formValido = true;
+      for (const campo of campos) {
+        if (campo.offsetParent !== null && !campo.value.trim()) {
+          // ⚠️ Busca o label correspondente
+          let label = campo.name;
+          const labelElement = document.querySelector(`label[for="${campo.id}"]`) ||
+                               campo.closest('.form-group')?.querySelector('label') ||
+                               campo.previousElementSibling;
+          if (labelElement) {
+            label = labelElement.innerText.replace(":", "").trim();
+          }
+  
+          // ✅ Ativa a aba onde está o campo
+          const pagina = campo.closest(".form-page");
+          if (!pagina.classList.contains("active")) {
+            document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
+            pagina.classList.add("active");
+          }
+  
+          // 🟡 Scroll até o campo e foca
+          setTimeout(() => {
+            campo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            campo.focus();
+          }, 200);
+  
+          alert(`⚠️ Obrigatório preenchimento do campo: ${label}`);
+          formValido = false;
+          break;
+        }
       }
-
-      const pagina = campo.closest(".form-page");
-      if (!pagina.classList.contains("active")) {
-        document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
-        pagina.classList.add("active");
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+      if (!formValido) {
+        form.querySelectorAll("[data-required='true']").forEach((campo) => {
+          campo.required = true;
+          delete campo.dataset.required;
+        });
+        return;
       }
-
-      alert(`⚠️ Obrigatório preenchimento do campo: ${label}`);
-      campo.focus();
-      campo.classList.add("campo-erro");
-      formValido = false;
-      break;
-    }
-  }
-
-  if (!formValido) {
-    form.querySelectorAll("[data-required='true']").forEach((campo) => {
-      campo.required = true;
-      delete campo.dataset.required;
+  
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+  
+      try {
+        const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+  
+        if (response.ok) {
+          alert("✅ Formulário enviado com sucesso!");
+          form.reset();
+          mostrarPagina(1);
+        } else {
+          alert("❌ Erro ao enviar formulário.");
+        }
+      } catch (error) {
+        alert("🚫 Erro de conexão com o servidor.");
+      } finally {
+        form.querySelectorAll("[data-required='true']").forEach((campo) => {
+          campo.required = true;
+          delete campo.dataset.required;
+        });
+      }
     });
-    return;
-  }
-
-  // Tudo validado: envia o formulário
-  const formData = new FormData(form);
-  const data = {};
-  formData.forEach((value, key) => data[key] = value);
-
-  try {
-    const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    if (response.ok) {
-      alert("✅ Formulário enviado com sucesso!");
-      form.reset();
-      mostrarPagina(1);
-    } else {
-      alert("❌ Erro ao enviar formulário.");
-    }
-  } catch (error) {
-    alert("🚨 Erro de conexão com o servidor.");
-  } finally {
-    form.querySelectorAll("[data-required='true']").forEach((campo) => {
-      campo.required = true;
-      delete campo.dataset.required;
-    });
-  }
-});
-  </script>
+  </script>  
 
 </body>
 </html>
