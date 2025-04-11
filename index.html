@@ -410,7 +410,6 @@
       mostrarPagina(2);
     });
   
-    // Máscara de telefone
     function aplicarMascaraTelefone(input) {
       input.addEventListener("input", function () {
         let valor = input.value.replace(/\D/g, "");
@@ -429,13 +428,13 @@
       telefones.forEach(aplicarMascaraTelefone);
     });
   
-    // NOVA LÓGICA DE ENVIO
     document.getElementById("btnEnviar").addEventListener("click", async function () {
       const form = document.getElementById("formularioFirjan");
   
+      // Remove temporariamente o "required" dos campos invisíveis
       const campos = form.querySelectorAll("input[required], textarea[required], select[required]");
-      campos.forEach((campo) => {
-        if (campo.offsetParent === null) {
+      campos.forEach(campo => {
+        if (!campo.closest(".form-page").classList.contains("active")) {
           campo.dataset.required = "true";
           campo.required = false;
         }
@@ -443,22 +442,14 @@
   
       let formValido = true;
       for (const campo of campos) {
-        if (campo.offsetParent !== null && !campo.value.trim()) {
+        if (campo.closest(".form-page").classList.contains("active") && !campo.value.trim()) {
           let label = campo.name;
-  
           const labelElement = document.querySelector(`label[for="${campo.id}"]`) ||
                                campo.closest('.form-group')?.querySelector('label') ||
                                campo.previousElementSibling;
   
           if (labelElement) {
             label = labelElement.innerText.replace(":", "").trim();
-          }
-  
-          const pagina = campo.closest(".form-page");
-          if (!pagina.classList.contains("active")) {
-            document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
-            pagina.classList.add("active");
-            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
   
           alert(`⚠️ Obrigatório preenchimento do campo: ${label}`);
@@ -469,6 +460,7 @@
       }
   
       if (!formValido) {
+        // Restaura os requireds
         form.querySelectorAll("[data-required='true']").forEach((campo) => {
           campo.required = true;
           delete campo.dataset.required;
@@ -476,6 +468,7 @@
         return;
       }
   
+      // Tudo ok, envia
       const formData = new FormData(form);
       const data = {};
       formData.forEach((value, key) => data[key] = value);
@@ -497,6 +490,7 @@
       } catch (error) {
         alert("Erro de conexão com o servidor.");
       } finally {
+        // Restaura os requireds
         form.querySelectorAll("[data-required='true']").forEach((campo) => {
           campo.required = true;
           delete campo.dataset.required;
@@ -504,7 +498,6 @@
       }
     });
   </script>
-
 
 </body>
 </html>
