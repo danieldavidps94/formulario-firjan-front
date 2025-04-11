@@ -279,7 +279,7 @@
             <label for="modalidade_ensino" class="block text-sm font-medium">Indicar modalidade de ensino:</label>
           </div>
         
-          <div class="checkbox-wrapper">
+          <div class="checkbox-wrapper" id="grupoCheckbox">
             <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação horizontal)"> Curso (navegação horizontal)</label>
             <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação vertical)"> Curso (navegação vertical)</label>
             <label><input type="checkbox" name="tipo_solucao[]" value="Banco de Questões"> Banco de Questões</label>
@@ -345,55 +345,55 @@
         <h2>Informações Gerais</h2>
 
         <label>Manual da marca</label>
-        <input type="text" name="manual_marca">
+        <input type="text" name="manual_marca" required>
 
         <label>Identidade visual</label>
-        <input type="text" name="identidade_visual">
+        <input type="text" name="identidade_visual" required>
 
         <label>Identidade verbal</label>
-        <input type="text" name="identidade_verbal">
+        <input type="text" name="identidade_verbal" required>
 
         <label>Identidade sonora</label>
-        <input type="text" name="identidade_sonora">
+        <input type="text" name="identidade_sonora" required>
 
         <label>Identidade visual extra</label>
-        <textarea name="identidade_visual_extra"></textarea>
+        <textarea name="identidade_visual_extra" required></textarea>
 
         <label>Restrições visuais (cor, imagem, logomarca)</label>
-        <textarea name="restricoes_visuais"></textarea>
+        <textarea name="restricoes_visuais" required></textarea>
 
         <label>Informações sobre personagens (gênero, idade, etnia, etc.)</label>
-        <textarea name="info_personagens"></textarea>
+        <textarea name="info_personagens" required></textarea>
 
         <label>Quantidade de personagens</label>
-        <input type="text" name="qtd_personagens">
+        <input type="text" name="qtd_personagens" required>
 
         <label>Estilo dos personagens</label>
-        <input type="text" name="estilo_personagens">
+        <input type="text" name="estilo_personagens" required>
 
         <label>Vestimenta</label>
         <input type="text" name="vestimenta">
 
         <label>Cenário previsto</label>
-        <textarea name="cenario_previsto"></textarea>
+        <textarea name="cenario_previsto" required></textarea>
 
         <label>Cliente possui banco de imagens?</label>
-        <input type="text" name="banco_imagens">
+        <input type="text" name="banco_imagens" required>
 
         <label>Necessário contratar banco de imagens?</label>
-        <input type="text" name="contratar_banco_imagens">
+        <input type="text" name="contratar_banco_imagens" required>
 
         <label>Legenda para acessibilidade auditiva</label>
-        <textarea name="legenda_acessibilidade"></textarea>
+        <textarea name="legenda_acessibilidade" required></textarea>
 
         <label>Áudio para acessibilidade visual</label>
-        <textarea name="audio_acessibilidade"></textarea>
+        <textarea name="audio_acessibilidade" required></textarea>
 
         <label>Solução precisa ser responsiva?</label>
-        <input type="text" name="design_responsivo">
+        <input type="text" name="design_responsivo" required>
 
         <label>Precisa de visualização offline?</label>
-        <input type="text" name="visualizacao_offline">
+        <input type="text" name="visualizacao_offline" required>
 
         <div class="button-row">
           <button type="button" onclick="mostrarPagina(1)">Voltar</button>
@@ -447,6 +447,23 @@
       const pagina = document.getElementById(paginaId);
       const campos = pagina.querySelectorAll("input[required], textarea[required], select[required]");
       let valido = true;
+      if (paginaId === "pagina1") {
+      const grupoCheckbox = document.querySelectorAll("#grupoCheckbox input[type='checkbox']");
+      const algumMarcado = Array.from(grupoCheckbox).some(cb => cb.checked);
+
+      // Remove erro anterior
+      const wrapper = document.getElementById("grupoCheckbox");
+      wrapper.querySelectorAll(".mensagem-erro").forEach(el => el.remove());
+
+      if (!algumMarcado) {
+     const erro = document.createElement("div");
+     erro.className = "mensagem-erro";
+     erro.textContent = "⚠️ Selecione pelo menos uma solução";
+     wrapper.appendChild(erro);
+     if (!primeiroCampoInvalido) primeiroCampoInvalido = grupoCheckbox[0];
+     valido = false;
+     }
+     }   
       let primeiroCampoInvalido = null;
   
       campos.forEach(campo => {
