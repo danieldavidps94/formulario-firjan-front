@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Levantamento de Necessidades - Firjan SENAI</title>
+  <title>Formulário de Levantamento de Necessidades de Capacitações - Firjan SENAI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
@@ -193,7 +193,7 @@
         <input type="email" name="email_demanda" required>
 
         <label>Telefone</label>
-        <input type="text" name="telefone_demanda" pattern="\d+" title="Apenas números" required>
+        <input type="text" name="telefone_demanda" title="Apenas números" required>
 
         <label>Funções no projeto (exemplo: validar, acompanhar etc.)</label>
         <input type="text" name="cargo_demanda" required>
@@ -216,7 +216,7 @@
         <input type="email" name="email_ponto_focal" required>
 
         <label>Telefone</label>
-        <input type="text" name="telefone_ponto_focal" pattern="\d+" title="Apenas números" required>
+        <input type="text" name="telefone_ponto_focal" title="Apenas números" required>
 
         <label>Funções no projeto (exemplo: validar, acompanhar etc.)</label>
         <input type="text" name="cargo_ponto_focal" required>
@@ -468,21 +468,21 @@
       delete campo.dataset.required;
     });
   }
+  
 });
   </script>
 
 <script>
+  // Máscara de telefone (com formatação ao digitar)
   function aplicarMascaraTelefone(input) {
-    input.addEventListener("input", function (e) {
-      let valor = input.value.replace(/\D/g, ""); // Remove tudo que não é dígito
-      if (valor.length > 11) valor = valor.slice(0, 11); // Máximo de 11 dígitos
-
+    input.addEventListener("input", function () {
+      let valor = input.value.replace(/\D/g, "");
+      if (valor.length > 11) valor = valor.slice(0, 11);
       if (valor.length >= 2 && valor.length <= 6) {
         valor = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
       } else if (valor.length > 6) {
         valor = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`;
       }
-
       input.value = valor;
     });
   }
@@ -491,6 +491,80 @@
     const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
     telefones.forEach(aplicarMascaraTelefone);
   });
+
+  function mostrarPagina(numero) {
+    document.querySelectorAll('.form-page').forEach(page => page.classList.remove('active'));
+    document.getElementById('pagina' + numero).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.getElementById("btnProximo").addEventListener("click", () => {
+    mostrarPagina(2);
+  });
+
+  document.getElementById("formularioFirjan").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    // Desativa "required" de campos ocultos (ex: página 1)
+    const campos = this.querySelectorAll("input[required], textarea[required], select[required]");
+    campos.forEach((campo) => {
+      if (campo.offsetParent === null) {
+        campo.dataset.required = "true";
+        campo.required = false;
+      }
+    });
+
+    // Verifica campos visíveis obrigatórios
+    let formValido = true;
+    for (const campo of campos) {
+      if (campo.offsetParent !== null && !campo.value.trim()) {
+        const label = campo.previousElementSibling?.innerText || campo.name;
+        alert(`⚠️ Obrigatório preenchimento do campo: ${label}`);
+        campo.focus();
+        formValido = false;
+        break;
+      }
+    }
+
+    if (!formValido) {
+      // Restaura os campos "required"
+      this.querySelectorAll("[data-required='true']").forEach((campo) => {
+        campo.required = true;
+        delete campo.dataset.required;
+      });
+      return;
+    }
+
+    // Coleta os dados e envia
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => data[key] = value);
+
+    try {
+      const response = await fetch("https://firjan-form-api.onrender.com/api/enviar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        alert("Formulário enviado com sucesso!");
+        this.reset();
+        mostrarPagina(1);
+      } else {
+        alert("Erro ao enviar formulário.");
+      }
+    } catch (error) {
+      alert("Erro de conexão com o servidor.");
+    } finally {
+      this.querySelectorAll("[data-required='true']").forEach((campo) => {
+        campo.required = true;
+        delete campo.dataset.required;
+      });
+    }
+  });
 </script>
+
+
 </body>
 </html>
