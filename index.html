@@ -510,16 +510,19 @@
     document.addEventListener("DOMContentLoaded", function () {
       // Máscara telefone
       const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
-      telefones.forEach(aplicarMascaraTelefone);
+  telefones.forEach(aplicarMascaraTelefone);
   
       // Botões
       document.getElementById("btnProximo").addEventListener("click", async () => {
-        const valido = await validarFormulario();
-        if (valido) mostrarPagina(2);
-      });
-  
-      document.getElementById("btnEnviar").addEventListener("click", enviarFormulario);
-    });
+    const valido = await validarFormulario(1); // só página 1
+    if (valido) mostrarPagina(2);
+  });
+
+  document.getElementById("btnEnviar").addEventListener("click", async () => {
+    const valido = await validarFormulario(); // valida todas
+    if (valido) enviarFormulario();
+  });
+});
   </script>
   
 
