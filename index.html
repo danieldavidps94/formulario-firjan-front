@@ -172,7 +172,7 @@
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
-      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste3</p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste4</p>
     </div>
   </div>
 
@@ -411,7 +411,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   
-    // Máscara de telefone
     function aplicarMascaraTelefone(input) {
       input.addEventListener("input", function () {
         let valor = input.value.replace(/\D/g, "");
@@ -433,8 +432,6 @@
       limparErroCampo(campo);
       const erro = document.createElement("div");
       erro.className = "mensagem-erro";
-      erro.style.color = "red";
-      erro.style.fontSize = "13px";
       erro.textContent = mensagem;
       campo.insertAdjacentElement("afterend", erro);
     }
@@ -446,42 +443,33 @@
       }
     }
   
-    async function validarFormulario() {
-      const form = document.getElementById("formularioFirjan");
-      const campos = form.querySelectorAll("input[required], textarea[required], select[required]");
+    function validarCamposPagina(paginaId) {
+      const pagina = document.getElementById(paginaId);
+      const campos = pagina.querySelectorAll("input[required], textarea[required], select[required]");
+      let valido = true;
       let primeiroCampoInvalido = null;
   
-      limparErros();
-  
-      for (const campo of campos) {
+      campos.forEach(campo => {
+        limparErroCampo(campo);
         if (!campo.value.trim()) {
-          const labelEl = campo.previousElementSibling;
-          const nomeCampo = labelEl ? labelEl.textContent : campo.name;
-  
-          exibirErro(campo, `⚠️ Campo obrigatório: ${nomeCampo}`);
-          if (!primeiroCampoInvalido) {
-            primeiroCampoInvalido = campo;
-          }
-        } else {
-          limparErroCampo(campo);
+          exibirErro(campo, "⚠️ Campo obrigatório");
+          if (!primeiroCampoInvalido) primeiroCampoInvalido = campo;
+          valido = false;
         }
-      }
+      });
   
-      if (primeiroCampoInvalido) {
-        const pagina = primeiroCampoInvalido.closest(".form-page");
-        if (!pagina.classList.contains("active")) {
-          mostrarPagina(pagina.id === "pagina1" ? 1 : 2);
-        }
+      if (!valido && primeiroCampoInvalido) {
+        mostrarPagina(paginaId === "pagina1" ? 1 : 2);
         primeiroCampoInvalido.focus();
-        return false;
       }
   
-      return true;
+      return valido;
     }
   
     async function enviarFormulario() {
-      const valido = await validarFormulario();
-      if (!valido) return;
+      const pagina1Valida = validarCamposPagina("pagina1");
+      const pagina2Valida = validarCamposPagina("pagina2");
+      if (!pagina1Valida || !pagina2Valida) return;
   
       const form = document.getElementById("formularioFirjan");
       const formData = new FormData(form);
@@ -508,23 +496,21 @@
     }
   
     document.addEventListener("DOMContentLoaded", function () {
-      // Máscara telefone
       const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
-  telefones.forEach(aplicarMascaraTelefone);
+      telefones.forEach(aplicarMascaraTelefone);
   
-      // Botões
-      document.getElementById("btnProximo").addEventListener("click", async () => {
-    const valido = await validarFormulario(1); // só página 1
-    if (valido) mostrarPagina(2);
-  });
-
-  document.getElementById("btnEnviar").addEventListener("click", async () => {
-    const valido = await validarFormulario(); // valida todas
-    if (valido) enviarFormulario();
-  });
-});
+      document.getElementById("btnProximo").addEventListener("click", () => {
+        limparErros();
+        const valido = validarCamposPagina("pagina1");
+        if (valido) mostrarPagina(2);
+      });
+  
+      document.getElementById("btnEnviar").addEventListener("click", () => {
+        limparErros();
+        enviarFormulario();
+      });
+    });
   </script>
   
-
 </body>
 </html>
