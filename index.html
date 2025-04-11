@@ -422,16 +422,25 @@
     }
   });
 
-  // 🚨 Verifica campos visíveis e exibe mensagens personalizadas
   let formValido = true;
-  campos.forEach((campo) => {
-    if (campo.offsetParent !== null && !campo.value.trim()) {
-      alert(`⚠️ Obrigatório preenchimento do campo: ${campo.previousElementSibling?.innerText || campo.name}`);
-      campo.focus();
-      formValido = false;
-      return false;
+for (const campo of campos) {
+  if (campo.offsetParent !== null && !campo.value.trim()) {
+    let label = campo.name;
+
+    const labelElement = document.querySelector(`label[for="${campo.id}"]`) ||
+                         campo.closest('.form-group')?.querySelector('label') ||
+                         campo.previousElementSibling;
+
+    if (labelElement) {
+      label = labelElement.innerText.replace(":", "").trim();
     }
-  });
+
+    alert(`⚠️ Obrigatório preenchimento do campo: ${label}`);
+    campo.focus();
+    formValido = false;
+    break;
+  }
+}
 
   if (!formValido) {
     // 🔁 Restaura os requireds
