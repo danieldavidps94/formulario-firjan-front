@@ -525,16 +525,33 @@ for (const campo of campos) {
 
     // Verifica campos visíveis obrigatórios
     let formValido = true;
-    for (const campo of campos) {
-      if (campo.offsetParent !== null && !campo.value.trim()) {
-        const label = campo.previousElementSibling?.innerText || campo.name;
-        alert(`⚠️ Obrigatório preenchimento do campo: ${label}`);
-        campo.focus();
-        formValido = false;
-        break;
-      }
+
+for (const campo of campos) {
+  if (campo.offsetParent !== null && !campo.value.trim()) {
+    let label = campo.name;
+
+    const labelElement = document.querySelector(`label[for="${campo.id}"]`) ||
+                         campo.closest('.form-group')?.querySelector('label') ||
+                         campo.previousElementSibling;
+
+    if (labelElement) {
+      label = labelElement.innerText.replace(":", "").trim();
     }
 
+    // 🚨 Se o campo está em uma aba oculta, ativa a aba correspondente
+    const pagina = campo.closest(".form-page");
+    if (!pagina.classList.contains("active")) {
+      document.querySelectorAll('.form-page').forEach(page => page.classList.remove('active'));
+      pagina.classList.add("active");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    alert(`⚠️ Obrigatório preenchimento do campo: ${label}`);
+    campo.focus();
+    formValido = false;
+    break;
+  }
+}
     if (!formValido) {
       // Restaura os campos "required"
       this.querySelectorAll("[data-required='true']").forEach((campo) => {
