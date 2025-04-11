@@ -413,7 +413,7 @@
     document.getElementById("formularioFirjan").addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  // Desativa "required" de campos ocultos (página 1 ou 2 escondida)
+  // 🔄 Remove required de campos ocultos
   const campos = this.querySelectorAll("input[required], textarea[required], select[required]");
   campos.forEach((campo) => {
     if (campo.offsetParent === null) {
@@ -421,6 +421,26 @@
       campo.required = false;
     }
   });
+
+  // 🚨 Verifica campos visíveis e exibe mensagens personalizadas
+  let formValido = true;
+  campos.forEach((campo) => {
+    if (campo.offsetParent !== null && !campo.value.trim()) {
+      alert(`⚠️ Obrigatório preenchimento do campo: ${campo.previousElementSibling?.innerText || campo.name}`);
+      campo.focus();
+      formValido = false;
+      return false;
+    }
+  });
+
+  if (!formValido) {
+    // 🔁 Restaura os requireds
+    this.querySelectorAll("[data-required='true']").forEach((campo) => {
+      campo.required = true;
+      delete campo.dataset.required;
+    });
+    return;
+  }
 
   const formData = new FormData(this);
   const data = {};
@@ -443,7 +463,6 @@
   } catch (error) {
     alert("Erro de conexão com o servidor.");
   } finally {
-    //s Restaura os requireds dos campos invisíveis
     this.querySelectorAll("[data-required='true']").forEach((campo) => {
       campo.required = true;
       delete campo.dataset.required;
@@ -451,5 +470,27 @@
   }
 });
   </script>
+
+<script>
+  function aplicarMascaraTelefone(input) {
+    input.addEventListener("input", function (e) {
+      let valor = input.value.replace(/\D/g, ""); // Remove tudo que não é dígito
+      if (valor.length > 11) valor = valor.slice(0, 11); // Máximo de 11 dígitos
+
+      if (valor.length >= 2 && valor.length <= 6) {
+        valor = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
+      } else if (valor.length > 6) {
+        valor = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`;
+      }
+
+      input.value = valor;
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
+    telefones.forEach(aplicarMascaraTelefone);
+  });
+</script>
 </body>
 </html>
