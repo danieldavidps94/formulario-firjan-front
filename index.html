@@ -12,6 +12,48 @@
       --cinza-label: #333;
     }
 
+    @font-face {
+  font-family: 'Averta';
+  src: url('fonts/averta-light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Averta';
+  src: url('fonts/averta-lightitalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Averta';
+  src: url('fonts/averta-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Averta';
+  src: url('fonts/averta-regularitalic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Averta';
+  src: url('fonts/averta-semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Averta';
+  src: url('fonts/averta-semibolditalic.woff2') format('woff2');
+  font-weight: 600;
+  font-style: italic;
+}
+
     .firjan-cabecalho {
    background-image: url(img/background.png);
    background-size: cover;
@@ -44,7 +86,7 @@
  }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Averta', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--cinza-bg);
       margin: 0;
       padding: 2rem;
@@ -172,7 +214,7 @@
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
-      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã teste2</p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã</p>
     </div>
   </div>
 
@@ -459,10 +501,6 @@
 
         <label>É necessário contemplar personagem(ens)?  Informe características (Gênero, Idade, Etnia, Tipo e cor do cabelo e cor dos olhos):</label>
         <textarea name="info_personagem1" required></textarea>
-        <textarea name="info_personagem2" required></textarea>
-        <textarea name="info_personagem3" required></textarea>
-        <textarea name="info_personagem4" required></textarea>
-        <textarea name="info_personagem5" required></textarea>
 
         <label>Quantidade de personagens:</label>
         <input type="text" name="qtd_personagens" required>
