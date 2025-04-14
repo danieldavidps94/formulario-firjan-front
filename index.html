@@ -442,56 +442,62 @@
       <div class="form-page" id="pagina2">
         <h2>Informações Gerais</h2>
 
-        <label>Manual da marca</label>
+        <label>Existe manual da arca para compartilhar?</label>
         <input type="text" name="manual_marca" required>
 
-        <label>Identidade visual</label>
+        <label>Existe identidade visual para compartilhar?</label>
         <input type="text" name="identidade_visual" required>
 
-        <label>Identidade verbal</label>
+        <label>Existe identidade verbal para compartilhar?</label>
         <input type="text" name="identidade_verbal" required>
 
-        <label>Identidade sonora</label>
+        <label>Existe alguma identidade visual extra a ser seguida? Se sim, especifique:</label>
         <input type="text" name="identidade_sonora" required>
 
-        <label>Identidade visual extra</label>
+        <label>Existem restrições quanto a cor, imagem, logomarca etc.? Se sim, especifique:</label>
         <textarea name="identidade_visual_extra" required></textarea>
 
-        <label>Restrições visuais (cor, imagem, logomarca)</label>
-        <textarea name="restricoes_visuais" required></textarea>
+        <label>É necessário contemplar personagem(ens)?  Informe características (Gênero, Idade, Etnia, Tipo e cor do cabelo e cor dos olhos):</label>
+        <textarea name="info_personagem1" required></textarea>
+        <textarea name="info_personagem2" required></textarea>
+        <textarea name="info_personagem3" required></textarea>
+        <textarea name="info_personagem4" required></textarea>
+        <textarea name="info_personagem5" required></textarea>
 
-        <label>Informações sobre personagens (gênero, idade, etnia, etc.)</label>
-        <textarea name="info_personagens" required></textarea>
-
-        <label>Quantidade de personagens</label>
+        <label>Quantidade de personagens:</label>
         <input type="text" name="qtd_personagens" required>
 
-        <label>Estilo dos personagens</label>
+        <label>Estilo dos personagens:</label>
         <input type="text" name="estilo_personagens" required>
 
-        <label>Vestimenta</label>
+        <label>Detalhe a vestimenta caaso sejam previstos personagens:</label>
         <input type="text" name="vestimenta">
 
-        <label>Cenário previsto</label>
+        <label>Detalhe o cenário caso sejam previstos personagens:</label>
         <textarea name="cenario_previsto" required></textarea>
 
         <label>Cliente possui banco de imagens?</label>
         <input type="text" name="banco_imagens" required>
 
-        <label>Necessário contratar banco de imagens?</label>
+        <label>É necessário contratar banco de imagens?</label>
         <input type="text" name="contratar_banco_imagens" required>
 
-        <label>Legenda para acessibilidade auditiva</label>
+        <label>É necessário contemplar legenda em determinadas soluções para atender pessoas com deficiência auditiva? Se sim, especifique:</label>
         <textarea name="legenda_acessibilidade" required></textarea>
 
-        <label>Áudio para acessibilidade visual</label>
+        <label>É necessário contemplar áudio nas soluções para atender pessoas com deficiência visual? Se sim, especifique:</label>
         <textarea name="audio_acessibilidade" required></textarea>
 
-        <label>Solução precisa ser responsiva?</label>
+        <label>As soluções precisam ter design responsivo (layout que se adapta a qualquer tamanho de tela)?</label>
         <input type="text" name="design_responsivo" required>
 
-        <label>Precisa de visualização offline?</label>
+        <label>É necessária a visualização das soluções no formato offline?</label>
         <input type="text" name="visualizacao_offline" required>
+
+        <div>
+          <label for="infos_adicionais2" class="block text-sm font-medium">Informações Adicionais:</label>
+          <textarea id="infos_adicionais2" name="infos_adicionais2" rows="4" class="textarea"></textarea>
+        </div>
 
         <div class="button-row">
           <button type="button" onclick="mostrarPagina(1)">Voltar</button>
