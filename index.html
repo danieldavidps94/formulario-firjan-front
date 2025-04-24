@@ -232,6 +232,7 @@
   }
   </style>
   
+  
 </head>
 <body>
   <div class="firjan-cabecalho">
@@ -246,6 +247,19 @@
     <form id="formularioFirjan">
 
        <!-- Formulário 1 -->
+       <label for="campo1">Existe algo a compartilhar?</label>
+       <select name="campo1" id="campo1" class="condicional-sim-nao" data-target="campo1-extra" required>
+         <option value="">Selecione</option>
+         <option value="sim">Sim</option>
+         <option value="nao">Não</option>
+       </select>
+       
+       <div id="campo1-extra" class="campo-extra" style="display: none; margin-top: 10px;">
+         <label>Explique o motivo:</label>
+         <textarea name="campo1_motivo" rows="3"></textarea>
+       </div>
+
+
          <div class="form-page active" id="pagina1">
                 <h2>Responsável pela Demanda</h2>
 
@@ -571,6 +585,29 @@
 
     </form>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const selects = document.querySelectorAll('.condicional-sim-nao');
+  
+      selects.forEach(select => {
+        const targetId = select.dataset.target;
+        const extraField = document.getElementById(targetId);
+        const textarea = extraField.querySelector("textarea");
+  
+        select.addEventListener("change", function () {
+          if (select.value === "sim") {
+            extraField.style.display = "block";
+            textarea.setAttribute("required", "required");
+          } else {
+            extraField.style.display = "none";
+            textarea.removeAttribute("required");
+            textarea.value = "";
+          }
+        });
+      });
+    });
+  </script>  
 
   <script>
     function mostrarPagina(numero) {
