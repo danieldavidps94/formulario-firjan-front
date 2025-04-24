@@ -336,14 +336,28 @@
             <textarea id="contexto_desejado" name="contexto_desejado" rows="2" required class="textarea"></textarea>
           </div>
         
-          <div>
-            <label class="block text-sm font-medium">A demanda está relacionada a outro projeto? Se sim, especificar.</label>
-            <textarea name="relacao_outro_projeto" rows="2" required class="textarea"></textarea>
+          <label for="campo2">A demanda está relacionada a outro projeto? Se sim, especificar.</label>
+          <select name="campo2" id="campo2" class="condicional-sim-nao" data-target="campo2-extra" required>
+            <option value="">Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+          
+          <div id="campo2-extra" class="campo-extra" style="display: none; margin-top: 10px;">
+            <label>Especifique:</label>
+            <textarea name="campo2_motivo" rows="3"></textarea>
           </div>
         
-          <div>
-            <label class="block text-sm font-medium">A demanda é pré-requisito para outro projeto? Se sim, especificar.</label>
-            <textarea name="pre_requisito_projeto" rows="2" required class="textarea"></textarea>
+          <label for="campo3">A demanda é pré-requisito para outro projeto? Se sim, especificar.</label>
+          <select name="campo3" id="campo3" class="condicional-sim-nao" data-target="campo3-extra" required>
+            <option value="">Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+          
+          <div id="campo3-extra" class="campo-extra" style="display: none; margin-top: 10px;">
+            <label>Especifique:</label>
+            <textarea name="campo3_motivo" rows="3"></textarea>
           </div>
         
           <div>
