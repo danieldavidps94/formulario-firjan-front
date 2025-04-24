@@ -247,18 +247,7 @@
     <form id="formularioFirjan">
 
        <!-- Formulário 1 -->
-       <label for="campo1">Existe algo a compartilhar?</label>
-       <select name="campo1" id="campo1" class="condicional-sim-nao" data-target="campo1-extra" required>
-         <option value="">Selecione</option>
-         <option value="sim">Sim</option>
-         <option value="nao">Não</option>
-       </select>
-       
-       <div id="campo1-extra" class="campo-extra" style="display: none; margin-top: 10px;">
-         <label>Explique o motivo:</label>
-         <textarea name="campo1_motivo" rows="3"></textarea>
-       </div>
-
+    
 
          <div class="form-page active" id="pagina1">
                 <h2>Responsável pela Demanda</h2>
@@ -325,9 +314,16 @@
             <textarea id="gerador_demanda" name="gerador_demanda" rows="2" required class="textarea"></textarea>
           </div>
         
-          <div>
-            <label class="block text-sm font-medium">A demanda está relacionada a algum objetivo estratégico da instituição? Se sim, especificar.</label>
-            <textarea name="objetivo_estrategico" rows="2" required class="textarea"></textarea>
+          <label for="campo1">A demanda está relacionada a algum objetivo estratégico da instituição? Se sim, especificar.</label>
+          <select name="campo1" id="campo1" class="condicional-sim-nao" data-target="campo1-extra" required>
+            <option value="">Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+          
+          <div id="campo1-extra" class="campo-extra" style="display: none; margin-top: 10px;">
+            <label>Especifique:</label>
+            <textarea name="campo1_motivo" rows="3"></textarea>
           </div>
         
           <div>
