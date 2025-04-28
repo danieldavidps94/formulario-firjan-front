@@ -424,9 +424,21 @@
           </div>
         
           <div>
-            <label for="estrategia_educacional" class="block text-sm font-medium">Indique a estratégia educacional:</label>
-            <textarea id="estrategia_educacional" name="estrategia_educacional" rows="2" required class="textarea"></textarea>
+            <label for="campo6">Indique a estratégia educacional:</label>
+            <select name="campo6" id="campo6" class="condicional-outro" data-target="campo6-extra" required>
+              <option value="">Selecione</option>
+              <option value="online">Onboarding</option>
+              <option value="presencial">Aperfeiçoamento</option>
+              <option value="atualizacao">Atualização</option>
+              <option value="formacao">Formação</option>
+              <option value="outro-especificar">Outro (especificar)</option>
+            </select>
           </div>
+          
+          <div class="campo-extra" data-condicional="campo6-extra" style="display: none; margin-top: 10px;">
+            <label>Especifique:</label>
+            <input type="text" name="campo6_outro" />
+          </div>          
         
           <div>
             <label for="acao_previa" class="block text-sm font-medium">Já foi realizada alguma ação relativa à demanda? Se sim, especificar tipo, modalidade de ensino e carga horária.</label>
@@ -640,6 +652,34 @@
           atualizar(); // Atualiza já no carregamento
           select.addEventListener("change", atualizar);
         });
+
+        function atualizarCamposOutro() {
+           const camposOutro = document.querySelectorAll('.condicional-outro');
+
+          camposOutro.forEach(select => {
+          const targetSelector = select.dataset.target;
+          const target = document.querySelector(`[data-condicional="${targetSelector}"]`);
+          if (!target) return;
+
+         function atualizar() {
+          if (select.value === "outro-especificar") {
+           target.style.display = "block";
+           const input = target.querySelector("input, textarea");
+         if (input) input.setAttribute("required", "required");
+          } else {
+          target.style.display = "none";
+          const input = target.querySelector("input, textarea");
+          if (input) {
+          input.removeAttribute("required");
+          input.value = "";
+        }
+      }
+    }
+
+    atualizar(); // Estado inicial
+    select.addEventListener("change", atualizar);
+  });
+}
       }
     
       // Máscara de telefone
@@ -679,6 +719,7 @@
     
       // Iniciar funções
       atualizarCamposCondicionais();
+      atualizarCamposOutro();
       aplicarMascaraTelefone();
       configurarBotoes();
     });
