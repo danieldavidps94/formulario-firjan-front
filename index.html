@@ -584,14 +584,32 @@
           </div>          
 
           <div>
-            <label for="especialista_designado" class="block text-sm font-medium">Há especialista(s) designado(s) para desenvolver conteúdos do projeto? Se sim, especifique:</label>
-            <textarea id="especialista_designado" name="especialista_designado" rows="2" required class="textarea"></textarea>
-          </div>
+            <label for="campo12">Há especialista(s) designado(s) para desenvolver conteúdos do projeto? Se sim, especifique:</label>
+            <select name="campo12" id="campo12" class="condicional-sim-nao" data-target="campo12-extra" required>
+             <option value="">Selecione</option>
+             <option value="sim">Sim</option>
+             <option value="nao">Não</option>
+            </select>
+           </div>
+ 
+           <div class="campo-extra" data-condicional="campo12-extra" style="display: none; margin-top: 10px;">
+             <label>Especifique:</label>
+             <textarea name="campo12_motivo" rows="3"></textarea>
+           </div>
 
-          <div>
-            <label for="frequencia_atualizacao" class="block text-sm font-medium">Há previsão de frequência de atualização do material a ser desenvolvido? Se sim, especifique:</label>
-            <textarea id="frequencia_atualizacao" name="frequencia_atualizacao" rows="2" required class="textarea"></textarea>
-          </div>
+           <div>
+            <label for="campo13">Há previsão de frequência de atualização do material a ser desenvolvido? Se sim, especifique:</label>
+            <select name="campo13" id="campo13" class="condicional-sim-nao" data-target="campo13-extra" required>
+             <option value="">Selecione</option>
+             <option value="sim">Sim</option>
+             <option value="nao">Não</option>
+            </select>
+           </div>
+ 
+           <div class="campo-extra" data-condicional="campo13-extra" style="display: none; margin-top: 10px;">
+             <label>Especifique:</label>
+             <textarea name="campo13_motivo" rows="3"></textarea>
+           </div>
 
           <div>
             <label for="infos_adicionais" class="block text-sm font-medium">Informações Adicionais:</label>
