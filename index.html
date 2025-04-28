@@ -860,10 +860,21 @@
         }
       }
     
-      // Função simples para envio do formulário
+      // Função para gerar PDF do formulário usando html2canvas + jsPDF
       function enviarFormulario() {
-        alert("Formulário enviado com sucesso!");
-        // Aqui você pode colocar o que quiser: enviar por fetch, etc.
+        const form = document.getElementById("formularioFirjan");
+    
+        html2canvas(form).then(canvas => {
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+    
+          const imgProps = pdf.getImageProperties(imgData);
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    
+          pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+          pdf.save('formulario-firjan.pdf');
+        });
       }
     
       // Configurar botões de navegação
@@ -891,6 +902,7 @@
       configurarBotoes();
     });
     </script>
+    
   
 </body>
 </html>
