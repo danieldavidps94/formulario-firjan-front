@@ -860,11 +860,11 @@
         }
       }
     
-      // Função para gerar PDF do formulário usando html2canvas + jsPDF
-      function enviarFormulario() {
+      // Função FINAL para gerar o PDF e enviar ao backend (Render)
+      async function enviarFormulario() {
         const form = document.getElementById("formularioFirjan");
     
-        html2canvas(form).then(canvas => {
+        html2canvas(form).then(async canvas => {
           const imgData = canvas.toDataURL("image/png");
           const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
     
@@ -873,7 +873,27 @@
           const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
     
           pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-          pdf.save('formulario-firjan.pdf');
+    
+          const pdfBlob = pdf.output('blob');
+    
+          const formData = new FormData();
+          formData.append('file', pdfBlob, `formulario-firjan-${Date.now()}.pdf`);
+    
+          try {
+            const response = await fetch('https://firjan-form-api.onrender.com', {
+              method: 'POST',
+              body: formData
+            });
+    
+            if (response.ok) {
+              alert('Formulário enviado e salvo no GitHub com sucesso!');
+            } else {
+              alert('Erro ao enviar o formulário para o servidor.');
+            }
+          } catch (error) {
+            console.error('Erro no envio:', error);
+            alert('Erro ao conectar ao servidor.');
+          }
         });
       }
     
@@ -895,13 +915,14 @@
         });
       }
     
-      // Iniciar todas as funções
+      // Inicializar funções
       atualizarCamposCondicionais();
       atualizarCamposOutro();
       aplicarMascaraTelefone();
       configurarBotoes();
     });
     </script>
+    
     
   
 </body>
