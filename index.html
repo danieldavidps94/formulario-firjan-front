@@ -652,8 +652,9 @@
           atualizar(); // Atualiza já no carregamento
           select.addEventListener("change", atualizar);
         });
-
-        function atualizarCamposOutro() {
+      }
+    
+      function atualizarCamposOutro() {
            const camposOutro = document.querySelectorAll('.condicional-outro');
 
           camposOutro.forEach(select => {
@@ -680,8 +681,7 @@
     select.addEventListener("change", atualizar);
   });
 }
-      }
-    
+
       // Máscara de telefone
       function aplicarMascaraTelefone() {
         const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
