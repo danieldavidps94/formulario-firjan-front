@@ -441,19 +441,46 @@
           </div>          
         
           <div>
-            <label for="acao_previa" class="block text-sm font-medium">Já foi realizada alguma ação relativa à demanda? Se sim, especificar tipo, modalidade de ensino e carga horária.</label>
-            <textarea id="acao_previa" name="acao_previa" rows="2" required class="textarea"></textarea>
-          </div>
+            <label for="campo7">Já foi realizada alguma ação relativa à demanda? Se sim, especificar tipo, modalidade de ensino e carga horária.</label>
+            <select name="campo7" id="campo7" class="condicional-sim-nao" data-target="campo7-extra" required>
+             <option value="">Selecione</option>
+             <option value="sim">Sim</option>
+             <option value="nao">Não</option>
+            </select>
+           </div>
+ 
+           <div class="campo-extra" data-condicional="campo7-extra" style="display: none; margin-top: 10px;">
+             <label>Especifique:</label>
+             <textarea name="campo7_motivo" rows="3"></textarea>
+           </div>
+
+           <div>
+            <label for="campo8">Há expectativa em relação ao prazo para desenvolvimento? Se sim, especificar.</label>
+            <select name="campo8" id="campo8" class="condicional-sim-nao" data-target="campo8-extra" required>
+             <option value="">Selecione</option>
+             <option value="sim">Sim</option>
+             <option value="nao">Não</option>
+            </select>
+           </div>
+ 
+           <div class="campo-extra" data-condicional="campo8-extra" style="display: none; margin-top: 10px;">
+             <label>Especifique:</label>
+             <textarea name="campo8_motivo" rows="3"></textarea>
+           </div>
         
-          <div>
-            <label for="prazo_desenvolvimento" class="block text-sm font-medium">Há expectativa em relação ao prazo para desenvolvimento? Se sim, especificar.</label>
-            <textarea id="prazo_desenvolvimento" name="prazo_desenvolvimento" rows="2" required class="textarea"></textarea>
-          </div>
-        
-          <div>
-            <label for="carga_horaria_prevista" class="block text-sm font-medium">Há carga horária prevista? Se sim, especificar.</label>
-            <textarea id="carga_horaria_prevista" name="carga_horaria_prevista" rows="2" required class="textarea"></textarea>
-          </div>
+           <div>
+            <label for="campo9">Há carga horária prevista? Se sim, especificar.</label>
+            <select name="campo9" id="campo9" class="condicional-sim-nao" data-target="campo9-extra" required>
+             <option value="">Selecione</option>
+             <option value="sim">Sim</option>
+             <option value="nao">Não</option>
+            </select>
+           </div>
+ 
+           <div class="campo-extra" data-condicional="campo9-extra" style="display: none; margin-top: 10px;">
+             <label>Especifique:</label>
+             <textarea name="campo9_motivo" rows="3"></textarea>
+           </div>
 
           <h2>Público-Alvo</h2>
 
