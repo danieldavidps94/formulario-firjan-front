@@ -699,7 +699,7 @@
         camposCondicionais.forEach(select => {
           const targetSelector = select.dataset.target;
           const target = document.querySelector(`[data-condicional="${targetSelector}"]`);
-          if (!target) return; // Se não achar o target, ignora
+          if (!target) return;
     
           function atualizar() {
             if (select.value === "sim") {
