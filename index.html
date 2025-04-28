@@ -520,9 +520,18 @@
           </div>
 
           <div>
-            <label for="pre_requisito_participacao" class="block text-sm font-medium">Existem pré-requisitos para participação? Se sim, especifique:</label>
-            <textarea id="pre_requisito_participacao" name="pre_requisito_participacao" rows="2" required class="textarea"></textarea>
-          </div>
+            <label for="campo10">Existem pré-requisitos para participação? Se sim, especifique:</label>
+            <select name="campo10" id="campo10" class="condicional-sim-nao" data-target="campo10-extra" required>
+             <option value="">Selecione</option>
+             <option value="sim">Sim</option>
+             <option value="nao">Não</option>
+            </select>
+           </div>
+ 
+           <div class="campo-extra" data-condicional="campo10-extra" style="display: none; margin-top: 10px;">
+             <label>Especifique:</label>
+             <textarea name="campo10_motivo" rows="3"></textarea>
+           </div>
 
           <div>
             <label for="resultados_esperados" class="block text-sm font-medium">Informe os resultados esperados para o público após finalização do projeto:</label>
@@ -555,11 +564,24 @@
             <label for="quantidade_paginas" class="block text-sm font-medium">Indique a quantidade de páginas/laudas previstas (considerar o somatório de todos os conteúdos):</label>
             <textarea id="quantidade_paginas" name="quantidade_paginas" rows="2" required class="textarea"></textarea>
           </div>
-
+          
           <div>
-            <label for="natureza_conteudos" class="block text-sm font-medium">Indique a natureza do(s) conteúdo(s):</label>
-            <textarea id="natureza_conteudos" name="natureza_conteudos" rows="2" required class="textarea"></textarea>
+            <label for="campo11">Indique a natureza do(s) conteúdo(s):</label>
+            <select name="campo11" id="campo11" class="condicional-outro" data-target="campo11-extra" required>
+              <option value="">Selecione</option>
+              <option value="online">Conceitual</option>
+              <option value="presencial">Comportamental</option>
+              <option value="atualizacao">Procedimental</option>
+              <option value="formacao">Ferramental</option>
+              <option value="formacao">Técnico</option>
+              <option value="outro-especificar">Outro (especificar)</option>
+            </select>
           </div>
+          
+          <div class="campo-extra" data-condicional="campo11-extra" style="display: none; margin-top: 10px;">
+            <label>Especifique:</label>
+            <input type="text" name="campo11_outro" />
+          </div>          
 
           <div>
             <label for="especialista_designado" class="block text-sm font-medium">Há especialista(s) designado(s) para desenvolver conteúdos do projeto? Se sim, especifique:</label>
