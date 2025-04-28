@@ -408,6 +408,19 @@
         
           <p></p>
 
+          <label for="campo3">A demanda é pré-requisito para outro projeto? Se sim, especificar.</label>
+          <select name="campo3" id="campo3" class="condicional-sim-nao" data-target="campo3-extra" required>
+            <option value="">Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+          
+          <div id="campo3-extra" class="campo-extra" style="display: none; margin-top: 10px;">
+            <label>Especifique:</label>
+            <textarea name="campo3_motivo" rows="3"></textarea>
+          </div>
+
+
           <div>
            <label for="campo5">Todas as soluções indicadas deverão ser hospedadas em LMS?</label>
            <select name="campo5" id="campo5" class="condicional-sim-nao" data-target="campo5-extra" required>
