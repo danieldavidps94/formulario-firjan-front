@@ -730,7 +730,7 @@
             }
           }
     
-          atualizar(); // Atualizar ao carregar
+          atualizar();
           select.addEventListener("change", atualizar);
         });
       }
@@ -759,7 +759,7 @@
             }
           }
     
-          atualizar(); // Atualizar ao carregar
+          atualizar();
           select.addEventListener("change", atualizar);
         });
       }
@@ -848,6 +848,24 @@
         return valido;
       }
     
+      // Função para mostrar página (1 ou 2)
+      function mostrarPagina(numero) {
+        const paginas = document.querySelectorAll(".form-page");
+        paginas.forEach(pagina => pagina.classList.remove("active"));
+    
+        const paginaAtiva = document.getElementById(`pagina${numero}`);
+        if (paginaAtiva) {
+          paginaAtiva.classList.add("active");
+          window.scrollTo(0, 0);
+        }
+      }
+    
+      // Função simples para envio do formulário
+      function enviarFormulario() {
+        alert("Formulário enviado com sucesso!");
+        // Aqui você pode colocar o que quiser: enviar por fetch, etc.
+      }
+    
       // Configurar botões de navegação
       function configurarBotoes() {
         document.getElementById("btnProximo").addEventListener("click", () => {
@@ -873,7 +891,6 @@
       configurarBotoes();
     });
     </script>
-    
   
 </body>
 </html>
