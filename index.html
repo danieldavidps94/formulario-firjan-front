@@ -408,9 +408,16 @@
         
           <p></p>
 
-          <div>
-            <label for="lms_necessario" class="block text-sm font-medium">Todas as soluções indicadas deverão ser hospedadas em LMS? Qual?</label>
-            <input type="text" id="lms_necessario" name="lms_necessario" required class="input" />
+          <label for="campo5">Todas as soluções indicadas deverão ser hospedadas em LMS?</label>
+          <select name="campo5" id="campo5" class="condicional-sim-nao" data-target="campo5-extra" required>
+            <option value="">Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+          
+          <div id="campo5-extra" class="campo-extra" style="display: none; margin-top: 10px;">
+            <label>Qual?</label>
+            <textarea name="campo5_motivo" rows="3"></textarea>
           </div>
         
           <div>
