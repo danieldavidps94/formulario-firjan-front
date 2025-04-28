@@ -628,8 +628,23 @@
       <div class="form-page" id="pagina2">
         <h2>Informações Gerais</h2>
 
-        <label>Existe manual da arca para compartilhar?</label>
-        <input type="text" name="manual_marca" required>
+        <div>
+          <label for="manual_marca">Existe manual da arca para compartilhar?</label>
+          <select name="manual_marca" id="manual_marca" class="condicional-sim-nao" data-target="manual_marca" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+        </div>
+
+        <div>
+          <label for="identida_visual">Existe identidade visual para compartilhar?</label>
+          <select name="identida_visual" id="identida_visual" class="condicional-sim-nao" data-target="identida_visual" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+        </div>
 
         <label>Existe identidade visual para compartilhar?</label>
         <input type="text" name="identidade_visual" required>
