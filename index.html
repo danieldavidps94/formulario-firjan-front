@@ -705,7 +705,8 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Função para atualizar visibilidade de campos condicionais
+    
+      // Atualizar visibilidade de campos SIM/NÃO
       function atualizarCamposCondicionais() {
         const camposCondicionais = document.querySelectorAll('.condicional-sim-nao');
     
@@ -729,39 +730,40 @@
             }
           }
     
-          atualizar(); // Atualiza já no carregamento
+          atualizar(); // Atualizar ao carregar
           select.addEventListener("change", atualizar);
         });
       }
     
+      // Atualizar campos "Outro (especificar)"
       function atualizarCamposOutro() {
-           const camposOutro = document.querySelectorAll('.condicional-outro');
-
-          camposOutro.forEach(select => {
+        const camposOutro = document.querySelectorAll('.condicional-outro');
+    
+        camposOutro.forEach(select => {
           const targetSelector = select.dataset.target;
           const target = document.querySelector(`[data-condicional="${targetSelector}"]`);
           if (!target) return;
-
-         function atualizar() {
-          if (select.value === "outro-especificar") {
-           target.style.display = "block";
-           const input = target.querySelector("input, textarea");
-         if (input) input.setAttribute("required", "required");
-          } else {
-          target.style.display = "none";
-          const input = target.querySelector("input, textarea");
-          if (input) {
-          input.removeAttribute("required");
-          input.value = "";
-        }
+    
+          function atualizar() {
+            if (select.value === "outro-especificar") {
+              target.style.display = "block";
+              const input = target.querySelector("input, textarea");
+              if (input) input.setAttribute("required", "required");
+            } else {
+              target.style.display = "none";
+              const input = target.querySelector("input, textarea");
+              if (input) {
+                input.removeAttribute("required");
+                input.value = "";
+              }
+            }
+          }
+    
+          atualizar(); // Atualizar ao carregar
+          select.addEventListener("change", atualizar);
+        });
       }
-    }
-
-    atualizar(); // Estado inicial
-    select.addEventListener("change", atualizar);
-  });
-}
-
+    
       // Máscara de telefone
       function aplicarMascaraTelefone() {
         const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
@@ -779,7 +781,74 @@
         });
       }
     
-      // Controle de navegação entre páginas
+      // Funções de erro de formulário
+      function limparErros() {
+        document.querySelectorAll(".mensagem-erro").forEach(el => el.remove());
+      }
+    
+      function limparErroCampo(campo) {
+        const proximo = campo.nextElementSibling;
+        if (proximo && proximo.classList.contains("mensagem-erro")) {
+          proximo.remove();
+        }
+      }
+    
+      function exibirErro(campo, mensagem) {
+        const erro = document.createElement("div");
+        erro.className = "mensagem-erro";
+        erro.textContent = mensagem;
+        campo.insertAdjacentElement("afterend", erro);
+      }
+    
+      // Validação de campos obrigatórios
+      function validarCamposPagina(paginaId) {
+        const pagina = document.getElementById(paginaId);
+        const campos = pagina.querySelectorAll("input[required], textarea[required], select[required]");
+        let valido = true;
+        let primeiroCampoInvalido = null;
+    
+        limparErros();
+    
+        campos.forEach(campo => {
+          limparErroCampo(campo);
+    
+          const containerCampo = campo.closest('.campo-extra') || campo;
+          const style = window.getComputedStyle(containerCampo);
+          const estaVisivel = style.display !== "none" && style.visibility !== "hidden";
+    
+          if (!campo.value.trim() && estaVisivel) {
+            exibirErro(campo, "⚠️ Campo obrigatório");
+            if (!primeiroCampoInvalido) primeiroCampoInvalido = campo;
+            valido = false;
+          }
+        });
+    
+        // Validação dos checkboxes (somente na página 1)
+        if (paginaId === "pagina1") {
+          const checkboxes = pagina.querySelectorAll('input[name="tipo_solucao[]"]');
+          const algumMarcado = Array.from(checkboxes).some(cb => cb.checked);
+    
+          if (!algumMarcado) {
+            const container = checkboxes[checkboxes.length - 1].closest('.checkbox-wrapper');
+            const erro = document.createElement("div");
+            erro.className = "mensagem-erro";
+            erro.textContent = "⚠️ Marque pelo menos uma opção.";
+            container.appendChild(erro);
+            if (!primeiroCampoInvalido) primeiroCampoInvalido = checkboxes[0];
+            valido = false;
+          }
+        }
+    
+        if (!valido && primeiroCampoInvalido) {
+          const paginaNumero = paginaId === "pagina1" ? 1 : 2;
+          mostrarPagina(paginaNumero);
+          primeiroCampoInvalido.focus();
+        }
+    
+        return valido;
+      }
+    
+      // Configurar botões de navegação
       function configurarBotoes() {
         document.getElementById("btnProximo").addEventListener("click", () => {
           limparErros();
@@ -797,7 +866,7 @@
         });
       }
     
-      // Iniciar funções
+      // Iniciar todas as funções
       atualizarCamposCondicionais();
       atualizarCamposOutro();
       aplicarMascaraTelefone();
