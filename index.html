@@ -3,6 +3,7 @@
 <head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://unpkg.com/html2pdf.js@0.9.3/dist/html2pdf.bundle.min.js"></script>
   <meta charset="UTF-8">
   <title>Formulário de Levantamento de Necessidades de Capacitações - Firjan SENAI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -862,98 +863,96 @@
     
       // Função FINAL para gerar o PDF e enviar ao backend (Render)
       async function enviarFormulario() {
-        const btnEnviar = document.getElementById("btnEnviar");
-        btnEnviar.disabled = true;
-        btnEnviar.textContent = "Enviando...";
-        const form = document.querySelector(".form-container");
+  const btnEnviar = document.getElementById("btnEnviar");
+  btnEnviar.disabled = true;
+  btnEnviar.textContent = "Enviando...";
 
-        try {
-          const canvas = await html2canvas(form, {
-            scale: 1,
-            useCORS: true,
-            logging: true
-          });
+  try {
+    // Garante que todos os campos estejam visíveis para captura
+    mostrarPagina(1); // ou 2 se quiser capturar a segunda aba
+    document.querySelectorAll(".button-row").forEach(el => el.style.display = "none");
 
-          const imgData = canvas.toDataURL("image/png");
-          const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
-          const imgProps = pdf.getImageProperties(imgData);
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    // Aguarda layout estabilizar
+    await new Promise(resolve => setTimeout(resolve, 300));
 
-          let position = 0;
-          let pageHeight = pdf.internal.pageSize.getHeight();
+    const form = document.querySelector(".form-container");
 
-          if (pdfHeight <= pageHeight) {
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-          } else {
-            let remainingHeight = pdfHeight;
-            while (remainingHeight > 0) {
-              pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
-              remainingHeight -= pageHeight;
-              position -= pageHeight;
-              if (remainingHeight > 0) pdf.addPage();
-            }
-          }
+    // Configurações do PDF
+    const opt = {
+      margin: 10,
+      filename: 'formulario-firjan.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
 
-          const pdfBlob = pdf.output('blob');
-          const campos = new FormData(document.getElementById("formularioFirjan"));
-          const dados = {};
-          
-          campos.forEach((valor, chave) => {
-            if (dados[chave]) {
-              if (!Array.isArray(dados[chave])) dados[chave] = [dados[chave]];
-              dados[chave].push(valor);
-            } else {
-              dados[chave] = valor;
-            }
-          });
+    // Gera PDF como blob
+    const pdfBlob = await html2pdf().from(form).set(opt).outputPdf('blob');
 
-          const reader = new FileReader();
-          reader.readAsDataURL(pdfBlob);
-          
-          reader.onloadend = async () => {
-            const base64PDF = reader.result.split(',')[1];
-            dados.pdf_base64 = base64PDF;
+    // Coleta os dados do formulário
+    const campos = new FormData(document.getElementById("formularioFirjan"));
+    const dados = {};
 
-            try {
-              const controller = new AbortController();
-              const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-              const response = await fetch('https://firjan-form-api.onrender.com/api/enviar', {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
-                },
-                body: JSON.stringify(dados),
-                signal: controller.signal
-              });
-
-              clearTimeout(timeoutId);
-
-              if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Erro ao enviar formulário');
-              }
-
-              const result = await response.json();
-              alert('Formulário enviado com sucesso!');
-            } catch (error) {
-              console.error("Erro no envio:", error);
-              alert("Erro ao enviar: " + (error.message || 'Tempo excedido ou problema de conexão'));
-            } finally {
-              btnEnviar.disabled = false;
-              btnEnviar.textContent = "Enviar";
-            }
-          };
-        } catch (error) {
-          console.error("Erro ao gerar PDF:", error);
-          alert("Erro ao processar o formulário: " + error.message);
-          btnEnviar.disabled = false;
-          btnEnviar.textContent = "Enviar";
-        }
+    campos.forEach((valor, chave) => {
+      if (dados[chave]) {
+        if (!Array.isArray(dados[chave])) dados[chave] = [dados[chave]];
+        dados[chave].push(valor);
+      } else {
+        dados[chave] = valor;
       }
+    });
+
+    // Converte o blob do PDF em base64
+    const reader = new FileReader();
+    reader.readAsDataURL(pdfBlob);
+
+    reader.onloadend = async () => {
+      const base64PDF = reader.result.split(',')[1];
+      dados.pdf_base64 = base64PDF;
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // aumenta o tempo para 30s
+
+        const response = await fetch('https://firjan-form-api.onrender.com/api/enviar', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(dados),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Erro ao enviar formulário');
+        }
+
+        const result = await response.json();
+        alert('Formulário enviado com sucesso!');
+
+      } catch (error) {
+        console.error("Erro no envio:", error);
+        alert("Erro ao enviar: " + (error.message || 'Tempo excedido ou problema de conexão'));
+      } finally {
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = "Enviar";
+        document.querySelectorAll(".button-row").forEach(el => el.style.display = "flex");
+      }
+    };
+  } catch (error) {
+    console.error("Erro ao gerar PDF:", error);
+    alert("Erro ao processar o formulário: " + error.message);
+    btnEnviar.disabled = false;
+    btnEnviar.textContent = "Enviar";
+    document.querySelectorAll(".button-row").forEach(el => el.style.display = "flex");
+  }
+}
+
     
       // Configurar botões de navegação
       function configurarBotoes() {
