@@ -938,7 +938,7 @@
               }
 
               const result = await response.json();
-              alert('Formulário enviado com sucesso! ID: ' + (result.id || ''));
+              alert('Formulário enviado com sucesso!');
             } catch (error) {
               console.error("Erro no envio:", error);
               alert("Erro ao enviar: " + (error.message || 'Tempo excedido ou problema de conexão'));
