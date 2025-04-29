@@ -695,7 +695,7 @@
         </div>
 
         <div class="button-row">
-          <button type="button" onclick="mostrarPagina(1)">Voltar</button>
+          <button type="button" id="btnVoltar">Voltar</button>
           <button type="button" id="btnEnviar">Enviar</button>
         </div>
       </div>
@@ -850,15 +850,15 @@
     
       // Função para mostrar página (1 ou 2)
       function mostrarPagina(numero) {
-        const paginas = document.querySelectorAll(".form-page");
+       const paginas = document.querySelectorAll(".form-page");
         paginas.forEach(pagina => pagina.classList.remove("active"));
-    
+
         const paginaAtiva = document.getElementById(`pagina${numero}`);
         if (paginaAtiva) {
-          paginaAtiva.classList.add("active");
-          window.scrollTo(0, 0);
-        }
-      }
+        paginaAtiva.classList.add("active");
+        window.scrollTo(0, 0);
+       }
+      }   
     
       // Função FINAL para gerar o PDF e enviar ao backend (Render)
       async function enviarFormulario() {
@@ -917,10 +917,14 @@
       dados.pdf_base64 = base64PDF;
 
       const response = await fetch('https://firjan-form-api.onrender.com/api/enviar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados)
-      });
+  method: 'POST',
+  mode: 'cors',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  },
+  body: JSON.stringify(dados)
+});
 
       if (response.ok) {
         alert('Formulário enviado e salvo no GitHub com sucesso!');
@@ -938,21 +942,25 @@
     
       // Configurar botões de navegação
       function configurarBotoes() {
-        document.getElementById("btnProximo").addEventListener("click", () => {
-          limparErros();
-          const valido = validarCamposPagina("pagina1");
-          if (valido) mostrarPagina(2);
-        });
-    
-        document.getElementById("btnEnviar").addEventListener("click", () => {
-          limparErros();
-          const valido1 = validarCamposPagina("pagina1");
-          const valido2 = validarCamposPagina("pagina2");
-          if (valido1 && valido2) {
-            enviarFormulario();
-          }
-        });
-      }
+  document.getElementById("btnProximo").addEventListener("click", () => {
+    limparErros();
+    const valido = validarCamposPagina("pagina1");
+    if (valido) mostrarPagina(2);
+  });
+
+  document.getElementById("btnVoltar").addEventListener("click", () => {
+    mostrarPagina(1);
+  });
+
+  document.getElementById("btnEnviar").addEventListener("click", () => {
+    limparErros();
+    const valido1 = validarCamposPagina("pagina1");
+    const valido2 = validarCamposPagina("pagina2");
+    if (valido1 && valido2) {
+      enviarFormulario();
+    }
+  });
+}
     
       // Inicializar funções
       atualizarCamposCondicionais();
