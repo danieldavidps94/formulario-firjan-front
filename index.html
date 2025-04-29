@@ -862,83 +862,98 @@
     
       // Função FINAL para gerar o PDF e enviar ao backend (Render)
       async function enviarFormulario() {
-  const form = document.querySelector(".form-container");
+        const btnEnviar = document.getElementById("btnEnviar");
+        btnEnviar.disabled = true;
+        btnEnviar.textContent = "Enviando...";
+        const form = document.querySelector(".form-container");
 
-  try {
-    // Captura da tela do formulário com html2canvas
-    const canvas = await html2canvas(form, {
-      scale: 2, // melhora a qualidade da imagem
-      useCORS: true
-    });
+        try {
+          const canvas = await html2canvas(form, {
+            scale: 2,
+            useCORS: true,
+            logging: true
+          });
 
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+          const imgProps = pdf.getImageProperties(imgData);
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-    let position = 0;
-    let pageHeight = pdf.internal.pageSize.getHeight();
+          let position = 0;
+          let pageHeight = pdf.internal.pageSize.getHeight();
 
-    if (pdfHeight <= pageHeight) {
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    } else {
-      // Dividir imagem em várias páginas
-      let remainingHeight = pdfHeight;
+          if (pdfHeight <= pageHeight) {
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+          } else {
+            let remainingHeight = pdfHeight;
+            while (remainingHeight > 0) {
+              pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+              remainingHeight -= pageHeight;
+              position -= pageHeight;
+              if (remainingHeight > 0) pdf.addPage();
+            }
+          }
 
-      while (remainingHeight > 0) {
-        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
-        remainingHeight -= pageHeight;
-        position -= pageHeight;
+          const pdfBlob = pdf.output('blob');
+          const campos = new FormData(document.getElementById("formularioFirjan"));
+          const dados = {};
+          
+          campos.forEach((valor, chave) => {
+            if (dados[chave]) {
+              if (!Array.isArray(dados[chave])) dados[chave] = [dados[chave]];
+              dados[chave].push(valor);
+            } else {
+              dados[chave] = valor;
+            }
+          });
 
-        if (remainingHeight > 0) pdf.addPage();
+          const reader = new FileReader();
+          reader.readAsDataURL(pdfBlob);
+          
+          reader.onloadend = async () => {
+            const base64PDF = reader.result.split(',')[1];
+            dados.pdf_base64 = base64PDF;
+
+            try {
+              const controller = new AbortController();
+              const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+              const response = await fetch('https://firjan-form-api.onrender.com/api/enviar', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                },
+                body: JSON.stringify(dados),
+                signal: controller.signal
+              });
+
+              clearTimeout(timeoutId);
+
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Erro ao enviar formulário');
+              }
+
+              const result = await response.json();
+              alert('Formulário enviado com sucesso! ID: ' + (result.id || ''));
+            } catch (error) {
+              console.error("Erro no envio:", error);
+              alert("Erro ao enviar: " + (error.message || 'Tempo excedido ou problema de conexão'));
+            } finally {
+              btnEnviar.disabled = false;
+              btnEnviar.textContent = "Enviar";
+            }
+          };
+        } catch (error) {
+          console.error("Erro ao gerar PDF:", error);
+          alert("Erro ao processar o formulário: " + error.message);
+          btnEnviar.disabled = false;
+          btnEnviar.textContent = "Enviar";
+        }
       }
-    }
-
-    const pdfBlob = pdf.output('blob');
-
-    // Extrair dados do formulário para enviar como JSON
-    const campos = new FormData(document.getElementById("formularioFirjan"));
-    const dados = {};
-    campos.forEach((valor, chave) => {
-      if (dados[chave]) {
-        if (!Array.isArray(dados[chave])) dados[chave] = [dados[chave]];
-        dados[chave].push(valor);
-      } else {
-        dados[chave] = valor;
-      }
-    });
-
-    // Adiciona o PDF como base64
-    const reader = new FileReader();
-    reader.readAsDataURL(pdfBlob);
-    reader.onloadend = async () => {
-      const base64PDF = reader.result.split(',')[1];
-      dados.pdf_base64 = base64PDF;
-
-      const response = await fetch('https://firjan-form-api.onrender.com/api/enviar', {
-  method: 'POST',
-  mode: 'cors',
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
-  body: JSON.stringify(dados)
-});
-
-      if (response.ok) {
-        alert('Formulário enviado e salvo no GitHub com sucesso!');
-      } else {
-        const erro = await response.text();
-        alert('Erro ao enviar o formulário:\n' + erro);
-      }
-    };
-
-  } catch (error) {
-    console.error("Erro ao gerar PDF e enviar:", error);
-    alert("Erro ao processar o formulário.");
-  }
-}
     
       // Configurar botões de navegação
       function configurarBotoes() {
