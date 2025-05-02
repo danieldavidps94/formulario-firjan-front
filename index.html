@@ -983,121 +983,78 @@
   btnEnviar.disabled = true;
   btnEnviar.textContent = "Enviando...";
 
-  // Verifica se as bibliotecas estão disponíveis
-  if (typeof html2canvas === 'undefined' || typeof jspdf === 'undefined') {
-    alert('Erro: Bibliotecas necessárias não carregadas. Recarregue a página.');
-    btnEnviar.disabled = false;
-    btnEnviar.textContent = "Enviar";
-    return;
-  }
-
-  // Guarda estado atual e prepara para captura
-  const paginas = document.querySelectorAll(".form-page");
-  const botoes = document.querySelectorAll(".button-row");
-  const visiveisAntes = [];
-  
-  // Mostra todas as páginas temporariamente
-  paginas.forEach(pagina => {
-    visiveisAntes.push(pagina.classList.contains("active"));
-    pagina.classList.add("active");
+  // 1. Prepara a página para captura (mostra tudo)
+  const originalDisplay = [];
+  const elementsToShow = document.querySelectorAll('.form-page, .button-row');
+  elementsToShow.forEach(el => {
+    originalDisplay.push(el.style.display);
+    el.style.display = 'block'; // Força mostrar tudo
   });
-  botoes.forEach(el => el.style.display = "none");
 
   try {
-    // Aguarda renderização completa
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // 2. Ajustes específicos para melhor captura
+    document.body.style.overflow = 'hidden';
+    document.querySelector('.form-container').style.boxShadow = 'none';
+    
+    // 3. Aguarda renderização completa
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // 1. Captura como imagem
-    const form = document.querySelector(".form-container");
-    const canvas = await html2canvas(form, {
-      scale: 1,
+    // 4. Captura com html2canvas (configuração premium)
+    const canvas = await html2canvas(document.querySelector(".form-container"), {
+      scale: 2, // Aumenta a qualidade
       logging: false,
       useCORS: true,
       allowTaint: true,
-      scrollY: -window.scrollY // Evita problemas de scroll
-    });
-
-    // 2. Converte para PDF
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const imgData = canvas.toDataURL('image/jpeg', 0.95);
-    
-    const imgWidth = 190; // Largura útil em mm (deixando margens)
-    const pageHeight = 277; // Altura útil em mm
-    const imgHeight = canvas.height * imgWidth / canvas.width;
-    
-    let heightLeft = imgHeight;
-    let position = 10; // Margem superior
-    
-    pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-    
-    // Páginas adicionais se necessário
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight + 10;
-      pdf.addPage();
-      pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-    
-    const pdfBlob = pdf.output('blob');
-
-    // 3. Prepara dados do formulário
-    const campos = new FormData(document.getElementById("formularioFirjan"));
-    const dados = {};
-    
-    campos.forEach((valor, chave) => {
-      if (dados[chave]) {
-        if (!Array.isArray(dados[chave])) dados[chave] = [dados[chave]];
-        dados[chave].push(valor);
-      } else {
-        dados[chave] = valor;
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: document.querySelector('.form-container').scrollWidth,
+      windowHeight: document.querySelector('.form-container').scrollHeight,
+      ignoreElements: (element) => {
+        // Ignora elementos que não devem aparecer no PDF
+        return element.id === 'btnVoltar' || element.id === 'btnProximo';
       }
     });
 
-    // 4. Converte PDF para base64
-    const base64PDF = await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result.split(',')[1]);
-      reader.readAsDataURL(pdfBlob);
-    });
+    // 5. Cria PDF com jsPDF (formato A4)
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgData = canvas.toDataURL('image/png', 1.0);
+    
+    // Calcula dimensões mantendo proporção
+    const pdfWidth = pdf.internal.pageSize.getWidth() - 20; // Margens
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    
+    pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth, pdfHeight);
 
-    dados.pdf_base64 = base64PDF;
-
-    // 5. Envia para o backend
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
-
-    const response = await fetch('https://firjan-form-api.onrender.com/api/enviar', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(dados),
-      signal: controller.signal
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Erro no servidor');
+    // 6. Adiciona páginas extras se necessário
+    let heightLeft = pdfHeight;
+    let position = 10;
+    let pageHeight = pdf.internal.pageSize.getHeight() - 20;
+    
+    while (heightLeft >= pageHeight) {
+      position = heightLeft - pageHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 10, -position, pdfWidth, pdfHeight);
+      heightLeft -= pageHeight;
     }
 
-    alert('Formulário enviado com sucesso!');
-    
+    // 7. Gera o blob do PDF
+    const pdfBlob = pdf.output('blob');
+
+    // [Seu código de envio para o backend aqui...]
+
+    alert('PDF gerado com sucesso!');
+
   } catch (error) {
-    console.error("Erro no processo:", error);
-    alert("Erro ao enviar: " + (error.message || 'Verifique sua conexão'));
-    
+    console.error("Erro na geração do PDF:", error);
+    alert("Erro ao gerar PDF: " + error.message);
   } finally {
-    // Restaura estado original
-    paginas.forEach((pagina, i) => {
-      if (!visiveisAntes[i]) pagina.classList.remove("active");
+    // Restaura o estado original
+    elementsToShow.forEach((el, index) => {
+      el.style.display = originalDisplay[index];
     });
-    botoes.forEach(el => el.style.display = "flex");
-    
+    document.body.style.overflow = '';
+    document.querySelector('.form-container').style.boxShadow = '';
     btnEnviar.disabled = false;
     btnEnviar.textContent = "Enviar";
   }
