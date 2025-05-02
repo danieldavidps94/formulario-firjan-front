@@ -637,7 +637,7 @@
         </div>
 
         <div>
-          <label for="identidade_visual">Existe identidade visual para compartilhar?</label>
+          <label for="identidade_visual">Existe manual de identidade visual para compartilhar?</label>
           <select name="identidade_visual" id="identidade_visual" class="condicional-sim-nao" data-target="identidade_visual" required>
           <option value="">Selecione</option>
           <option value="sim">Sim</option>
@@ -645,18 +645,65 @@
         </select>
         </div>
 
+        <div>
+          <label for="identidade_verbal">Existe manual de identidade verbal para compartilhar?</label>
+          <select name="identidade_verbal" id="identidade_verbal" class="condicional-sim-nao" data-target="identidade_verbal" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+        </div>
 
-        <label>Existe identidade verbal para compartilhar?</label>
-        <input type="text" name="identidade_verbal" required>
+        <div>
+          <label for="identidade_sonora">Existe manual de identidade sonora para compartilhar?</label>
+          <select name="identidade_sonora" id="identidade_sonora" class="condicional-sim-nao" data-target="identidade_sonora" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+        </div>
 
-        <label>Existe alguma identidade visual extra a ser seguida? Se sim, especifique:</label>
-        <input type="text" name="identidade_sonora" required>
+        <div>
+          <label for="identidade_visual_extra">Existe alguma identidade visual extra a ser seguida? Se sim, especificar.</label>
+          <select name="identidade_visual_extra" id="identidade_visual_extra" class="condicional-sim-nao" data-target="identidade_visual_extra" required>
+           <option value="">Selecione</option>
+           <option value="sim">Sim</option>
+           <option value="nao">Não</option>
+          </select>
+         </div>
 
-        <label>Existem restrições quanto a cor, imagem, logomarca etc.? Se sim, especifique:</label>
-        <textarea name="identidade_visual_extra" required></textarea>
+         <div class="identidade_visual_extra" data-condicional="identidade_visual_extra" style="display: none; margin-top: 10px;">
+           <label>Especifique:</label>
+           <textarea name="identidade_visual_extra" rows="3"></textarea>
+         </div>
 
-        <label>É necessário contemplar personagem(ens)?  Informe características (Gênero, Idade, Etnia, Tipo e cor do cabelo e cor dos olhos):</label>
-        <textarea name="info_personagem1" required></textarea>
+         <div>
+          <label for="restricoes">Existem restrições quanto a cor, imagem, logomarca etc.? Se sim, especificar.</label>
+          <select name="restricoes" id="restricoes" class="condicional-sim-nao" data-target="restricoes" required>
+           <option value="">Selecione</option>
+           <option value="sim">Sim</option>
+           <option value="nao">Não</option>
+          </select>
+         </div>
+
+         <div class="campo-extra" data-condicional="restricoes" style="display: none; margin-top: 10px;">
+           <label>Especifique:</label>
+           <textarea name="restricoes" rows="3"></textarea>
+         </div>
+
+         <div>
+          <label for="info_personagem1">É necessário contemplar personagem(ens)?  Informar características (Gênero, Idade, Etnia, Tipo e cor do cabelo e cor dos olhos).</label>
+          <select name="info_personagem1" id="info_personagem1" class="condicional-sim-nao" data-target="info_personagem1" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+        </div>
+
+        <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
+          <label>Gênero(s)</label>
+          <textarea name="info_personagem1" rows="3"></textarea>
+        </div>
 
         <label>Quantidade de personagens:</label>
         <input type="text" name="qtd_personagens" required>
