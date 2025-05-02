@@ -238,7 +238,7 @@
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
-      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã - TESTE3</p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã</p>
     </div>
   </div>
 
@@ -664,7 +664,7 @@
         </div>
 
         <div>
-          <label for="identidade_visual_extra">Existe alguma identidade visual extra a ser seguida? Se sim, especificar.</label>
+          <label for="identidade_visual_extra">Existe alguma identidade visual extra a ser seguida? Se sim, especifique:</label>
           <select name="identidade_visual_extra" id="identidade_visual_extra" class="condicional-sim-nao" data-target="identidade_visual_extra" required>
            <option value="">Selecione</option>
            <option value="sim">Sim</option>
@@ -678,7 +678,7 @@
          </div>
 
          <div>
-          <label for="restricoes">Existem restrições quanto a cor, imagem, logomarca etc.? Se sim, especificar.</label>
+          <label for="restricoes">Existem restrições quanto a cor, imagem, logomarca etc.? Se sim, especifique:</label>
           <select name="restricoes" id="restricoes" class="condicional-sim-nao" data-target="restricoes" required>
            <option value="">Selecione</option>
            <option value="sim">Sim</option>
@@ -701,39 +701,114 @@
         </div>
 
         <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
-          <label>Gênero(s)</label>
+          <label>Gênero(s):</label>
           <textarea name="info_personagem1" rows="3"></textarea>
         </div>
 
-        <label>Quantidade de personagens:</label>
-        <input type="text" name="qtd_personagens" required>
+        <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
+          <label>Idade(s):</label>
+          <textarea name="info_personagem1" rows="3"></textarea>
+        </div>
 
-        <label>Estilo dos personagens:</label>
-        <input type="text" name="estilo_personagens" required>
+        <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
+          <label>Etnia(s):</label>
+          <textarea name="info_personagem1" rows="3"></textarea>
+        </div>
 
-        <label>Detalhe a vestimenta caaso sejam previstos personagens:</label>
-        <input type="text" name="vestimenta">
+        <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
+          <label>Tipo(s) e cor(es) do(s) cabelo(s):</label>
+          <textarea name="info_personagem1" rows="3"></textarea>
+        </div>
 
-        <label>Detalhe o cenário caso sejam previstos personagens:</label>
-        <textarea name="cenario_previsto" required></textarea>
+        <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
+          <label>Cor(es) dos olhos:</label>
+          <textarea name="info_personagem1" rows="3"></textarea>
+        </div>
 
-        <label>Cliente possui banco de imagens?</label>
-        <input type="text" name="banco_imagens" required>
+        <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
+          <label>Informe o número dos personagens:</label>
+          <textarea name="info_personagem1" rows="3"></textarea>
+        </div>
 
-        <label>É necessário contratar banco de imagens?</label>
-        <input type="text" name="contratar_banco_imagens" required>
+        <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
+          <label>Informe o estilo dos personagens:</label>
+          <textarea name="info_personagem1" rows="3"></textarea>
+        </div>
 
-        <label>É necessário contemplar legenda em determinadas soluções para atender pessoas com deficiência auditiva? Se sim, especifique:</label>
-        <textarea name="legenda_acessibilidade" required></textarea>
+        <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
+          <label>Detalhe a vestimenta dos personagens:</label>
+          <textarea name="info_personagem1" rows="3"></textarea>
+        </div>
 
-        <label>É necessário contemplar áudio nas soluções para atender pessoas com deficiência visual? Se sim, especifique:</label>
-        <textarea name="audio_acessibilidade" required></textarea>
+        <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
+          <label>Detalhar cenário caso sejam previstos personagens.</label>
+          <textarea name="info_personagem1" rows="3"></textarea>
+        </div>
 
-        <label>As soluções precisam ter design responsivo (layout que se adapta a qualquer tamanho de tela)?</label>
-        <input type="text" name="design_responsivo" required>
+        <div>
+          <label for="banco-imagem">O cliente possui banco de imagens?</label>
+          <select name="banco-imagem" id="banco-imagem" class="condicional-sim-nao" data-target="banco-imagem" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+        </div>
 
-        <label>É necessária a visualização das soluções no formato offline?</label>
-        <input type="text" name="visualizacao_offline" required>
+        <div>
+          <label for="banco-imagem2">É necessário contratar banco de imagens?</label>
+          <select name="banco-imagem2" id="banco-imagem2" class="condicional-sim-nao" data-target="banco-imagem2" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+        </div>
+
+        <div>
+          <label for="legenda-auditivo">É necessário contemplar legenda em determinadas soluções para atender pessoas com deficiência auditiva? Se sim, especifique:</label>
+          <select name="legenda-auditivo" id="legenda-auditivo" class="condicional-sim-nao" data-target="legenda-auditivo" required>
+           <option value="">Selecione</option>
+           <option value="sim">Sim</option>
+           <option value="nao">Não</option>
+          </select>
+         </div>
+
+         <div class="campo-extra" data-condicional="legenda-auditivo" style="display: none; margin-top: 10px;">
+           <label>Especifique:</label>
+           <textarea name="legenda-auditivo" rows="3"></textarea>
+         </div>
+
+         <div>
+          <label for="legenda-visual">É necessário contemplar áudio nas soluções para atender pessoas com deficiência visual? Se sim, especifique:</label>
+          <select name="legenda-visual" id="legenda-visual" class="condicional-sim-nao" data-target="legenda-visual" required>
+           <option value="">Selecione</option>
+           <option value="sim">Sim</option>
+           <option value="nao">Não</option>
+          </select>
+         </div>
+
+         <div class="campo-extra" data-condicional="legenda-visual" style="display: none; margin-top: 10px;">
+           <label>Especifique:</label>
+           <textarea name="legenda-visual" rows="3"></textarea>
+         </div>
+
+         <div>
+          <label for="design-responsivo">As soluções precisam ter design responsivo (layout que se adapta a qualquer tamanho de tela)?</label>
+          <select name="design-responsivo" id="design-responsivo" class="condicional-sim-nao" data-target="design-responsivo" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+        </div>
+
+        <div>
+          <label for="visualizacao-off">É necessária a visualização das soluções no formato offline?</label>
+          <select name="visualizacao-off" id="visualizacao-off" class="condicional-sim-nao" data-target="visualizacao-off" required>
+          <option value="">Selecione</option>
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select>
+        </div>
+
 
         <div>
           <label for="infos_adicionais2" class="block text-sm font-medium">Informações Adicionais:</label>
