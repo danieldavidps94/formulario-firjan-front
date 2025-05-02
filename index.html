@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Formulário de Levantamento de Necessidades de Capacitações - Firjan SENAI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/html2pdf.js@0.9.3/dist/html2pdf.bundle.min.js"></script>
   <style>
     :root {
       --azul-firjan: #0073e6;
@@ -238,7 +237,7 @@
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
-      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã -- TESTE FINAL ?</p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã</p>
     </div>
   </div>
 
@@ -977,47 +976,42 @@
     
       // Função FINAL para gerar o PDF e enviar ao backend (Render)
 
-    async function enviarFormulario() {
-    const btnEnviar = document.getElementById("btnEnviar");
-    btnEnviar.disabled = true;
-    btnEnviar.textContent = "Enviando...";
+      async function enviarFormulario() {
+  const btnEnviar = document.getElementById("btnEnviar");
+  btnEnviar.disabled = true;
+  btnEnviar.textContent = "Enviando...";
 
-    try {
-      // Mostra ambas as páginas temporariamente
-      const paginas = document.querySelectorAll(".form-page");
-      const botoes = document.querySelectorAll(".button-row");
-      const visiveisAntes = [];
+  // Declara aqui!
+  const paginas = document.querySelectorAll(".form-page");
+  const botoes = document.querySelectorAll(".button-row");
+  const visiveisAntes = [];
 
-      paginas.forEach(pagina => {
-        visiveisAntes.push(pagina.classList.contains("active"));
-        pagina.classList.add("active");
-      });
+  try {
+    paginas.forEach(pagina => {
+      visiveisAntes.push(pagina.classList.contains("active"));
+      pagina.classList.add("active");
+    });
+    botoes.forEach(el => el.style.display = "none");
 
-      botoes.forEach(el => el.style.display = "none");
+    await new Promise(resolve => setTimeout(resolve, 300));
 
-      // Aguarda layout estabilizar
-      await new Promise(resolve => setTimeout(resolve, 300));
+    const form = document.querySelector(".form-container");
 
-      const form = document.querySelector(".form-container");
+    const opt = {
+      margin: 10,
+      filename: 'formulario-firjan.pdf',
+      image: { type: 'jpeg', quality: 0.8 },
+      html2canvas: { scale: 1.5, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
 
-      const opt = {
-        margin: 10,
-        filename: 'formulario-firjan.pdf',
-        image: { type: 'jpeg', quality: 0.8 },
-        html2canvas: { scale: 1.5, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
+    const pdfBlob = await html2pdf().set(opt).from(form).outputPdf('blob');
 
-      // Gera o PDF como blob
-      const pdfBlob = await html2pdf().set(opt).from(form).outputPdf('blob');
-
-      // Restaura visibilidade original
-      paginas.forEach((pagina, i) => {
-        if (!visiveisAntes[i]) {
-          pagina.classList.remove("active");
-        }
-      });
-      botoes.forEach(el => el.style.display = "flex");
+    // Restaura estado anterior
+    paginas.forEach((pagina, i) => {
+      if (!visiveisAntes[i]) pagina.classList.remove("active");
+    });
+    botoes.forEach(el => el.style.display = "flex");
 
       // Coleta os dados do formulário
       const campos = new FormData(document.getElementById("formularioFirjan"));
@@ -1115,5 +1109,6 @@
     });
     </script>
     
+    <script src="https://unpkg.com/html2pdf.js@0.9.3/dist/html2pdf.bundle.min.js"></script>    
 </body>
 </html>
