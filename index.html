@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
   <meta charset="UTF-8">
   <title>Formulário de Levantamento de Necessidades de Capacitações - Firjan SENAI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -956,86 +956,42 @@
       }
   
       async function enviarFormulario() {
-        const btnEnviar = document.getElementById("btnEnviar");
-        btnEnviar.disabled = true;
-        btnEnviar.textContent = "Enviando...";
-  
-        const elements = document.querySelectorAll('.form-page, .button-row');
-        const originalStates = Array.from(elements).map(el => ({
-          element: el,
-          display: el.style.display,
-          visibility: el.style.visibility
-        }));
-  
-        elements.forEach(el => {
-          el.style.display = 'block';
-          el.style.visibility = 'visible';
-        });
-  
-        document.querySelectorAll('.form-page').forEach(page => page.classList.add('active'));
-  
-        try {
-          await new Promise(resolve => setTimeout(resolve, 1000));
-  
-          const options = {
-            scale: 2,
-            logging: false,
-            useCORS: true,
-            allowTaint: true,
-            scrollX: 0,
-            scrollY: 0,
-            windowWidth: document.documentElement.scrollWidth,
-            windowHeight: document.documentElement.scrollHeight,
-            backgroundColor: '#FFFFFF'
-          };
-  
-          const canvas = await html2canvas(document.querySelector(".form-container"), options);
-          const { jsPDF } = window.jspdf;
-          const pdf = new jsPDF('p', 'mm', 'a4');
-          const imgData = canvas.toDataURL('image/png', 1.0);
-  
-          const imgWidth = 190;
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-          pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-  
-          const pdfBlob = pdf.output('blob');
-          const base64PDF = await new Promise(resolve => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.readAsDataURL(pdfBlob);
-          });
-  
-          const form = document.getElementById("formularioFirjan");
-          const formData = new FormData(form);
-          const dados = Object.fromEntries(formData.entries());
-          dados.tipo_solucao = formData.getAll('tipo_solucao[]');
-          dados.pdf_base64 = base64PDF;
-  
-          const response = await fetch('https://firjan-form-api.onrender.com/api/enviar', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados)
-          });
-  
-          if (!response.ok) throw new Error('Erro no envio para o servidor');
-  
-          alert('✅ Formulário enviado com sucesso!');
-        } catch (error) {
-          console.error('Erro ao enviar formulário:', error);
-          alert('❌ Falha ao enviar: ' + error.message);
-        } finally {
-          originalStates.forEach(({ element, display, visibility }) => {
-            element.style.display = display;
-            element.style.visibility = visibility;
-          });
-  
-          document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
-          document.getElementById('pagina2').classList.add('active');
-  
-          btnEnviar.disabled = false;
-          btnEnviar.textContent = "Enviar";
-        }
-      }
+  const btnEnviar = document.getElementById("btnEnviar");
+  btnEnviar.disabled = true;
+  btnEnviar.textContent = "Enviando...";
+
+  try {
+    const form = document.getElementById("formularioFirjan");
+    const formData = new FormData(form);
+    const dados = Object.fromEntries(formData.entries());
+    
+    // Tratar checkboxes
+    dados.tipo_solucao = formData.getAll('tipo_solucao[]');
+    
+    // Enviar dados diretamente para o servidor
+    const response = await fetch('/enviar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dados)
+    });
+
+    if (!response.ok) throw new Error('Erro no envio');
+    
+    const result = await response.json();
+    if (result.success) {
+      alert('✅ Formulário enviado com sucesso!');
+      form.reset();
+    } else {
+      throw new Error(result.message || 'Erro no servidor');
+    }
+  } catch (error) {
+    console.error('Erro:', error);
+    alert('❌ Falha ao enviar: ' + error.message);
+  } finally {
+    btnEnviar.disabled = false;
+    btnEnviar.textContent = "Enviar";
+  }
+}
   
       function configurarBotoes() {
         const btnProximo = document.getElementById("btnProximo");
