@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
   <meta charset="UTF-8">
@@ -976,21 +977,31 @@
     });
 
     if (!response.ok) throw new Error('Erro no envio');
-    
-    const result = await response.json();
-    if (result.success) {
-      alert('✅ Formulário enviado com sucesso!');
-      form.reset();
-    } else {
-      throw new Error(result.message || 'Erro no servidor');
-    }
-  } catch (error) {
-    console.error('Erro:', error);
-    alert('❌ Falha ao enviar: ' + error.message);
-  } finally {
-    btnEnviar.disabled = false;
-    btnEnviar.textContent = "Enviar";
-  }
+
+const result = await response.json();
+if (result.success) {
+  Swal.fire({
+    icon: 'success',
+    title: '✅ Formulário enviado com sucesso!',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+  });
+  form.reset();
+} else {
+  throw new Error(result.message || 'Erro no servidor');
+}
+} catch (error) {
+  console.error('Erro:', error);
+  Swal.fire({
+    icon: 'error',
+    title: '❌ Falha ao enviar',
+    text: error.message,
+  });
+} finally {
+  btnEnviar.disabled = false;
+  btnEnviar.textContent = "Enviar";
+}
 }
   
       function configurarBotoes() {
