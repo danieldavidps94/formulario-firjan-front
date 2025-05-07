@@ -246,6 +246,7 @@
   
 </head>
 <body>
+
   <div class="firjan-cabecalho">
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
@@ -254,7 +255,17 @@
     </div>
   </div>
 
-  <div class="form-container">
+<!-- Tela de login -->
+<div id="login-container" style="display: flex; flex-direction: column; gap: 10px; width: 300px; margin: 50px auto;">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Usuário" required />
+  <input type="password" id="password" placeholder="Senha" required />
+  <button onclick="handleLogin()">Entrar</button>
+  <p id="login-error" style="color: red;"></p>
+</div>
+
+
+  <div class="form-container" style="display: none;">
     <form id="formularioFirjan">
 
        <!-- Formulário 1 -->
@@ -831,6 +842,32 @@
   </div>
 
   <script>
+    
+ // Função de login simples
+ function handleLogin() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      fetch('https://SEU_BACKEND.render.com/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, password: pass })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById("login-container").style.display = "none";
+          document.getElementById("form-container").style.display = "block";
+        } else {
+          document.getElementById("login-error").innerText = "Usuário ou senha inválidos.";
+        }
+      })
+      .catch(() => {
+        document.getElementById("login-error").innerText = "Erro ao conectar com o servidor.";
+      });
+    }
+
+
     document.addEventListener("DOMContentLoaded", function () {
       function atualizarCamposCondicionais() {
         const camposCondicionais = document.querySelectorAll('.condicional-sim-nao');
