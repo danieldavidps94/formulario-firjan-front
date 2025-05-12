@@ -968,57 +968,62 @@
       }
     }
 
-    function configurarBotoes() {
-      document.getElementById('btnProximo').addEventListener('click', () => {
-        if (validarCamposPagina('pagina1')) mostrarPagina(2);
+     function configurarBotoes() {
+      document.getElementById('btnProximo')
+        .addEventListener('click', () => { if (validarCamposPagina('pagina1')) mostrarPagina(2); });
+      document.getElementById('btnVoltar')
+        .addEventListener('click', () => mostrarPagina(1));
+      const btnEnviar = document.getElementById('btnEnviar');
+      btnEnviar.addEventListener('click', async e => {
+        e.preventDefault();
+        if (!validarCamposPagina('pagina1') || !validarCamposPagina('pagina2')) {
+          Swal.fire({ icon: 'error', title: 'Preencha todos os campos obrigatórios.' });
+          return;
+        }
+        btnEnviar.disabled = true;
+        btnEnviar.textContent = 'Enviando...';
+        try {
+          const form = document.getElementById("formularioFirjan");
+          const data = new FormData(form);
+          const obj = Object.fromEntries(data.entries());
+          obj.tipo_solucao = data.getAll("tipo_solucao[]");
+
+          const element = document.getElementById('form-container');
+          const opt = {
+            margin: 10,
+            filename: `formulario-${Date.now()}.pdf`,
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "pt", format: "a4", orientation: "portrait" }
+          };
+          const dataUri = await html2pdf().from(element).set(opt).output('datauristring');
+          const base64 = dataUri.split(',')[1];
+
+          const res = await fetch("https://firjan-form-api.onrender.com/enviar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...obj, pdfBase64: base64, filename: opt.filename })
+          });
+          const result = await res.json();
+
+          if (result.success) {
+            Swal.fire({ icon: "success", title: "✅ Enviado!" });
+            form.reset();
+            mostrarPágina(1);
+          } else {
+            throw new Error(result.message);
+          }
+        } catch (err) {
+          console.error(err);
+          Swal.fire({ icon: "error", title: "Erro", text: err.message || "Falha ao gerar/enviar PDF." });
+        } finally {
+          btnEnviar.disabled = false;
+          btnEnviar.textContent = 'Enviar';
+        }
       });
-      document.getElementById('btnVoltar').addEventListener('click', () => mostrarPagina(1));
-      document.getElementById('btnEnviar').addEventListener('click', () => {
-        if (validarCamposPagina('pagina1') && validarCamposPagina('pagina2')) enviarFormulario();
-      });
+
       atualizarCamposCondicionais();
       atualizarCamposOutro();
       aplicarMascaraTelefone();
-    }
-
-    async function enviarFormulario() {
-      const btn = document.getElementById("btnEnviar");
-      btn.disabled = true;
-      btn.textContent = "Enviando...";
-
-      const form = document.getElementById("formularioFirjan");
-      const data = new FormData(form);
-      const obj = Object.fromEntries(data.entries());
-      obj.tipo_solucao = data.getAll("tipo_solucao[]");
-
-      const opt = {
-        margin: 10,
-        filename: `formulario-${Date.now()}.pdf`,
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "pt", format: "a4", orientation: "portrait" }
-      };
-
-      const blob = await html2pdf().from(document.body).set(opt).outputPdf("blob");
-      const buf = await blob.arrayBuffer();
-      const b64 = btoa(String.fromCharCode(...new Uint8Array(buf)));
-
-      const res = await fetch("https://firjan-form-api.onrender.com/enviar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...obj, pdfBase64: b64, filename: opt.filename })
-      });
-      const result = await res.json();
-
-      if (result.success) {
-        Swal.fire({ icon: "success", title: "✅ Enviado!" });
-        form.reset();
-        mostrarPagina(1);
-      } else {
-        Swal.fire({ icon: "error", title: "Erro", text: result.message });
-      }
-
-      btn.disabled = false;
-      btn.textContent = "Enviar";
     }
 
     configurarBotoes();
