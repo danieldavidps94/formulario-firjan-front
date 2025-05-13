@@ -4,7 +4,6 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
   <meta charset="UTF-8">
   <title>Formulário de Levantamento de Necessidades de Capacitações - Firjan SENAI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -842,194 +841,241 @@
     </form>
   </div>
 
- <script>
-  // Função de login simples
-  function handleLogin() {
-    const user = document.getElementById("username").value;
-    const pass = document.getElementById("password").value;
+  <script>
+    
+ // Função de login simples
+ function handleLogin() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
 
-    fetch('https://firjan-form-api.onrender.com/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: user, password: pass })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById("login-container").style.display = "none";
-        document.getElementById("form-container").style.display = "block";
-      } else {
-        document.getElementById("login-error").innerText = "Usuário ou senha inválidos.";
-      }
-    })
-    .catch(() => {
-      document.getElementById("login-error").innerText = "Erro ao conectar com o servidor.";
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    function atualizarCamposCondicionais() {
-      document.querySelectorAll('.condicional-sim-nao').forEach(select => {
-        const target = document.querySelector(`[data-condicional="${select.dataset.target}"]`);
-        if (!target) return;
-        const atualizar = () => {
-          const campo = target.querySelector("textarea, input");
-          const visivel = select.value.toLowerCase() === "sim";
-          target.style.display = visivel ? "block" : "none";
-          if (campo) {
-            campo.required = visivel;
-            if (!visivel) campo.value = "";
-          }
-        };
-        atualizar();
-        select.addEventListener("change", atualizar);
-      });
-    }
-
-    function atualizarCamposOutro() {
-      document.querySelectorAll('.condicional-outro').forEach(select => {
-        const target = document.querySelector(`[data-condicional="${select.dataset.target}"]`);
-        if (!target) return;
-        const atualizar = () => {
-          const campo = target.querySelector("input, textarea");
-          const visivel = select.value.toLowerCase() === "outro-especificar";
-          target.style.display = visivel ? "block" : "none";
-          if (campo) {
-            campo.required = visivel;
-            if (!visivel) campo.value = "";
-          }
-        };
-        atualizar();
-        select.addEventListener("change", atualizar);
-      });
-    }
-
-    function aplicarMascaraTelefone() {
-      document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]').forEach(input => {
-        input.addEventListener("input", () => {
-          let v = input.value.replace(/\D/g, "").slice(0, 11);
-          if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
-          else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
-          input.value = v;
-        });
-      });
-    }
-
-    function limparErros() {
-      document.querySelectorAll(".mensagem-erro").forEach(el => el.remove());
-    }
-
-    function exibirErro(campo, msg) {
-      const erro = document.createElement("div");
-      erro.className = "mensagem-erro";
-      erro.textContent = msg;
-      campo.insertAdjacentElement("afterend", erro);
-    }
-
-    function validarCamposPagina(id) {
-      const pagina = document.getElementById(id);
-      const campos = pagina.querySelectorAll("input[required], textarea[required], select[required]");
-      let valido = true, firstInvalid = null;
-      limparErros();
-
-      campos.forEach(c => {
-        const visivel = c.closest('.campo-extra')?.offsetParent !== null || true;
-        if (!c.value.trim() && visivel) {
-          exibirErro(c, "⚠️ Campo obrigatório");
-          if (!firstInvalid) firstInvalid = c;
-          valido = false;
+      fetch('https://firjan-form-api.onrender.com/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, password: pass })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById("login-container").style.display = "none";
+          document.getElementById("form-container").style.display = "block";
+        } else {
+          document.getElementById("login-error").innerText = "Usuário ou senha inválidos.";
         }
+      })
+      .catch(() => {
+        document.getElementById("login-error").innerText = "Erro ao conectar com o servidor.";
       });
-
-      if (id === "pagina1") {
-        const boxes = pagina.querySelectorAll('input[name="tipo_solucao[]"]');
-        if (!Array.from(boxes).some(cb => cb.checked)) {
-          const wrap = pagina.querySelector('.checkbox-wrapper');
-          exibirErro(wrap, "⚠️ Marque pelo menos uma opção.");
-          if (!firstInvalid) firstInvalid = boxes[0];
-          valido = false;
-        }
-      }
-
-      if (!valido && firstInvalid) {
-        mostrarPagina(id === "pagina1" ? 1 : 2);
-        firstInvalid.focus();
-      }
-
-      return valido;
     }
 
-    function mostrarPagina(n) {
-      document.querySelectorAll(".form-page").forEach(p => p.classList.remove("active"));
-      const pag = document.getElementById(`pagina${n}`);
-      if (pag) {
-        pag.classList.add("active");
-        window.scrollTo(0, 0);
-      }
-    }
 
-     function configurarBotoes() {
-      document.getElementById('btnProximo')
-        .addEventListener('click', () => { if (validarCamposPagina('pagina1')) mostrarPagina(2); });
-      document.getElementById('btnVoltar')
-        .addEventListener('click', () => mostrarPagina(1));
-      const btnEnviar = document.getElementById('btnEnviar');
-      btnEnviar.addEventListener('click', async e => {
-        e.preventDefault();
-        if (!validarCamposPagina('pagina1') || !validarCamposPagina('pagina2')) {
-          Swal.fire({ icon: 'error', title: 'Preencha todos os campos obrigatórios.' });
-          return;
-        }
-        btnEnviar.disabled = true;
-        btnEnviar.textContent = 'Enviando...';
-        try {
-          const form = document.getElementById("formularioFirjan");
-          const data = new FormData(form);
-          const obj = Object.fromEntries(data.entries());
-          obj.tipo_solucao = data.getAll("tipo_solucao[]");
-
-          const element = document.getElementById('form-container');
-          const opt = {
-            margin: 10,
-            filename: `formulario-${Date.now()}.pdf`,
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: "pt", format: "a4", orientation: "portrait" }
+    document.addEventListener("DOMContentLoaded", function () {
+      function atualizarCamposCondicionais() {
+        const camposCondicionais = document.querySelectorAll('.condicional-sim-nao');
+  
+        camposCondicionais.forEach(select => {
+          const targetSelector = select.dataset.target;
+          const target = document.querySelector(`[data-condicional="${targetSelector}"]`);
+          if (!target) return;
+  
+          const atualizar = () => {
+            const campo = target.querySelector("textarea, input");
+            const visivel = select.value.toLowerCase() === "sim";
+            target.style.display = visivel ? "block" : "none";
+            if (campo) {
+              campo.required = visivel;
+              if (!visivel) campo.value = "";
+            }
           };
-          const dataUri = await html2pdf().from(element).set(opt).output('datauristring');
-          const base64 = dataUri.split(',')[1];
-
-          const res = await fetch("https://firjan-form-api.onrender.com/enviar", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ...obj, pdfBase64: base64, filename: opt.filename })
+  
+          atualizar();
+          select.addEventListener("change", atualizar);
+        });
+      }
+  
+      function atualizarCamposOutro() {
+        const camposOutro = document.querySelectorAll('.condicional-outro');
+  
+        camposOutro.forEach(select => {
+          const targetSelector = select.dataset.target;
+          const target = document.querySelector(`[data-condicional="${targetSelector}"]`);
+          if (!target) return;
+  
+          const atualizar = () => {
+            const campo = target.querySelector("input, textarea");
+            const visivel = select.value.toLowerCase() === "outro-especificar";
+            target.style.display = visivel ? "block" : "none";
+            if (campo) {
+              campo.required = visivel;
+              if (!visivel) campo.value = "";
+            }
+          };
+  
+          atualizar();
+          select.addEventListener("change", atualizar);
+        });
+      }
+  
+      function aplicarMascaraTelefone() {
+        const telefones = document.querySelectorAll('input[name="telefone_demanda"], input[name="telefone_ponto_focal"]');
+  
+        telefones.forEach(input => {
+          input.addEventListener("input", () => {
+            let valor = input.value.replace(/\D/g, "").slice(0, 11);
+            if (valor.length > 6) {
+              valor = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`;
+            } else if (valor.length > 2) {
+              valor = `(${valor.slice(0, 2)}) ${valor.slice(2)}`;
+            }
+            input.value = valor;
           });
-          const result = await res.json();
-
-          if (result.success) {
-            Swal.fire({ icon: "success", title: "✅ Enviado!" });
-            form.reset();
-            mostrarPágina(1);
-          } else {
-            throw new Error(result.message);
+        });
+      }
+  
+      function limparErros() {
+        document.querySelectorAll(".mensagem-erro").forEach(el => el.remove());
+      }
+  
+      function exibirErro(campo, mensagem) {
+        const erro = document.createElement("div");
+        erro.className = "mensagem-erro";
+        erro.textContent = mensagem;
+        campo.insertAdjacentElement("afterend", erro);
+      }
+  
+      function validarCamposPagina(paginaId) {
+        const pagina = document.getElementById(paginaId);
+        const campos = pagina.querySelectorAll("input[required], textarea[required], select[required]");
+        let valido = true;
+        let primeiroCampoInvalido = null;
+  
+        limparErros();
+  
+        campos.forEach(campo => {
+          const container = campo.closest('.campo-extra') || campo;
+          const visivel = container.offsetParent !== null;
+  
+          if (!campo.value.trim() && visivel) {
+            exibirErro(campo, "⚠️ Campo obrigatório");
+            if (!primeiroCampoInvalido) primeiroCampoInvalido = campo;
+            valido = false;
           }
-        } catch (err) {
-          console.error(err);
-          Swal.fire({ icon: "error", title: "Erro", text: err.message || "Falha ao gerar/enviar PDF." });
-        } finally {
-          btnEnviar.disabled = false;
-          btnEnviar.textContent = 'Enviar';
+        });
+  
+        if (paginaId === "pagina1") {
+          const checkboxes = pagina.querySelectorAll('input[name="tipo_solucao[]"]');
+          const algumMarcado = Array.from(checkboxes).some(cb => cb.checked);
+  
+          if (!algumMarcado) {
+            const container = checkboxes[checkboxes.length - 1].closest('.checkbox-wrapper');
+            const erro = document.createElement("div");
+            erro.className = "mensagem-erro";
+            erro.textContent = "⚠️ Marque pelo menos uma opção.";
+            container.appendChild(erro);
+            if (!primeiroCampoInvalido) primeiroCampoInvalido = checkboxes[0];
+            valido = false;
+          }
         }
-      });
+  
+        if (!valido && primeiroCampoInvalido) {
+          mostrarPagina(paginaId === "pagina1" ? 1 : 2);
+          primeiroCampoInvalido.focus();
+        }
+  
+        return valido;
+      }
+  
+      function mostrarPagina(numero) {
+        document.querySelectorAll(".form-page").forEach(p => p.classList.remove("active"));
+        const pagina = document.getElementById(`pagina${numero}`);
+        if (pagina) {
+          pagina.classList.add("active");
+          window.scrollTo(0, 0);
+        }
+      }
+  
+      async function enviarFormulario() {
+  const btnEnviar = document.getElementById("btnEnviar");
+  btnEnviar.disabled = true;
+  btnEnviar.textContent = "Enviando...";
 
+  try {
+    const form = document.getElementById("formularioFirjan");
+    const formData = new FormData(form);
+    const dados = Object.fromEntries(formData.entries());
+    
+    // Tratar checkboxes
+    dados.tipo_solucao = formData.getAll('tipo_solucao[]');
+    
+    // Enviar dados diretamente para o servidor
+    const response = await fetch('https://firjan-form-api.onrender.com/enviar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dados)
+    });
+
+    if (!response.ok) throw new Error('Erro no envio');
+
+const result = await response.json();
+if (result.success) {
+  Swal.fire({
+    icon: 'success',
+    title: '✅ Formulário enviado com sucesso!',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+  });
+  form.reset();
+} else {
+  throw new Error(result.message || 'Erro no servidor');
+}
+} catch (error) {
+  console.error('Erro:', error);
+  Swal.fire({
+    icon: 'error',
+    title: '❌ Falha ao enviar',
+    text: error.message,
+  });
+} finally {
+  btnEnviar.disabled = false;
+  btnEnviar.textContent = "Enviar";
+}
+}
+  
+      function configurarBotoes() {
+        const btnProximo = document.getElementById("btnProximo");
+        const btnVoltar = document.getElementById("btnVoltar");
+        const btnEnviar = document.getElementById("btnEnviar");
+  
+        if (btnProximo) {
+          btnProximo.addEventListener("click", () => {
+            limparErros();
+            if (validarCamposPagina("pagina1")) mostrarPagina(2);
+          });
+        }
+  
+        if (btnVoltar) {
+          btnVoltar.addEventListener("click", () => {
+            mostrarPagina(1);
+          });
+        }
+  
+        if (btnEnviar) {
+          btnEnviar.addEventListener("click", () => {
+            limparErros();
+            const valido1 = validarCamposPagina("pagina1");
+            const valido2 = validarCamposPagina("pagina2");
+            if (valido1 && valido2) enviarFormulario();
+          });
+        }
+      }
+  
+      // Inicialização
       atualizarCamposCondicionais();
       atualizarCamposOutro();
       aplicarMascaraTelefone();
-    }
-
-    configurarBotoes();
-  });
-</script>
-
+      configurarBotoes();
+    });
+  </script>
        
 </body>
 </html>
