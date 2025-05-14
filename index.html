@@ -846,7 +846,7 @@
       const user = document.getElementById("username").value;
       const pass = document.getElementById("password").value;
 
-      fetch('https://firjan-form-api.onrender.com/login', {
+      fetch('https://firjan-form-api.vercel.app/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: user, password: pass })
