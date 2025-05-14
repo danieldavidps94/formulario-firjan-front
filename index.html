@@ -1005,7 +1005,7 @@
     dados.tipo_solucao = formData.getAll('tipo_solucao[]');
     
     // Enviar dados diretamente para o servidor
-    const response = await fetch('https://firjan-form-api.onrender.com/enviar', {
+    const response = await fetch('https://firjan-form-api-next.vercel.app/api/enviar', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dados)
