@@ -249,7 +249,7 @@
     <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
-      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã --</p>
+      <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã</p>
     </div>
   </div>
 
@@ -846,7 +846,7 @@
       const user = document.getElementById("username").value;
       const pass = document.getElementById("password").value;
 
-      fetch('https://firjan-form-api-next.vercel.app/login', {
+      fetch('https://firjan-form-api-next.vercel.app/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: user, password: pass })
