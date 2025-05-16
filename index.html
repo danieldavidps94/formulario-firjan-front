@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <title>Formulário de Levantamento de Necessidades de Capacitações - Firjan SENAI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --azul-firjan: #0073e6;
@@ -13,17 +14,17 @@
       --cinza-claro: #ddd;
       --cinza-label: #333;
     }
-
+    body, input, textarea, select, button, label, h2 {
+      font-family: 'Montserrat', Arial, sans-serif !important;
+    }
     button#btnEnviar {
       min-width: 140px;
       text-align: center;
       display: inline-block;
     }
-
     button {
       text-align: center;
     }
-
     @media print {
       body {
         background: white !important;
@@ -45,44 +46,6 @@
         background: #0073e6 !important;
       }
     }
-
-    @font-face {
-      font-family: 'Averta';
-      src: url('fonts/averta-light.woff2') format('woff2');
-      font-weight: 300;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Averta';
-      src: url('fonts/averta-lightitalic.woff2') format('woff2');
-      font-weight: 300;
-      font-style: italic;
-    }
-    @font-face {
-      font-family: 'Averta';
-      src: url('fonts/averta-regular.woff2') format('woff2');
-      font-weight: 400;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Averta';
-      src: url('fonts/averta-regularitalic.woff2') format('woff2');
-      font-weight: 400;
-      font-style: italic;
-    }
-    @font-face {
-      font-family: 'Averta';
-      src: url('fonts/averta-semibold.woff2') format('woff2');
-      font-weight: 600;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: 'Averta';
-      src: url('fonts/averta-semibolditalic.woff2') format('woff2');
-      font-weight: 600;
-      font-style: italic;
-    }
-
     .firjan-cabecalho {
       background-image: url(img/background.png);
       background-size: cover;
@@ -98,124 +61,119 @@
       border-radius: 8px;
       box-sizing: border-box;
     }
-
     .firjan-logo {
       max-width: 120px;
       margin-right: 20px;
     }
-
     .firjan-texto {
       color: white;
-      font-family: 'Averta', sans-serif;
+      font-family: 'Montserrat', Arial, sans-serif;
       font-size: 17px;
     }
-
     .firjan-texto p {
       margin: 4px 0;
     }
-
     body {
-      font-family: 'Averta', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--cinza-bg);
       margin: 0;
       padding: 2rem;
     }
-
     #form-container {
       max-width: 860px;
       margin: auto;
       background: #fff;
-      padding: 2rem 2.5rem;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      padding: 2.5rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.07);
     }
-
     h2 {
-      color: var(--azul-firjan);
-      border-bottom: 2px solid var(--azul-firjan);
+      font-size: 1.4rem;
+      color: #2979ff;
+      font-weight: 600;
+      margin-top: 1.7em;
+      border-bottom: 2px solid #2979ff;
       padding-bottom: 6px;
-      margin-top: 2.5rem;
     }
-
     label {
       display: block;
       margin: 18px 0 6px;
-      font-weight: bold;
+      font-weight: 600;
       color: var(--cinza-label);
+      font-size: 1rem;
     }
-
     input, textarea, select {
       width: 100%;
       padding: 10px;
-      font-size: 15px;
-      border-radius: 6px;
+      font-size: 1rem;
+      border-radius: 8px;
       border: 1px solid var(--cinza-claro);
+      background: #fff;
+      box-sizing: border-box;
+      font-family: 'Montserrat', Arial, sans-serif !important;
+      margin-bottom: 8px;
     }
-
     textarea {
       min-height: 80px;
       resize: vertical;
     }
-
     button {
       background-color: var(--azul-firjan);
       color: white;
       border: none;
       padding: 12px 24px;
       font-size: 16px;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       margin-top: 30px;
+      font-weight: 600;
+      font-family: 'Montserrat', Arial, sans-serif !important;
     }
-
     button:hover {
       background-color: #005bb5;
     }
-
     .form-page {
-      display: none;
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 14px 0 rgb(0 118 255 / 8%);
+      padding-bottom: 10px;
     }
-
     .form-page.active {
       display: block;
     }
-
+    .form-page:not(.active) {
+      display: none;
+    }
     .button-row {
       display: flex;
       justify-content: space-between;
       gap: 10px;
     }
-
     .mensagem-erro {
       color: red;
       font-size: 13px;
       margin-top: 4px;
     }
-
     .checkbox-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 12px 24px;
     }
-
     .checkbox-grid label {
       display: flex;
       align-items: center;
       font-size: 14px;
       gap: 8px;
     }
-
     .checkbox-grid input[type="checkbox"] {
       margin: 0;
     }
-
     .checkbox-wrapper {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 12px 20px;
       margin-top: 10px;
     }
-
     .checkbox-wrapper label {
       font-size: 14px;
       display: grid;
@@ -227,19 +185,37 @@
     .btn-pdf {
       display: none !important;
     }
+    .campo-extra {
+      background: #f8fafc;
+      border-radius: 6px;
+      padding: 12px 16px 2px 16px;
+      margin-bottom: 10px;
+      border: 1px solid #e0e0e0;
+    }
+    select, input, textarea {
+      outline: none;
+      transition: border 0.2s;
+    }
+    select:focus, input:focus, textarea:focus {
+      border: 1.5px solid #2979ff;
+      box-shadow: 0 0 0 2px rgba(41,121,255,0.08);
+    }
+    ::placeholder {
+      color: #b5b5b5;
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
 
   <div class="firjan-cabecalho">
-    <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo">
+    <img src="img/logo.png" alt="Logo Firjan" class="firjan-logo" crossorigin="anonymous">
     <div class="firjan-texto">
       <p><strong>LEVANTAMENTO DE NECESSIDADES | CONTEXTO</strong></p>
       <p>Núcleo de Desenvolvimento EaD - Centro de Referência Firjan SENAI Maracanã</p>
     </div>
   </div>
 
-<!-- Tela de login -->
 <div id="login-container" style="display: flex; flex-direction: column; gap: 10px; width: 300px; margin: 50px auto;">
   <h2>Login</h2>
   <input type="text" id="username" placeholder="Usuário" required />
@@ -250,7 +226,6 @@
 
 <div id="form-container" style="display: none;">
   <form id="formularioFirjan">
-    <!-- ====================== FORMULÁRIO 1 ===================== -->
     <div class="form-page active" id="pagina1">
       <h2>Responsável pela Demanda</h2>
       <label>Nome Completo:</label>
@@ -284,274 +259,210 @@
       <label>Funções no projeto (exemplo: validar, acompanhar etc.):</label>
       <input type="text" name="cargo_ponto_focal" required>
 
-      <div class="form-section mt-6 space-y-4">
-        <h2 class="text-lg font-semibold">Cenário</h2>
-        <div>
-          <label for="area_requisitante" class="block text-sm font-medium">Indique área requisitante:</label>
-          <input type="text" id="area_requisitante" name="area_requisitante" required class="input" />
-        </div>
-        <div>
-          <label for="resumo_demanda" class="block text-sm font-medium">Resumo da demanda:</label>
-          <textarea id="resumo_demanda" name="resumo_demanda" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="gerador_demanda" class="block text-sm font-medium">Informe o que gerou a demanda:</label>
-          <textarea id="gerador_demanda" name="gerador_demanda" rows="2" required class="textarea"></textarea>
-        </div>
-        <label for="campo1">A demanda está relacionada a algum objetivo estratégico da instituição? Se sim, especificar.</label>
-        <select name="campo1" id="campo1" class="condicional-sim-nao" data-target="campo1-extra" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-        <div class="campo-extra" data-condicional="campo1-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <textarea name="campo1_motivo" rows="3"></textarea>
-        </div>
-        <div>
-          <label for="contexto_atual" class="block text-sm font-medium">Descreva o contexto atual da demanda:</label>
-          <textarea id="contexto_atual" name="contexto_atual" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="contexto_desejado" class="block text-sm font-medium">Descreva o contexto desejado após realização do projeto:</label>
-          <textarea id="contexto_desejado" name="contexto_desejado" rows="2" required class="textarea"></textarea>
-        </div>
-        <label for="campo2">A demanda está relacionada a outro projeto? Se sim, especificar.</label>
-        <select name="campo2" id="campo2" class="condicional-sim-nao" data-target="campo2-extra" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-        <div class="campo-extra" data-condicional="campo2-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <textarea name="campo2_motivo" rows="3"></textarea>
-        </div>
-        <label for="campo3">A demanda é pré-requisito para outro projeto? Se sim, especificar.</label>
-        <select name="campo3" id="campo3" class="condicional-sim-nao" data-target="campo3-extra" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-        <div class="campo-extra" data-condicional="campo3-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <textarea name="campo3_motivo" rows="3"></textarea>
-        </div>
-        <div>
-          <label for="abrangencia_projeto" class="block text-sm font-medium">Indique abrangência do projeto (toda a instituição, determinadas áreas etc.):</label>
-          <textarea id="abrangencia_projeto" name="abrangencia_projeto" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="campo4">Indique a modalidade de ensino:</label>
-          <select name="campo4" id="campo4" class="condicional-sim-nao" data-target="campo4-extra" required>
-            <option value="">Selecione</option>
-            <option value="online">Online</option>
-            <option value="presencial">Presencial</option>
-            <option value="hibrido">Híbrido</option>
-          </select>
-        </div>
-        <div>
-          <label for="tipo_solucao_texto" class="block text-sm font-medium">Indicar tipo de solução a ser contratada:</label>
-        </div>
-        <div class="checkbox-wrapper" id="grupoCheckbox">
-          <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação horizontal)"> Curso (navegação horizontal)</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação vertical)"> Curso (navegação vertical)</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Banco de Questões"> Banco de Questões</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Atividades de fixação"> Atividades de fixação</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Avaliação de aprendizagem"> Avaliação de aprendizagem</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Trilha de aprendizagem"> Trilha de aprendizagem</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Plano de estudo"> Plano de estudo</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Apresentação"> Apresentação</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Almanaque/Quadrinho"> Almanaque/Quadrinho</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Mapa de conhecimento"> Mapa de conhecimento</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Guia/Manual"> Guia/Manual</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Tutorial"> Tutorial</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Apostila"> Apostila</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Livro Digital"> Livro Digital</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Videoaula"> Videoaula</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Vídeo Instrucional"> Vídeo Instrucional</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Animação 2D"> Animação 2D</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Animação 3D"> Animação 3D</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Infográfico"> Infográfico</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Jogo"> Jogo</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Quiz"> Quiz</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Podcast"> Podcast</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Simulação de Sistemas"> Simulação de Sistemas</label>
-          <label><input type="checkbox" name="tipo_solucao[]" value="Todos"> Todos</label>
-        </div>
-        <div>
-          <label for="campo5">Todas as soluções indicadas deverão ser hospedadas em LMS?</label>
-          <select name="campo5" id="campo5" class="condicional-sim-nao" data-target="campo5-extra" required>
-            <option value="">Selecione</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
-        </div>
-        <div class="campo-extra" data-condicional="campo5-extra" style="display: none; margin-top: 10px;">
-          <label>Qual?</label>
-          <textarea name="campo5_motivo" rows="3"></textarea>
-        </div>
-        <div>
-          <label for="campo6">Indique a estratégia educacional:</label>
-          <select name="campo6" id="campo6" class="condicional-outro" data-target="campo6-extra" required>
-            <option value="">Selecione</option>
-            <option value="online">Onboarding</option>
-            <option value="presencial">Aperfeiçoamento</option>
-            <option value="atualizacao">Atualização</option>
-            <option value="formacao">Formação</option>
-            <option value="outro-especificar">Outro (especificar)</option>
-          </select>
-        </div>
-        <div class="campo-extra" data-condicional="campo6-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <input type="text" name="campo6_outro" />
-        </div>
-        <div>
-          <label for="campo7">Já foi realizada alguma ação relativa à demanda? Se sim, especificar tipo, modalidade de ensino e carga horária.</label>
-          <select name="campo7" id="campo7" class="condicional-sim-nao" data-target="campo7-extra" required>
-            <option value="">Selecione</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
-        </div>
-        <div class="campo-extra" data-condicional="campo7-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <textarea name="campo7_motivo" rows="3"></textarea>
-        </div>
-        <div>
-          <label for="campo8">Há expectativa em relação ao prazo para desenvolvimento? Se sim, especificar.</label>
-          <select name="campo8" id="campo8" class="condicional-sim-nao" data-target="campo8-extra" required>
-            <option value="">Selecione</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
-        </div>
-        <div class="campo-extra" data-condicional="campo8-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <textarea name="campo8_motivo" rows="3"></textarea>
-        </div>
-        <div>
-          <label for="campo9">Há carga horária prevista? Se sim, especificar.</label>
-          <select name="campo9" id="campo9" class="condicional-sim-nao" data-target="campo9-extra" required>
-            <option value="">Selecione</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
-        </div>
-        <div class="campo-extra" data-condicional="campo9-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <textarea name="campo9_motivo" rows="3"></textarea>
-        </div>
-        <h2>Público-Alvo</h2>
-        <div>
-          <label for="quantidade_participantes" class="block text-sm font-medium">Estime a quantidade de participantes:</label>
-          <textarea id="quantidade_participantes" name="quantidade_participantes" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="faixa_etaria" class="block text-sm font-medium">Indique a faixa etária:</label>
-          <textarea id="faixa_etaria" name="faixa_etaria" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="nivel_instrucao" class="block text-sm font-medium">Indique o nível de instrução:</label>
-          <textarea id="nivel_instrucao" name="nivel_instrucao" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="area_atuacao" class="block text-sm font-medium">Indique a área de atuação:</label>
-          <textarea id="area_atuacao" name="area_atuacao" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="funcao_exercida" class="block text-sm font-medium">Indique a(s) função(ões) exercida(s):</label>
-          <textarea id="funcao_exercida" name="funcao_exercida" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="relacao_publico" class="block text-sm font-medium">Informe a relação do público com a temática:</label>
-          <textarea id="relacao_publico" name="relacao_publico" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="nivel_conhecimento" class="block text-sm font-medium">Informe o nível de conhecimento do público sobre a temática:</label>
-          <textarea id="nivel_conhecimento" name="nivel_conhecimento" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="campo10">Existem pré-requisitos para participação? Se sim, especifique:</label>
-          <select name="campo10" id="campo10" class="condicional-sim-nao" data-target="campo10-extra" required>
-            <option value="">Selecione</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
-        </div>
-        <div class="campo-extra" data-condicional="campo10-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <textarea name="campo10_motivo" rows="3"></textarea>
-        </div>
-        <div>
-          <label for="resultados_esperados" class="block text-sm font-medium">Informe os resultados esperados para o público após finalização do projeto:</label>
-          <textarea id="resultados_esperados" name="resultados_esperados" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="conhecimento_teorico_pratico" class="block text-sm font-medium">Qual relação entre conhecimento teórico e prático no dia a dia do público?</label>
-          <textarea id="conhecimento_teorico_pratico" name="conhecimento_teorico_pratico" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="objetivos_aprendizagem" class="block text-sm font-medium">Indique os objetivos de aprendizagem a serem atingidos pelo público (elencar):</label>
-          <textarea id="objetivos_aprendizagem" name="objetivos_aprendizagem" rows="2" required class="textarea"></textarea>
-        </div>
-        <h2>Conteúdo</h2>
-        <div>
-          <label for="assuntos_abordados" class="block text-sm font-medium">Indique os assuntos a serem abordados:</label>
-          <textarea id="assuntos_abordados" name="assuntos_abordados" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="conteudos_existentes" class="block text-sm font-medium">Indique os conteúdos existentes (nome e formato: pdf, ppt, doc, mp4 etc.):</label>
-          <textarea id="conteudos_existentes" name="conteudos_existentes" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="quantidade_paginas" class="block text-sm font-medium">Indique a quantidade de páginas/laudas previstas (considerar o somatório de todos os conteúdos):</label>
-          <textarea id="quantidade_paginas" name="quantidade_paginas" rows="2" required class="textarea"></textarea>
-        </div>
-        <div>
-          <label for="campo11">Indique a natureza do(s) conteúdo(s):</label>
-          <select name="campo11" id="campo11" class="condicional-outro" data-target="campo11-extra" required>
-            <option value="">Selecione</option>
-            <option value="online">Conceitual</option>
-            <option value="presencial">Comportamental</option>
-            <option value="atualizacao">Procedimental</option>
-            <option value="formacao">Ferramental</option>
-            <option value="formacao">Técnico</option>
-            <option value="outro-especificar">Outro (especificar)</option>
-          </select>
-        </div>
-        <div class="campo-extra" data-condicional="campo11-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <input type="text" name="campo11_outro" />
-        </div>
-        <div>
-          <label for="campo12">Há especialista(s) designado(s) para desenvolver conteúdos do projeto? Se sim, especifique:</label>
-          <select name="campo12" id="campo12" class="condicional-sim-nao" data-target="campo12-extra" required>
-            <option value="">Selecione</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
-        </div>
-        <div class="campo-extra" data-condicional="campo12-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <textarea name="campo12_motivo" rows="3"></textarea>
-        </div>
-        <div>
-          <label for="campo13">Há previsão de frequência de atualização do material a ser desenvolvido? Se sim, especifique:</label>
-          <select name="campo13" id="campo13" class="condicional-sim-nao" data-target="campo13-extra" required>
-            <option value="">Selecione</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
-        </div>
-        <div class="campo-extra" data-condicional="campo13-extra" style="display: none; margin-top: 10px;">
-          <label>Especifique:</label>
-          <textarea name="campo13_motivo" rows="3"></textarea>
-        </div>
-        <div>
-          <label for="infos_adicionais" class="block text-sm font-medium">Informações Adicionais:</label>
-          <textarea id="infos_adicionais" name="infos_adicionais" rows="4" class="textarea"></textarea>
-        </div>
+      <h2 class="text-lg font-semibold">Cenário</h2>
+      <label for="area_requisitante">Indique área requisitante:</label>
+      <input type="text" id="area_requisitante" name="area_requisitante" required />
+      <label for="resumo_demanda">Resumo da demanda:</label>
+      <textarea id="resumo_demanda" name="resumo_demanda" rows="2" required></textarea>
+      <label for="gerador_demanda">Informe o que gerou a demanda:</label>
+      <textarea id="gerador_demanda" name="gerador_demanda" rows="2" required></textarea>
+      <label for="campo1">A demanda está relacionada a algum objetivo estratégico da instituição? Se sim, especificar.</label>
+      <select name="campo1" id="campo1" class="condicional-sim-nao" data-target="campo1-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo1-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <textarea name="campo1_motivo" rows="3"></textarea>
       </div>
+      <label for="contexto_atual">Descreva o contexto atual da demanda:</label>
+      <textarea id="contexto_atual" name="contexto_atual" rows="2" required></textarea>
+      <label for="contexto_desejado">Descreva o contexto desejado após realização do projeto:</label>
+      <textarea id="contexto_desejado" name="contexto_desejado" rows="2" required></textarea>
+      <label for="campo2">A demanda está relacionada a outro projeto? Se sim, especificar.</label>
+      <select name="campo2" id="campo2" class="condicional-sim-nao" data-target="campo2-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo2-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <textarea name="campo2_motivo" rows="3"></textarea>
+      </div>
+      <label for="campo3">A demanda é pré-requisito para outro projeto? Se sim, especificar.</label>
+      <select name="campo3" id="campo3" class="condicional-sim-nao" data-target="campo3-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo3-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <textarea name="campo3_motivo" rows="3"></textarea>
+      </div>
+      <label for="abrangencia_projeto">Indique abrangência do projeto (toda a instituição, determinadas áreas etc.):</label>
+      <textarea id="abrangencia_projeto" name="abrangencia_projeto" rows="2" required></textarea>
+      <label for="campo4">Indique a modalidade de ensino:</label>
+      <select name="campo4" id="campo4" required>
+        <option value="">Selecione</option>
+        <option value="online">Online</option>
+        <option value="presencial">Presencial</option>
+        <option value="hibrido">Híbrido</option>
+      </select>
+      <label>Indicar tipo de solução a ser contratada:</label>
+      <div class="checkbox-wrapper" id="grupoCheckbox">
+        <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação horizontal)"> Curso (navegação horizontal)</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação vertical)"> Curso (navegação vertical)</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Banco de Questões"> Banco de Questões</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Atividades de fixação"> Atividades de fixação</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Avaliação de aprendizagem"> Avaliação de aprendizagem</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Trilha de aprendizagem"> Trilha de aprendizagem</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Plano de estudo"> Plano de estudo</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Apresentação"> Apresentação</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Almanaque/Quadrinho"> Almanaque/Quadrinho</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Mapa de conhecimento"> Mapa de conhecimento</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Guia/Manual"> Guia/Manual</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Tutorial"> Tutorial</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Apostila"> Apostila</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Livro Digital"> Livro Digital</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Videoaula"> Videoaula</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Vídeo Instrucional"> Vídeo Instrucional</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Animação 2D"> Animação 2D</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Animação 3D"> Animação 3D</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Infográfico"> Infográfico</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Jogo"> Jogo</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Quiz"> Quiz</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Podcast"> Podcast</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Simulação de Sistemas"> Simulação de Sistemas</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Todos"> Todos</label>
+      </div>
+      <label for="campo5">Todas as soluções indicadas deverão ser hospedadas em LMS?</label>
+      <select name="campo5" id="campo5" class="condicional-sim-nao" data-target="campo5-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo5-extra" style="display: none; margin-top: 10px;">
+        <label>Qual?</label>
+        <textarea name="campo5_motivo" rows="3"></textarea>
+      </div>
+      <label for="campo6">Indique a estratégia educacional:</label>
+      <select name="campo6" id="campo6" class="condicional-outro" data-target="campo6-extra" required>
+        <option value="">Selecione</option>
+        <option value="online">Onboarding</option>
+        <option value="presencial">Aperfeiçoamento</option>
+        <option value="atualizacao">Atualização</option>
+        <option value="formacao">Formação</option>
+        <option value="outro-especificar">Outro (especificar)</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo6-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <input type="text" name="campo6_outro" />
+      </div>
+      <label for="campo7">Já foi realizada alguma ação relativa à demanda? Se sim, especificar tipo, modalidade de ensino e carga horária.</label>
+      <select name="campo7" id="campo7" class="condicional-sim-nao" data-target="campo7-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo7-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <textarea name="campo7_motivo" rows="3"></textarea>
+      </div>
+      <label for="campo8">Há expectativa em relação ao prazo para desenvolvimento? Se sim, especificar.</label>
+      <select name="campo8" id="campo8" class="condicional-sim-nao" data-target="campo8-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo8-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <textarea name="campo8_motivo" rows="3"></textarea>
+      </div>
+      <label for="campo9">Há carga horária prevista? Se sim, especificar.</label>
+      <select name="campo9" id="campo9" class="condicional-sim-nao" data-target="campo9-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo9-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <textarea name="campo9_motivo" rows="3"></textarea>
+      </div>
+      <h2>Público-Alvo</h2>
+      <label for="quantidade_participantes">Estime a quantidade de participantes:</label>
+      <textarea id="quantidade_participantes" name="quantidade_participantes" rows="2" required></textarea>
+      <label for="faixa_etaria">Indique a faixa etária:</label>
+      <textarea id="faixa_etaria" name="faixa_etaria" rows="2" required></textarea>
+      <label for="nivel_instrucao">Indique o nível de instrução:</label>
+      <textarea id="nivel_instrucao" name="nivel_instrucao" rows="2" required></textarea>
+      <label for="area_atuacao">Indique a área de atuação:</label>
+      <textarea id="area_atuacao" name="area_atuacao" rows="2" required></textarea>
+      <label for="funcao_exercida">Indique a(s) função(ões) exercida(s):</label>
+      <textarea id="funcao_exercida" name="funcao_exercida" rows="2" required></textarea>
+      <label for="relacao_publico">Informe a relação do público com a temática:</label>
+      <textarea id="relacao_publico" name="relacao_publico" rows="2" required></textarea>
+      <label for="nivel_conhecimento">Informe o nível de conhecimento do público sobre a temática:</label>
+      <textarea id="nivel_conhecimento" name="nivel_conhecimento" rows="2" required></textarea>
+      <label for="campo10">Existem pré-requisitos para participação? Se sim, especifique:</label>
+      <select name="campo10" id="campo10" class="condicional-sim-nao" data-target="campo10-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo10-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <textarea name="campo10_motivo" rows="3"></textarea>
+      </div>
+      <label for="resultados_esperados">Informe os resultados esperados para o público após finalização do projeto:</label>
+      <textarea id="resultados_esperados" name="resultados_esperados" rows="2" required></textarea>
+      <label for="conhecimento_teorico_pratico">Qual relação entre conhecimento teórico e prático no dia a dia do público?</label>
+      <textarea id="conhecimento_teorico_pratico" name="conhecimento_teorico_pratico" rows="2" required></textarea>
+      <label for="objetivos_aprendizagem">Indique os objetivos de aprendizagem a serem atingidos pelo público (elencar):</label>
+      <textarea id="objetivos_aprendizagem" name="objetivos_aprendizagem" rows="2" required></textarea>
+      <h2>Conteúdo</h2>
+      <label for="assuntos_abordados">Indique os assuntos a serem abordados:</label>
+      <textarea id="assuntos_abordados" name="assuntos_abordados" rows="2" required></textarea>
+      <label for="conteudos_existentes">Indique os conteúdos existentes (nome e formato: pdf, ppt, doc, mp4 etc.):</label>
+      <textarea id="conteudos_existentes" name="conteudos_existentes" rows="2" required></textarea>
+      <label for="quantidade_paginas">Indique a quantidade de páginas/laudas previstas (considerar o somatório de todos os conteúdos):</label>
+      <textarea id="quantidade_paginas" name="quantidade_paginas" rows="2" required></textarea>
+      <label for="campo11">Indique a natureza do(s) conteúdo(s):</label>
+      <select name="campo11" id="campo11" class="condicional-outro" data-target="campo11-extra" required>
+        <option value="">Selecione</option>
+        <option value="online">Conceitual</option>
+        <option value="presencial">Comportamental</option>
+        <option value="atualizacao">Procedimental</option>
+        <option value="formacao">Ferramental</option>
+        <option value="formacao">Técnico</option>
+        <option value="outro-especificar">Outro (especificar)</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo11-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <input type="text" name="campo11_outro" />
+      </div>
+      <label for="campo12">Há especialista(s) designado(s) para desenvolver conteúdos do projeto? Se sim, especifique:</label>
+      <select name="campo12" id="campo12" class="condicional-sim-nao" data-target="campo12-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo12-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <textarea name="campo12_motivo" rows="3"></textarea>
+      </div>
+      <label for="campo13">Há previsão de frequência de atualização do material a ser desenvolvido? Se sim, especifique:</label>
+      <select name="campo13" id="campo13" class="condicional-sim-nao" data-target="campo13-extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <div class="campo-extra" data-condicional="campo13-extra" style="display: none; margin-top: 10px;">
+        <label>Especifique:</label>
+        <textarea name="campo13_motivo" rows="3"></textarea>
+      </div>
+      <label for="infos_adicionais">Informações Adicionais:</label>
+      <textarea id="infos_adicionais" name="infos_adicionais" rows="4"></textarea>
       <div class="button-row">
         <span></span>
         <button type="button" id="btnProximo">Próximo</button>
@@ -560,73 +471,58 @@
 
     <div style="page-break-before: always;"></div>
 
-    <!-- ===================== FORMULÁRIO 2 ===================== -->
     <div class="form-page" id="pagina2">
       <h2>Informações Gerais</h2>
-      <div>
-        <label for="manual_marca">Existe manual da marca para compartilhar?</label>
-        <select name="manual_marca" id="manual_marca" class="condicional-sim-nao" data-target="manual_marca" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
-      <div>
-        <label for="identidade_visual">Existe manual de identidade visual para compartilhar?</label>
-        <select name="identidade_visual" id="identidade_visual" class="condicional-sim-nao" data-target="identidade_visual" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
-      <div>
-        <label for="identidade_verbal">Existe manual de identidade verbal para compartilhar?</label>
-        <select name="identidade_verbal" id="identidade_verbal" class="condicional-sim-nao" data-target="identidade_verbal" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
-      <div>
-        <label for="identidade_sonora">Existe manual de identidade sonora para compartilhar?</label>
-        <select name="identidade_sonora" id="identidade_sonora" class="condicional-sim-nao" data-target="identidade_sonora" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
-      <div>
-        <label for="identidade_visual_extra">Existe alguma identidade visual extra a ser seguida? Se sim, especifique:</label>
-        <select name="identidade_visual_extra" id="identidade_visual_extra" class="condicional-sim-nao" data-target="identidade_visual_extra" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
+      <label for="manual_marca">Existe manual da marca para compartilhar?</label>
+      <select name="manual_marca" id="manual_marca" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <label for="identidade_visual">Existe manual de identidade visual para compartilhar?</label>
+      <select name="identidade_visual" id="identidade_visual" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <label for="identidade_verbal">Existe manual de identidade verbal para compartilhar?</label>
+      <select name="identidade_verbal" id="identidade_verbal" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <label for="identidade_sonora">Existe manual de identidade sonora para compartilhar?</label>
+      <select name="identidade_sonora" id="identidade_sonora" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <label for="identidade_visual_extra">Existe alguma identidade visual extra a ser seguida? Se sim, especifique:</label>
+      <select name="identidade_visual_extra" id="identidade_visual_extra" class="condicional-sim-nao" data-target="identidade_visual_extra" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
       <div class="identidade_visual_extra" data-condicional="identidade_visual_extra" style="display: none; margin-top: 10px;">
         <label>Especifique:</label>
         <textarea name="identidade_visual_extra" rows="3"></textarea>
       </div>
-      <div>
-        <label for="restricoes">Existem restrições quanto a cor, imagem, logomarca etc.? Se sim, especifique:</label>
-        <select name="restricoes" id="restricoes" class="condicional-sim-nao" data-target="restricoes" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
+      <label for="restricoes">Existem restrições quanto a cor, imagem, logomarca etc.? Se sim, especifique:</label>
+      <select name="restricoes" id="restricoes" class="condicional-sim-nao" data-target="restricoes" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
       <div class="campo-extra" data-condicional="restricoes" style="display: none; margin-top: 10px;">
         <label>Especifique:</label>
         <textarea name="restricoes" rows="3"></textarea>
       </div>
-      <div>
-        <label for="info_personagem1">É necessário contemplar personagem(ens)?  Informar características (Gênero, Idade, Etnia, Tipo e cor do cabelo e cor dos olhos).</label>
-        <select name="info_personagem1" id="info_personagem1" class="condicional-sim-nao" data-target="info_personagem1" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
+      <label for="info_personagem1">É necessário contemplar personagem(ens)? Informar características (Gênero, Idade, Etnia, Tipo e cor do cabelo e cor dos olhos).</label>
+      <select name="info_personagem1" id="info_personagem1" class="condicional-sim-nao" data-target="info_personagem1" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
       <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
         <label>Gênero(s):</label>
         <textarea name="info_personagem1" rows="3"></textarea>
@@ -640,8 +536,8 @@
         <textarea name="info_personagem1" rows="3"></textarea>
         <label>Informe o número dos personagens:</label>
         <textarea name="info_personagem1" rows="3"></textarea>
-        <label for="campo11">Informe o estilo dos personagens:</label>
-        <select name="campo11" id="campo11b" class="condicional-outro" data-target="campo11-extra" required>
+        <label for="campo11b">Informe o estilo dos personagens:</label>
+        <select name="campo11b" id="campo11b" class="condicional-outro" data-target="campo11b-extra" required>
           <option value="">Selecione</option>
           <option value="online">Humano</option>
           <option value="presencial">Caricato</option>
@@ -651,70 +547,52 @@
         <label>Detalhe a vestimenta dos personagens:</label>
         <textarea name="info_personagem1" rows="3"></textarea>
       </div>
-      <div class="campo-extra" data-condicional="info_personagem1" style="display: none; margin-top: 10px;">
-        <label>Detalhar cenário caso sejam previstos personagens.</label>
-        <textarea name="info_personagem1" rows="3"></textarea>
-      </div>
-      <div>
-        <label for="banco-imagem">O cliente possui banco de imagens?</label>
-        <select name="banco-imagem" id="banco-imagem" class="condicional-sim-nao" data-target="banco-imagem" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
-      <div>
-        <label for="banco-imagem2">É necessário contratar banco de imagens?</label>
-        <select name="banco-imagem2" id="banco-imagem2" class="condicional-sim-nao" data-target="banco-imagem2" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
-      <div>
-        <label for="legenda-auditivo">É necessário contemplar legenda em determinadas soluções para atender pessoas com deficiência auditiva? Se sim, especifique:</label>
-        <select name="legenda-auditivo" id="legenda-auditivo" class="condicional-sim-nao" data-target="legenda-auditivo" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
+      <label for="banco-imagem">O cliente possui banco de imagens?</label>
+      <select name="banco-imagem" id="banco-imagem" class="condicional-sim-nao" data-target="banco-imagem" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <label for="banco-imagem2">É necessário contratar banco de imagens?</label>
+      <select name="banco-imagem2" id="banco-imagem2" class="condicional-sim-nao" data-target="banco-imagem2" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <label for="legenda-auditivo">É necessário contemplar legenda em determinadas soluções para atender pessoas com deficiência auditiva? Se sim, especifique:</label>
+      <select name="legenda-auditivo" id="legenda-auditivo" class="condicional-sim-nao" data-target="legenda-auditivo" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
       <div class="campo-extra" data-condicional="legenda-auditivo" style="display: none; margin-top: 10px;">
         <label>Especifique:</label>
         <textarea name="legenda-auditivo" rows="3"></textarea>
       </div>
-      <div>
-        <label for="legenda-visual">É necessário contemplar áudio nas soluções para atender pessoas com deficiência visual? Se sim, especifique:</label>
-        <select name="legenda-visual" id="legenda-visual" class="condicional-sim-nao" data-target="legenda-visual" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
+      <label for="legenda-visual">É necessário contemplar áudio nas soluções para atender pessoas com deficiência visual? Se sim, especifique:</label>
+      <select name="legenda-visual" id="legenda-visual" class="condicional-sim-nao" data-target="legenda-visual" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
       <div class="campo-extra" data-condicional="legenda-visual" style="display: none; margin-top: 10px;">
         <label>Especifique:</label>
         <textarea name="legenda-visual" rows="3"></textarea>
       </div>
-      <div>
-        <label for="design-responsivo">As soluções precisam ter design responsivo (layout que se adapta a qualquer tamanho de tela)?</label>
-        <select name="design-responsivo" id="design-responsivo" class="condicional-sim-nao" data-target="design-responsivo" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
-      <div>
-        <label for="visualizacao-off">É necessária a visualização das soluções no formato offline?</label>
-        <select name="visualizacao-off" id="visualizacao-off" class="condicional-sim-nao" data-target="visualizacao-off" required>
-          <option value="">Selecione</option>
-          <option value="sim">Sim</option>
-          <option value="nao">Não</option>
-        </select>
-      </div>
-      <div>
-        <label for="infos_adicionais2" class="block text-sm font-medium">Informações Adicionais:</label>
-        <textarea id="infos_adicionais2" name="infos_adicionais2" rows="4" class="textarea"></textarea>
-      </div>
+      <label for="design-responsivo">As soluções precisam ter design responsivo (layout que se adapta a qualquer tamanho de tela)?</label>
+      <select name="design-responsivo" id="design-responsivo" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <label for="visualizacao-off">É necessária a visualização das soluções no formato offline?</label>
+      <select name="visualizacao-off" id="visualizacao-off" required>
+        <option value="">Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+      <label for="infos_adicionais2">Informações Adicionais:</label>
+      <textarea id="infos_adicionais2" name="infos_adicionais2" rows="4"></textarea>
       <div class="button-row">
         <button type="button" id="btnVoltar">Voltar</button>
         <button type="button" id="btnEnviar">Enviar</button>
@@ -727,7 +605,6 @@
 </div>
 
 <script>
-  // Função de login simples
   function handleLogin() {
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
@@ -749,8 +626,6 @@
       document.getElementById("login-error").innerText = "Erro ao conectar com o servidor.";
     });
   }
-
-  // ========= GERAR PDF =========
   function mostrarTodasPaginas() {
     document.querySelectorAll('.form-page').forEach(p => p.classList.add("active"));
   }
@@ -764,7 +639,6 @@
   function mostrarBotaoPDF() {
     document.getElementById('btnBaixarPDF').style.display = 'inline-block';
   }
-
   document.addEventListener("DOMContentLoaded", function () {
     function atualizarCamposCondicionais() {
       const camposCondicionais = document.querySelectorAll('.condicional-sim-nao');
@@ -934,7 +808,6 @@
         });
       }
     }
-    // ========= Botão PDF =========
     document.getElementById("btnBaixarPDF").addEventListener("click", function() {
       mostrarTodasPaginas();
       prepararParaPDF();
@@ -942,7 +815,7 @@
         html2pdf().set({
           margin: 0,
           filename: 'formulario-preenchido.pdf',
-          html2canvas: { scale: 2, useCORS: true },
+          html2canvas: { scale: 3, useCORS: true, logging: true },
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         }).from(document.getElementById("form-container")).save()
         .then(() => {
