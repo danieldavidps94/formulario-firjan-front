@@ -230,8 +230,6 @@
       <h2>Responsável pela Demanda</h2>
       <label>Nome Completo:</label>
       <input type="text" name="responsavel_demanda" required>
-      <label>Instituição:</label>
-      <input type="text" name="instituicao_demanda" required>
       <label>Área:</label>
       <input type="text" name="area_demanda" required>
       <label>Cargo:</label>
@@ -243,21 +241,6 @@
       <label>Funções no projeto (exemplo: validar, acompanhar etc.):</label>
       <input type="text" name="funcao_demanda" required>
 
-      <h2>Ponto Focal</h2>
-      <label>Nome Completo:</label>
-      <input type="text" name="nome_ponto_focal" required>
-      <label>Instituição:</label>
-      <input type="text" name="instituicao_ponto_focal" required>
-      <label>Área:</label>
-      <input type="text" name="area_ponto_focal" required>
-      <label>Cargo:</label>
-      <input type="text" name="cargo_ponto_focal" required>
-      <label>E-mail:</label>
-      <input type="email" name="email_ponto_focal" required>
-      <label>Telefone:</label>
-      <input type="text" name="telefone_ponto_focal" title="Apenas números" required>
-      <label>Funções no projeto (exemplo: validar, acompanhar etc.):</label>
-      <input type="text" name="cargo_ponto_focal" required>
 
       <h2 class="text-lg font-semibold">Cenário</h2>
       <label for="area_requisitante">Indique área requisitante:</label>
@@ -313,7 +296,7 @@
       <div class="checkbox-wrapper" id="grupoCheckbox">
         <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação horizontal)"> Curso (navegação horizontal)</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Curso (navegação vertical)"> Curso (navegação vertical)</label>
-        <label><input type="checkbox" name="tipo_solucao[]" value="Banco de Questões"> Banco de Questões</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Banco de Questões"> Banco de questões</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Atividades de fixação"> Atividades de fixação</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Avaliação de aprendizagem"> Avaliação de aprendizagem</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Trilha de aprendizagem"> Trilha de aprendizagem</label>
@@ -324,19 +307,19 @@
         <label><input type="checkbox" name="tipo_solucao[]" value="Guia/Manual"> Guia/Manual</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Tutorial"> Tutorial</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Apostila"> Apostila</label>
-        <label><input type="checkbox" name="tipo_solucao[]" value="Livro Digital"> Livro Digital</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Livro Digital"> Livro digital (E-book)</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Videoaula"> Videoaula</label>
-        <label><input type="checkbox" name="tipo_solucao[]" value="Vídeo Instrucional"> Vídeo Instrucional</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Vídeo Instrucional"> Vídeo instrucional</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Animação 2D"> Animação 2D</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Animação 3D"> Animação 3D</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Infográfico"> Infográfico</label>
-        <label><input type="checkbox" name="tipo_solucao[]" value="Jogo"> Jogo</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Jogo"> Game</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Quiz"> Quiz</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Podcast"> Podcast</label>
-        <label><input type="checkbox" name="tipo_solucao[]" value="Simulação de Sistemas"> Simulação de Sistemas</label>
+        <label><input type="checkbox" name="tipo_solucao[]" value="Simulação de Sistemas"> Simulação de sistemas</label>
         <label><input type="checkbox" name="tipo_solucao[]" value="Todos"> Todos</label>
       </div>
-      <label for="campo5">Todas as soluções indicadas deverão ser hospedadas em LMS?</label>
+      <label for="campo5">Todas as soluções indicadas deverão ser hospedadas em Ambiente Virtual de Aprendizagem (AVA)?</label>
       <select name="campo5" id="campo5" class="condicional-sim-nao" data-target="campo5-extra" required>
         <option value="">Selecione</option>
         <option value="sim">Sim</option>
@@ -547,14 +530,8 @@
         <label>Detalhe a vestimenta dos personagens:</label>
         <textarea name="info_personagem1" rows="3"></textarea>
       </div>
-      <label for="banco-imagem">O cliente possui banco de imagens?</label>
+      <label for="banco-imagem">Há banco de imagens?</label>
       <select name="banco-imagem" id="banco-imagem" class="condicional-sim-nao" data-target="banco-imagem" required>
-        <option value="">Selecione</option>
-        <option value="sim">Sim</option>
-        <option value="nao">Não</option>
-      </select>
-      <label for="banco-imagem2">É necessário contratar banco de imagens?</label>
-      <select name="banco-imagem2" id="banco-imagem2" class="condicional-sim-nao" data-target="banco-imagem2" required>
         <option value="">Selecione</option>
         <option value="sim">Sim</option>
         <option value="nao">Não</option>
